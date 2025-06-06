@@ -400,62 +400,97 @@ useSchemaOrg([
 }
 
 .prose h2 {
-  @apply text-2xl font-bold mt-12 mb-6;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .prose h3 {
-  @apply text-xl font-semibold mt-8 mb-4;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .prose p {
-  @apply text-[var(--color-text-secondary)] leading-relaxed mb-6;
+  color: var(--color-text-secondary);
+  line-height: 1.625;
+  margin-bottom: 1.5rem;
 }
 
 .prose a {
-  @apply text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] transition-colors duration-300;
+  color: var(--color-primary);
+  transition-property: color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.prose a:hover {
+  color: var(--color-primary-dark);
 }
 
 .prose code {
-  @apply bg-[var(--color-secondary)] text-[var(--color-primary)] px-2 py-1 rounded text-sm;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
 }
 
 .prose pre {
-  @apply bg-[var(--color-secondary)] border border-[var(--color-border)] rounded-lg p-4 overflow-x-auto;
+  background-color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
 }
 
 .prose pre code {
-  @apply bg-transparent p-0;
+  background-color: transparent;
+  padding: 0;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-[var(--color-primary)] pl-6 italic text-[var(--color-text-secondary)];
+  border-left-width: 4px;
+  border-left-color: var(--color-primary);
+  padding-left: 1.5rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
 }
 
 .prose ul, .prose ol {
-  @apply text-[var(--color-text-secondary)] space-y-2;
+  color: var(--color-text-secondary);
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .prose li {
-  @apply leading-relaxed;
+  line-height: 1.625;
 }
 
 .prose img {
-  @apply rounded-lg;
+  border-radius: 0.5rem;
 }
 
 .prose table {
-  @apply w-full border-collapse border border-[var(--color-border)];
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--color-border);
 }
 
 .prose th, .prose td {
-  @apply border border-[var(--color-border)] px-4 py-2;
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem;
 }
 
 .prose th {
-  @apply bg-[var(--color-secondary)] font-semibold text-[var(--color-text-primary)];
+  background-color: var(--color-secondary);
+  font-weight: 600;
+  color: var(--color-text-primary);
 }
 
 .prose td {
-  @apply text-[var(--color-text-secondary)];
+  color: var(--color-text-secondary);
 }
 </style>

@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Custom color palette */
+    --color-primary: #00f5ff;
+    --color-primary-dark: #00d4e6;
+    --color-secondary: #1f1f1f;
+    --color-accent: #262626;
+    --color-surface: #151515;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #b4b4b8;
+    --color-border: #333333;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #00f5ff 0%, #0066ff 100%);
+    --gradient-dark: linear-gradient(135deg, #1f1f1f 0%, #262626 100%);
+    --gradient-glow: radial-gradient(circle at 50% 50%, rgba(0, 245, 255, 0.1) 0%, transparent 70%);
+    
+    /* Shadows */
+    --shadow-glow: 0 0 20px rgba(0, 245, 255, 0.3);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    scroll-behavior: smooth;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+  }
+
+  body {
+    background-color: var(--color-surface);
+    overflow-x: hidden;
+  }
+
+  /* Enhanced smooth scrolling for main content with optimizations */
+  main {
+    scroll-behavior: smooth;
+    /* Optimize scrolling performance */
+    will-change: scroll-position;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Optimize scroll container for better performance */
+  .scroll-container {
+    contain: layout style paint;
+    transform: translateZ(0);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-dark);
+  }
+
+  /* Typography enhancements */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background: rgba(0, 245, 255, 0.3);
+    color: white;
+  }
+}
+
+@layer components {
+  /* Card hover effect with GPU acceleration */
+  .card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-8px) translateZ(0);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Optimized animations */
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+    will-change: opacity, transform;
+  }
+
+  .slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 0.6s ease forwards;
+    will-change: opacity, transform;
+  }
+
+  /* Performance optimized form elements */
+  input, textarea, select {
+    contain: layout style;
+  }
+
+  /* Optimize transitions for scroll performance */
+  .transition-optimized {
+    transition-property: transform, opacity;
+    will-change: transform, opacity;
+  }
+}
+
+@layer utilities {
+  .glow-text {
+    text-shadow: 0 0 20px currentColor;
+  }
+
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glass-effect {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* GPU acceleration utilities */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Optimized keyframes */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -9,7 +9,7 @@
   >
     <button
       v-if="showScrollToTop"
-      class="fixed bottom-8 right-8 w-12 h-12 bg-[var(--color-primary)] text-[var(--color-surface)] rounded-full shadow-lg hover:shadow-xl hover:bg-[var(--color-primary-dark)] transition-colors duration-300 flex items-center justify-center z-40 hover:scale-110"
+      class="fixed bottom-8 right-8 w-12 h-12 bg-[var(--color-primary)] text-white rounded-full shadow-lg hover:shadow-xl hover:bg-[var(--color-primary-dark)] transition-colors duration-300 flex items-center justify-center z-40 hover:scale-110"
       aria-label="Scroll to top"
       @click="scrollToTop"
     >

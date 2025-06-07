@@ -287,7 +287,7 @@
               placeholder="Enter your email"
               class="flex-1 px-4 py-3 bg-[var(--color-accent)] border border-[var(--color-border)] rounded-lg text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-primary)] transition-colors duration-300"
             >
-            <button class="bg-[var(--color-primary)] text-[var(--color-surface)] px-6 py-3 rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300">
+            <button class="bg-[var(--color-primary)] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300">
               Subscribe
             </button>
           </div>

@@ -72,7 +72,7 @@
                   loading="lazy"
                 />
                 <div class="absolute top-4 left-4">
-                  <span class="bg-[var(--color-primary)] text-[var(--color-surface)] px-3 py-1 rounded-full text-sm font-medium">
+                  <span class="bg-[var(--color-primary)] text-white px-3 py-1 rounded-full text-sm font-medium">
                     Featured
                   </span>
                 </div>

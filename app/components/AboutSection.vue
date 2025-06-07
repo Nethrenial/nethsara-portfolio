@@ -18,14 +18,14 @@
           <div class="flex flex-col sm:flex-row gap-4">
             <a
               href="#contact"
-              class="bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-3 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 text-center"
+              class="bg-[var(--color-primary)] text-white px-8 py-3 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 text-center"
             >
               Get In Touch
             </a>
             <a
               href="/resume.pdf"
               target="_blank"
-              class="border border-[var(--color-primary)] text-[var(--color-primary)] px-8 py-3 rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300 text-center"
+              class="border border-[var(--color-primary)] text-[var(--color-primary)] px-8 py-3 rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-300 text-center"
             >
               Download Resume
             </a>

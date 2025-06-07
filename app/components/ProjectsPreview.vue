@@ -20,7 +20,7 @@
                 :href="project.demo"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="w-12 h-12 bg-[var(--color-primary)] rounded-full flex items-center justify-center text-[var(--color-surface)] hover:bg-[var(--color-primary-dark)] transition-colors duration-300"
+                class="w-12 h-12 bg-[var(--color-primary)] rounded-full flex items-center justify-center text-white hover:bg-[var(--color-primary-dark)] transition-colors duration-300"
               >
                 <Icon
                   name="heroicons:eye"
@@ -31,7 +31,7 @@
                 :href="project.github"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="w-12 h-12 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-text-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-all duration-300"
+                class="w-12 h-12 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-text-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300"
               >
                 <Icon
                   name="heroicons:code-bracket"
@@ -90,7 +90,7 @@
     <div class="text-center">
       <NuxtLink
         to="/projects"
-        class="inline-flex items-center bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-all duration-300 hover:shadow-[var(--shadow-glow)] group"
+        class="inline-flex items-center bg-[var(--color-primary)] text-white px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-all duration-300 hover:shadow-[var(--shadow-glow)] group"
       >
         View All Projects
         <Icon

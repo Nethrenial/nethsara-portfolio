@@ -8,7 +8,7 @@
           :key="filter.id"
           class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300"
           :class="activeFilter === filter.id
-            ? 'bg-[var(--color-primary)] text-[var(--color-surface)] shadow-[var(--shadow-glow)]'
+            ? 'bg-[var(--color-primary)] text-white shadow-[var(--shadow-glow)]'
             : 'bg-[var(--color-secondary)] text-[var(--color-text-secondary)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:text-[var(--color-primary)]'"
           @click="activeFilter = filter.id"
         >

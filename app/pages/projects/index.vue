@@ -31,7 +31,7 @@
               :key="category"
               class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300"
               :class="selectedCategory === category
-                ? 'bg-[var(--color-primary)] text-[var(--color-surface)]'
+                ? 'bg-[var(--color-primary)] text-white'
                 : 'bg-[var(--color-accent)] text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] border border-[var(--color-border)] hover:border-[var(--color-primary)]'"
               @click="selectedCategory = category"
             >
@@ -65,7 +65,7 @@
                     :href="project.demo"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="w-12 h-12 bg-[var(--color-primary)] rounded-full flex items-center justify-center text-[var(--color-surface)] hover:bg-[var(--color-primary-dark)] transition-colors duration-300"
+                    class="w-12 h-12 bg-[var(--color-primary)] rounded-full flex items-center justify-center text-white hover:bg-[var(--color-primary-dark)] transition-colors duration-300"
                   >
                     <Icon
                       name="heroicons:eye"
@@ -76,7 +76,7 @@
                     :href="project.github"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="w-12 h-12 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-text-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300"
+                    class="w-12 h-12 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-text-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-300"
                   >
                     <Icon
                       name="heroicons:code-bracket"
@@ -88,7 +88,7 @@
 
               <!-- Category Badge -->
               <div class="absolute top-4 left-4">
-                <span class="bg-[var(--color-primary)] text-[var(--color-surface)] px-3 py-1 rounded-full text-sm font-medium">
+                <span class="bg-[var(--color-primary)] text-white px-3 py-1 rounded-full text-sm font-medium">
                   {{ project.category }}
                 </span>
               </div>
@@ -164,7 +164,7 @@
           </p>
           <a
             href="/#contact"
-            class="bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] inline-block"
+            class="bg-[var(--color-primary)] text-white px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] inline-block"
           >
             Let's Work Together
           </a>

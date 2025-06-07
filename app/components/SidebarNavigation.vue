@@ -131,7 +131,7 @@
       <a
         href="/resume.pdf"
         target="_blank"
-        class="w-full bg-[var(--color-primary)] text-[var(--color-surface)] py-3 px-4 rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] flex items-center justify-center space-x-2"
+        class="w-full bg-[var(--color-primary)] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] flex items-center justify-center space-x-2"
       >
         <Icon
           name="heroicons:arrow-down-tray"

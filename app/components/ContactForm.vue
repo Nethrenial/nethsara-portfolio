@@ -113,7 +113,7 @@
       <button
         type="submit"
         :disabled="isSubmitting"
-        class="w-full bg-[var(--color-primary)] text-[var(--color-surface)] py-4 rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        class="w-full bg-[var(--color-primary)] text-white py-4 rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
       >
         <Icon
           v-if="isSubmitting"

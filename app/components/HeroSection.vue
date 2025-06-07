@@ -24,13 +24,13 @@
       <div class="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in animation-delay-800">
         <a
           href="#projects"
-          class="bg-[var(--color-primary)] text-[var(--color-surface)] px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-105"
+          class="bg-[var(--color-primary)] text-white px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-105"
         >
           View My Work
         </a>
         <a
           href="#contact"
-          class="border-2 border-[var(--color-primary)] text-[var(--color-primary)] px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300"
+          class="border-2 border-[var(--color-primary)] text-[var(--color-primary)] px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-300"
         >
           Get In Touch
         </a>

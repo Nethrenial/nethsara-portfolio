@@ -3,8 +3,8 @@
 @layer base {
   :root {
     /* Custom color palette */
-    --color-primary: #00f5ff;
-    --color-primary-dark: #00d4e6;
+    --color-primary: #4885a8;
+    --color-primary-dark: #3b7296;
     --color-secondary: #151515;
     --color-accent: #262626;
     --color-surface: #121212;
@@ -13,17 +13,18 @@
     --color-border: #333333;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #00f5ff 0%, #0066ff 100%);
+    --gradient-primary: linear-gradient(135deg, #4885a8 0%, #2b5a7d 100%);
     --gradient-dark: linear-gradient(135deg, #1f1f1f 0%, #262626 100%);
-    --gradient-glow: radial-gradient(circle at 50% 50%, rgba(0, 245, 255, 0.1) 0%, transparent 70%);
+    --gradient-glow: radial-gradient(circle at 50% 50%, rgba(72, 133, 168, 0.1) 0%, transparent 70%);
     
     /* Shadows */
-    --shadow-glow: 0 0 20px rgba(0, 245, 255, 0.3);
+    --shadow-glow: 0 0 20px rgba(72, 133, 168, 0.3);
     --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
     --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.4);
   }
 
   html {
+    
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     scroll-behavior: smooth;
     background-color: var(--color-surface);
@@ -79,7 +80,7 @@
 
   /* Selection styling */
   ::selection {
-    background: rgba(0, 245, 255, 0.3);
+    background: rgba(72, 133, 168, 0.3);
     color: white;
   }
 }

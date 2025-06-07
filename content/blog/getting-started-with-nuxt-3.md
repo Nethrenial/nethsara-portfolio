@@ -1,10 +1,15 @@
 ---
-title: 'Getting Started with Nuxt 3: A Comprehensive Guide'
-description: 'Learn how to build modern web applications with Nuxt 3, the intuitive Vue framework.'
-publishedAt: '2024-01-15'
-tags: ['Nuxt', 'Vue.js', 'JavaScript', 'Web Development']
-image: '/blog/nuxt-3-guide.jpg'
-author: 'Nethsara Elvitigala'
+title: "Getting Started with Nuxt 3: A Comprehensive Guide"
+description: Learn how to build modern web applications with Nuxt 3, the
+  intuitive Vue framework.
+publishedAt: 2024-01-15
+tags:
+  - Nuxt
+  - Vue.js
+  - JavaScript
+  - Web Development
+image: /blog/nuxt-3-guide.jpg
+author: Nethsara Elvitigala
 featured: true
 ---
 
@@ -35,6 +40,7 @@ const increment = () => count.value++
 ### 2. Nitro Engine
 
 The new Nitro engine provides:
+
 - Universal deployment
 - Auto-imports
 - API routes
@@ -97,7 +103,7 @@ npm run dev
 
 ### Project Structure
 
-```
+```text
 my-nuxt-app/
 ├── assets/          # Uncompiled assets
 ├── components/      # Vue components
@@ -160,4 +166,4 @@ Whether you're building a simple portfolio site or a complex web application, Nu
 
 ---
 
-*Ready to start your Nuxt 3 journey? Check out the [official documentation](https://nuxt.com) for more detailed guides and examples.* 
+*Ready to start your Nuxt 3 journey? Check out the [official documentation](https://nuxt.com) for more detailed guides and examples.*

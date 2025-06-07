@@ -1,0 +1,89 @@
+---
+description: When working with vue 3 and nuxt 3/4 projects
+globs: 
+alwaysApply: false
+---
+# Vue 3 Composition API Development Rules (2025 Standards)
+
+## Core Principles
+- ALWAYS use Composition API over Options API
+- Prioritize TypeScript with strict type checking
+- Use VueUse composables before creating custom ones
+- Organize code by logical concerns, not component options
+- Write composables for reusable logic
+- Follow Vue 3 style guide and best practices
+
+## File Structure and Setup
+- Use `<script setup lang="ts">` for all components
+- Import types explicitly: `import type { ComponentProps } from 'vue'`
+- Use Single File Components (.vue) with TypeScript
+- Always add lang="ts" to script tags when not using script setup
+
+## Composition API Best Practices
+- Use `ref()` for primitive values and simple objects
+- Use `reactive()` for complex objects that need deep reactivity
+- Use `computed()` for derived state
+- Use `watch()` and `watchEffect()` for side effects
+- Group related reactive state, computed properties, and methods together
+- Extract complex logic into composables
+
+## VueUse Integration
+- Check VueUse library first before creating custom composables
+- Use VueUse for common browser APIs: useLocalStorage, useEventListener, etc.
+- Leverage VueUse for DOM manipulation: useElementSize, useIntersectionObserver
+- Use VueUse for utility functions: useDebounce, useThrottle, useToggle
+- Import VueUse composables at component level, not globally
+
+## TypeScript Guidelines
+- Use strict TypeScript configuration
+- Define interfaces for props, emits, and complex data structures
+- Use generic types for reusable composables
+- Leverage Vue 3's built-in TypeScript support
+- Use defineComponent only when script setup is not suitable
+- Type all function parameters and return values
+
+## Component Structure
+
+```vue
+<template> <!-- Template content with proper v-model and event handling --> </template> <script setup lang="ts"> // 1. Type imports import type { PropType } from 'vue' // 2. Library imports import { ref, computed, watch } from 'vue' import { useVModel, useEventListener } from '@vueuse/core' // 3. Local imports import MyComposable from '@/composables/useMyComposable' // 4. Props and emits with proper typing interface Props { modelValue: string items: Array<{ id: number; name: string }> } const props = withDefaults(defineProps<Props>(), { modelValue: '', items: () => [] }) const emit = defineEmits<{ 'update:modelValue': [value: string] 'item-selected': [item: { id: number; name: string }] }>() // 5. Reactive state const internalValue = useVModel(props, 'modelValue', emit) const isLoading = ref(false) // 6. Computed properties const processedItems = computed(() => props.items.filter(item => item.name.includes(internalValue.value)) ) // 7. Methods const handleItemClick = (item: { id: number; name: string }) => { emit('item-selected', item) } // 8. Lifecycle and watchers watch(processedItems, (newItems) => { console.log('Items updated:', newItems.length) }) </script>
+```
+
+## Reactivity Rules
+- Use `toRefs()` when destructuring reactive objects
+- Use `unref()` or `.value` appropriately for ref unwrapping
+- Avoid using reactive() for arrays that will be replaced entirely
+- Use `shallowRef()` for large objects that don't need deep reactivity
+- Use `readonly()` to prevent mutation of reactive data
+
+## Composable Creation Guidelines
+- Name composables with "use" prefix: `useFeatureName`
+- Return object with descriptive property names
+- Make composables framework-agnostic when possible
+- Use TypeScript generics for flexible composables
+- Provide good JSDoc documentation
+- Handle cleanup in composables using onUnmounted
+
+## Event Handling
+- Use v-model for two-way binding
+- Prefer custom events over direct parent method calls
+- Use proper TypeScript typing for event handlers
+- Implement proper event cleanup in composables
+
+## Performance Optimization
+- Use `shallowRef` and `shallowReactive` when appropriate
+- Implement lazy loading with `defineAsyncComponent`
+- Use `v-memo` for expensive list rendering
+- Optimize computed properties to avoid unnecessary recalculations
+
+## Error Handling
+- Use `onErrorCaptured` for component-level error handling
+- Implement proper error boundaries
+- Handle async operations with try-catch blocks
+- Provide meaningful error messages with TypeScript types
+
+## Testing Considerations
+- Structure composables to be easily testable
+- Use dependency injection patterns in composables
+- Mock external dependencies properly
+- Write tests for composables separately from components
+

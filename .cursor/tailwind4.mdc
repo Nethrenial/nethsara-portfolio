@@ -1,0 +1,188 @@
+---
+description: When working with tailwind 4 projects
+globs: 
+alwaysApply: false
+---
+# Tailwind CSS 4 Development Rules (2025 Standards)
+
+## Core Principles
+- Use utility-first approach with semantic class composition
+- Leverage new Tailwind 4 features and utilities
+- Implement responsive design with mobile-first approach
+- Use design tokens and custom properties effectively
+- Optimize for performance and accessibility
+- Follow consistent naming conventions
+
+## New Tailwind 4 Features to Utilize
+- Use text-shadow-* utilities for enhanced typography
+- Implement mask-* utilities for advanced visual effects
+- Leverage improved browser compatibility features
+- Use new pointer-* and any-pointer-* variants for device-specific styling
+- Utilize safe alignment utilities for better layout control
+
+## Class Organization Strategy
+
+<!-- Organize classes logically: layout → spacing → sizing → colors → effects --> <div class=" flex flex-col items-center justify-center p-6 mx-auto max-w-4xl bg-white dark:bg-gray-900 rounded-lg shadow-lg text-shadow-md "> <h1 class=" text-3xl md:text-4xl lg:text-5xl font-bold text-center text-gray-900 dark:text-white mb-6 text-shadow-lg "> Enhanced Typography </h1> </div> ```
+
+Responsive Design Best Practices
+Always start with mobile-first design approach
+
+Use consistent breakpoints: sm, md, lg, xl, 2xl
+
+Implement container queries where appropriate
+
+Use aspect-ratio utilities for consistent proportions
+
+Leverage grid and flexbox utilities effectively
+
+Component Composition Patterns
+```html
+<!-- Button component with proper state variations -->
+<button class="
+  inline-flex items-center justify-center
+  px-4 py-2 min-w-[120px]
+  text-sm font-medium
+  text-white bg-blue-600
+  border border-transparent rounded-md
+  shadow-sm hover:bg-blue-700
+  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+  disabled:opacity-50 disabled:cursor-not-allowed
+  transition-colors duration-200
+">
+  Button Text
+</button>
+
+<!-- Card component with modern styling -->
+<div class="
+  relative overflow-hidden
+  bg-white dark:bg-gray-800
+  rounded-xl shadow-lg
+  border border-gray-200 dark:border-gray-700
+  transition-all duration-300
+  hover:shadow-xl hover:-translate-y-1
+">
+  <div class="p-6">
+    <!-- Card content -->
+  </div>
+</div>
+```
+
+Color and Theme Management
+Use CSS custom properties for dynamic theming
+
+Implement proper dark mode with class-based strategy
+
+Use semantic color naming in Tailwind config
+
+Leverage opacity utilities for color variations
+
+Implement consistent color scales across the design
+
+Typography and Text Effects
+
+<!-- Enhanced typography with Tailwind 4 features -->
+<h1 class="
+  text-4xl font-bold
+  text-gray-900 dark:text-white
+  text-shadow-lg
+  leading-tight tracking-tight
+">
+  Modern Typography
+</h1>
+
+<p class="
+  text-lg text-gray-600 dark:text-gray-300
+  leading-relaxed
+  max-w-prose
+  text-shadow-sm
+">
+  Body text with enhanced readability
+</p>
+
+Advanced Visual Effects
+
+<!-- Mask utilities for creative effects -->
+<div class="
+  w-32 h-32
+  bg-gradient-to-r from-purple-500 to-pink-500
+  mask-radial mask-center
+  transition-all duration-500
+  hover:mask-full
+">
+</div>
+
+<!-- Enhanced shadows and borders -->
+<div class="
+  p-6 rounded-2xl
+  bg-white dark:bg-gray-800
+  shadow-2xl shadow-blue-500/20
+  border border-gray-200 dark:border-gray-700
+  backdrop-blur-sm
+">
+</div>
+Layout Patterns
+Use CSS Grid utilities for complex layouts
+
+Implement Flexbox for one-dimensional layouts
+
+Use container utilities for consistent max-widths
+
+Leverage spacing scale consistently (4px base unit)
+
+Implement proper aspect ratios for media content
+
+Performance Optimization
+Use purge configuration to remove unused styles
+
+Leverage JIT mode for faster builds
+
+Minimize custom CSS in favor of utilities
+
+Use @apply directive sparingly for component extraction
+
+Implement proper caching strategies for production
+
+Accessibility Guidelines
+Use proper color contrast ratios
+
+Implement focus states for interactive elements
+
+Use semantic HTML with utility classes
+
+Ensure proper text sizing and line heights
+
+Use motion-safe and motion-reduce variants appropriately
+
+Form Styling Best Practices
+
+<!-- Consistent form styling patterns -->
+<div class="space-y-6">
+  <div class="space-y-2">
+    <label class="
+      block text-sm font-medium
+      text-gray-700 dark:text-gray-300
+    ">
+      Input Label
+    </label>
+    <input class="
+      block w-full px-3 py-2
+      text-sm text-gray-900 dark:text-white
+      bg-white dark:bg-gray-800
+      border border-gray-300 dark:border-gray-600
+      rounded-md shadow-sm
+      focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+      disabled:opacity-50 disabled:cursor-not-allowed
+      transition-colors duration-200
+    " />
+  </div>
+</div>
+
+Animation and Transitions
+Use transition utilities for smooth interactions
+Implement transform utilities for hover effects
+Leverage animation utilities for loading states
+Use duration and easing utilities consistently
+Respect user motion preferences with motion-safe/motion-reduce
+
+
+

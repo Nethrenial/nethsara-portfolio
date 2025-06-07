@@ -1,0 +1,171 @@
+---
+description: When working on nuxt 3/4 projects
+globs: 
+alwaysApply: false
+---
+# Nuxt 3/4 Development Rules with TypeScript (2025 Standards)
+
+## Core Principles
+- Use Nuxt 4 compatibility mode for future-readiness
+- Leverage auto-imports for better developer experience
+- Follow server-side rendering best practices
+- Use TypeScript throughout the application
+- Implement proper SEO and performance optimizations
+- Use VueUse composables for common functionality
+
+## Project Configuration
+- Set compatibilityVersion: 4 in nuxt.config.ts for Nuxt 4 readiness
+- Use strict TypeScript configuration
+- Enable all relevant Nuxt modules in configuration
+- Use .env files for environment-specific configuration
+
+## File Structure (Nuxt 4 Ready)
+
+├── app/
+│ ├── components/
+│ ├── composables/
+│ ├── layouts/
+│ ├── middleware/
+│ ├── pages/
+│ ├── plugins/
+│ └── utils/
+├── server/
+│ └── api/
+├── types/
+└── nuxt.config.ts
+
+
+## Auto-imports Best Practices
+- Rely on Nuxt's auto-import system for composables
+- Use explicit imports only when necessary for clarity
+- Leverage auto-imported Vue functions: ref, computed, watch, etc.
+- Use auto-imported Nuxt composables: navigateTo, useRoute, useFetch
+
+## Pages and Routing
+- Use file-based routing with proper TypeScript types
+- Implement dynamic routes with proper param validation
+- Use middleware for route protection and data prefetching
+- Leverage Nuxt's built-in SEO features with useSeoMeta
+
+## Data Fetching Patterns
+
+```ts
+// Server-side data fetching with proper TypeScript
+const { data: posts, error } = await useFetch<Post[]>('/api/posts', {
+key: 'posts',
+transform: (data: any[]): Post[] => data.map(item => ({
+id: item.id,
+title: item.title,
+content: item.content,
+createdAt: new Date(item.created_at)
+}))
+})
+
+// Client-side data fetching with error handling
+const { data: user, refresh } = await $fetch<User>('/api/user', {
+onError: (error) => {
+console.error('Failed to fetch user:', error)
+throw createError({
+statusCode: 500,
+statusMessage: 'Failed to load user data'
+})
+}
+})
+```
+
+## Server API Routes
+- Use typed server API routes with proper validation
+- Implement proper error handling and status codes
+- Use server-side utilities for database operations
+- Follow RESTful conventions for API design
+
+```ts
+// server/api/posts/[id].get.ts
+export default defineEventHandler(async (event) => {
+const id = getRouterParam(event, 'id')
+
+if (!id || isNaN(Number(id))) {
+throw createError({
+statusCode: 400,
+statusMessage: 'Invalid post ID'
+})
+}
+
+try {
+const post = await getPostById(Number(id))
+if (!post) {
+throw createError({
+statusCode: 404,
+statusMessage: 'Post not found'
+})
+}
+return post
+} catch (error) {
+throw createError({
+statusCode: 500,
+statusMessage: 'Failed to fetch post'
+})
+}
+})
+```
+
+
+## Composables and VueUse Integration
+- Check VueUse first before creating custom composables
+- Use server-safe composables for SSR compatibility
+- Create Nuxt-specific composables for common app functionality
+- Use process.client and process.server guards when necessary
+
+```ts
+// composables/useApiData.ts
+export const useApiData = <T>(endpoint: string) => {
+// Check VueUse for similar functionality first
+const { data, error, refresh } = useFetch<T>(endpoint)
+
+const isLoading = computed(() => !data.value && !error.value)
+
+return {
+data: readonly(data),
+error: readonly(error),
+isLoading: readonly(isLoading),
+refresh
+}
+}
+```
+
+
+## State Management Integration
+- Use Pinia for complex state management
+- Prefer Nuxt's built-in state for simple scenarios
+- Use useState for reactive server-side state
+- Implement proper SSR state hydration
+
+## Performance and SEO
+- Use lazy loading for components with LazyComponent prefix
+- Implement proper meta tags with useSeoMeta and useHead
+- Use static site generation where appropriate
+- Optimize images with Nuxt Image module
+
+## Error Handling
+- Use error.vue for global error handling
+- Implement proper error boundaries in layouts
+- Use server-side error handling in API routes
+- Provide meaningful error messages to users
+
+## Middleware and Plugins
+- Use typed middleware with proper TypeScript interfaces
+- Create plugins for global functionality
+- Use server-side middleware for API protection
+- Implement proper authentication middleware
+
+## Testing and Development
+- Use Nuxt DevTools for debugging
+- Implement proper testing strategies for SSR applications
+- Use TypeScript strict mode for better type safety
+- Configure ESLint with @nuxt/eslint-config
+
+## Nuxt 4 Specific Features
+- Use new directory structure when compatibilityVersion: 4 is set
+- Leverage improved TypeScript support
+- Take advantage of enhanced auto-imports
+- Use new experimental features as they become stable

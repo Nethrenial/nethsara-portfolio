@@ -1,6 +1,6 @@
 ---
-description: 
+description: When trying to generate commit message based on staged changes in gt
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 When you get a rquest to generate commits, please refer to the commiting rules in README.md

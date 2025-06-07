@@ -1,0 +1,290 @@
+---
+description: When working in state management for vue 3 and nuxt 3/4 projects
+globs: 
+alwaysApply: false
+---
+
+# Pinia State Management Rules (2025 Standards)
+
+## Core Principles
+- Avoid creating useless getters - access state directly
+- Use setup stores for complex logic and composition API style
+- Leverage VueUse composables within stores when appropriate
+- Implement proper TypeScript typing throughout
+- Use composables for reusable store logic
+- Follow modular store organization patterns
+
+## Store Architecture Patterns
+- Use setup stores for new development
+- Organize stores by feature or domain
+- Implement proper state normalization
+- Use computed properties for derived state
+- Avoid direct state mutation outside actions
+
+## Setup Store Best Practices
+
+```ts
+// stores/useUserStore.ts
+export const useUserStore = defineStore('user', () => {
+// Check VueUse first for common functionality
+const userPreferences = useLocalStorage('user-preferences', {})
+
+// State
+const user = ref<User | null>(null)
+const isLoading = ref(false)
+const error = ref<string | null>(null)
+
+// Getters (computed properties)
+const isAuthenticated = computed(() => !!user.value)
+const userDisplayName = computed(() =>
+user.value ? ${user.value.firstName} ${user.value.lastName} : 'Anonymous'
+)
+
+// Actions
+const fetchUser = async (userId: string): Promise<void> => {
+isLoading.value = true
+error.value = null
+try {
+  const response = await $fetch<User>(`/api/users/${userId}`)
+  user.value = response
+} catch (err) {
+  error.value = err instanceof Error ? err.message : 'Failed to fetch user'
+} finally {
+  isLoading.value = false
+}
+}
+
+const updateUser = async (userData: Partial<User>): Promise<void> => {
+if (!user.value) return
+try {
+  const response = await $fetch<User>(`/api/users/${user.value.id}`, {
+    method: 'PATCH',
+    body: userData
+  })
+  user.value = { ...user.value, ...response }
+} catch (err) {
+  error.value = err instanceof Error ? err.message : 'Failed to update user'
+  throw err
+}
+
+}
+
+const logout = (): void => {
+user.value = null
+userPreferences.value = {}
+}
+
+return {
+// State
+user: readonly(user),
+isLoading: readonly(isLoading),
+error: readonly(error),
+userPreferences,
+// Getters
+isAuthenticated,
+userDisplayName,
+
+// Actions
+fetchUser,
+updateUser,
+logout
+}
+})
+```
+
+## Option Stores (Legacy Support)
+```ts
+// Use option stores only for legacy code or simple cases
+export const useCounterStore = defineStore('counter', {
+state: () => ({
+count: 0,
+// Use VueUse composables in state when appropriate
+persistedCount: useLocalStorage('counter', 0)
+}),
+
+getters: {
+// Only create getters for computed values, not direct state access
+doubleCount: (state) => state.count * 2,
+countPlusOne(): number {
+return this.count + 1
+}
+},
+
+actions: {
+increment() {
+this.count++
+},
+async fetchInitialCount() {
+  try {
+    const response = await $fetch<{ count: number }>('/api/counter')
+    this.count = response.count
+  } catch (error) {
+    console.error('Failed to fetch initial count:', error)
+  }
+}
+}
+})
+```
+
+## VueUse Integration in Stores
+```ts
+// Leverage VueUse for common store functionality
+export const useAppStore = defineStore('app', () => {
+// Use VueUse composables for common functionality
+const isDark = useDark()
+const isOnline = useOnline()
+const { width: windowWidth } = useWindowSize()
+
+// Local state
+const sidebarOpen = ref(false)
+const notifications = ref<Notification[]>([])
+
+// Computed based on VueUse composables
+const isMobile = computed(() => windowWidth.value < 768)
+const theme = computed(() => isDark.value ? 'dark' : 'light')
+
+// Actions
+const toggleSidebar = () => {
+sidebarOpen.value = !sidebarOpen.value
+}
+
+const addNotification = (notification: Omit<Notification, 'id'>) => {
+const id = Date.now().toString()
+notifications.value.push({ ...notification, id })
+// Auto-remove notification after delay
+setTimeout(() => {
+  removeNotification(id)
+}, 5000)
+}
+
+const removeNotification = (id: string) => {
+const index = notifications.value.findIndex(n => n.id === id)
+if (index > -1) {
+notifications.value.splice(index, 1)
+}
+}
+
+return {
+// VueUse reactive state
+isDark,
+isOnline,
+windowWidth,
+// Local state
+sidebarOpen,
+notifications: readonly(notifications),
+
+// Computed
+isMobile,
+theme,
+
+// Actions
+toggleSidebar,
+addNotification,
+removeNotification
+}
+})
+```
+
+
+## Store Composition Patterns
+```ts
+// Composable for common store patterns
+export const useStoreWithAsync = <T>(
+fetcher: () => Promise<T>,
+key: string
+) => {
+const data = ref<T | null>(null)
+const isLoading = ref(false)
+const error = ref<string | null>(null)
+
+const execute = async (): Promise<void> => {
+isLoading.value = true
+error.value = null
+try {
+  data.value = await fetcher()
+} catch (err) {
+  error.value = err instanceof Error ? err.message : 'Unknown error'
+} finally {
+  isLoading.value = false
+}
+}
+
+const reset = (): void => {
+data.value = null
+error.value = null
+isLoading.value = false
+}
+
+return {
+data: readonly(data),
+isLoading: readonly(isLoading),
+error: readonly(error),
+execute,
+reset
+}
+}
+// Usage in store
+export const useProductStore = defineStore('products', () => {
+const products = ref<Product[]>([])
+
+const {
+data: featuredProducts,
+isLoading: isFeaturedLoading,
+execute: fetchFeatured
+} = useStoreWithAsync(
+() => $fetch<Product[]>('/api/products/featured'),
+'featured-products'
+)
+
+return {
+products,
+featuredProducts,
+isFeaturedLoading,
+fetchFeatured
+}
+})
+```
+
+
+## TypeScript Integration
+- Define proper interfaces for all state shapes
+- Use generic types for reusable store patterns
+- Implement proper error handling with typed errors
+- Use TypeScript's strict mode for better type safety
+
+## Testing Considerations
+
+```ts
+// Make stores testable with dependency injection
+export const createUserStore = (apiClient: ApiClient) => {
+return defineStore('user', () => {
+const user = ref<User | null>(null)
+const fetchUser = async (id: string) => {
+  user.value = await apiClient.getUser(id)
+}
+
+return { user, fetchUser }
+
+})
+}
+
+// Default store for application use
+export const useUserStore = createUserStore(defaultApiClient)
+
+```
+
+
+
+## Performance Optimization
+- Use shallow reactivity for large datasets
+- Implement proper data normalization
+- Use computed properties for expensive calculations
+- Avoid creating unnecessary reactive references
+- Implement proper cleanup in stores when needed
+
+## Error Handling and Logging
+- Implement consistent error handling patterns
+- Use proper error types and messages
+- Log errors appropriately for debugging
+- Provide user-friendly error states
+- Implement retry mechanisms for failed operations

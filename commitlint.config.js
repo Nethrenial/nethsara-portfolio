@@ -42,6 +42,8 @@ export default {
         'api', // API related changes
         'deployment', // Deployment related changes
         'responsive', // Responsive design changes
+        'docs', // Documentation changes
+        'cursor', // Cursor rules changes
       ],
     ],
     'subject-case': [2, 'always', 'lower-case'],

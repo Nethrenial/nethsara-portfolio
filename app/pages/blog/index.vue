@@ -31,11 +31,15 @@
                 placeholder="Search articles..."
                 class="w-full pl-12 pr-6 py-3 bg-[var(--color-accent)] border border-[var(--color-border)] rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all duration-300"
                 aria-label="Search blog articles"
+                @input="debouncedSearch"
               >
             </div>
 
             <!-- Compact Tag Filters -->
-            <div class="flex flex-wrap justify-center gap-2">
+            <div
+              v-if="tagsData && tagsData.length > 0"
+              class="flex flex-wrap justify-center gap-2"
+            >
               <button
                 type="button"
                 :class="[
@@ -49,7 +53,7 @@
                 All Topics
               </button>
               <button
-                v-for="tag in allTags"
+                v-for="tag in tagsData"
                 :key="tag"
                 type="button"
                 :class="[
@@ -64,6 +68,9 @@
               </button>
             </div>
 
+            <!-- Tag Filters Skeleton -->
+            <TagFiltersSkeleton v-else />
+
             <!-- Compact Results Info -->
             <div class="text-center">
               <p
@@ -71,11 +78,11 @@
                 role="status"
                 aria-live="polite"
               >
-                <template v-if="searchQuery || selectedTag">
-                  {{ filteredPosts.length }} {{ filteredPosts.length === 1 ? 'article' : 'articles' }} found
+                <template v-if="hasActiveFilters">
+                  {{ postsData?.total || 0 }} {{ postsData?.total === 1 ? 'article' : 'articles' }} found
                 </template>
                 <template v-else>
-                  {{ posts?.length || 0 }} total articles
+                  {{ postsData?.total || 0 }} total articles
                 </template>
               </p>
             </div>
@@ -95,7 +102,7 @@
       <div class="container-modern relative z-10">
         <!-- Featured Posts -->
         <section
-          v-if="featuredPosts && featuredPosts.length > 0 && !searchQuery && !selectedTag"
+          v-if="(featuredData && featuredData.length > 0 && !hasActiveFilters) || (!featuredData && !hasActiveFilters)"
           class="mb-16"
           aria-labelledby="featured-heading"
         >
@@ -106,8 +113,17 @@
             Featured <span class="gradient-text">Articles</span>
           </h2>
           <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8">
+            <!-- Featured Posts Skeleton -->
+            <template v-if="!featuredData && showSkeletons">
+              <FeaturedPostSkeleton
+                v-for="n in 6"
+                :key="`featured-skeleton-${n}`"
+              />
+            </template>
+
+            <!-- Actual Featured Posts -->
             <article
-              v-for="post in featuredPosts"
+              v-for="post in featuredData"
               :key="post.path"
               class="group bg-[var(--color-secondary)] rounded-2xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-all duration-500 hover:shadow-2xl hover:shadow-[var(--color-primary)]/10 card-hover relative"
             >
@@ -196,9 +212,22 @@
             {{ getResultsTitle() }}
           </h2>
 
+          <!-- Loading State with Skeletons -->
+          <div
+            v-if="showSkeletons"
+            class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8"
+            role="status"
+            aria-label="Loading articles"
+          >
+            <BlogPostSkeleton
+              v-for="n in 12"
+              :key="`post-skeleton-${n}`"
+            />
+          </div>
+
           <!-- No Results -->
           <div
-            v-if="filteredPosts.length === 0"
+            v-else-if="!postsData?.posts || postsData.posts.length === 0"
             class="text-center py-24"
             role="status"
           >
@@ -229,7 +258,7 @@
             class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8"
           >
             <article
-              v-for="post in filteredPosts"
+              v-for="post in postsData.posts"
               :key="post.path"
               class="group bg-[var(--color-secondary)] rounded-2xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-all duration-500 hover:shadow-xl hover:shadow-[var(--color-primary)]/5 card-hover relative flex flex-col"
             >
@@ -299,6 +328,83 @@
               </div>
             </article>
           </div>
+
+          <!-- Pagination -->
+          <div
+            v-if="postsData && postsData.total > postsData.limit"
+            class="mt-16 flex flex-col items-center space-y-6"
+          >
+            <!-- Pagination Skeleton -->
+            <PaginationSkeleton v-if="showSkeletons && postsData && postsData.total > postsData.limit" />
+            <!-- Pagination Info -->
+            <div class="text-center">
+              <p class="text-[var(--color-text-secondary)] text-sm">
+                Showing {{ ((currentPage - 1) * postsData.limit) + 1 }} to {{ Math.min(currentPage * postsData.limit, postsData.total) }} of {{ postsData.total }} articles
+              </p>
+            </div>
+
+            <!-- Pagination Controls -->
+            <nav
+              aria-label="Pagination Navigation"
+              class="flex items-center space-x-2"
+            >
+              <!-- Previous Button -->
+              <button
+                type="button"
+                :disabled="currentPage <= 1"
+                :class="[
+                  'flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300',
+                  currentPage <= 1
+                    ? 'text-[var(--color-text-secondary)] bg-[var(--color-accent)] cursor-not-allowed opacity-50'
+                    : 'text-[var(--color-text-primary)] bg-[var(--color-secondary)] hover:bg-[var(--color-primary)] hover:text-white border border-[var(--color-border)] hover:border-[var(--color-primary)]',
+                ]"
+                @click="changePage(currentPage - 1)"
+              >
+                <Icon
+                  name="heroicons:chevron-left"
+                  class="w-4 h-4 mr-1"
+                />
+                Previous
+              </button>
+
+              <!-- Page Numbers -->
+              <div class="flex items-center space-x-1">
+                <button
+                  v-for="page in visiblePages"
+                  :key="page"
+                  type="button"
+                  :class="[
+                    'px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300',
+                    page === currentPage
+                      ? 'bg-[var(--color-primary)] text-white shadow-md'
+                      : 'text-[var(--color-text-primary)] bg-[var(--color-secondary)] hover:bg-[var(--color-primary)] hover:text-white border border-[var(--color-border)] hover:border-[var(--color-primary)]',
+                  ]"
+                  @click="typeof page === 'number' && changePage(page)"
+                >
+                  {{ page }}
+                </button>
+              </div>
+
+              <!-- Next Button -->
+              <button
+                type="button"
+                :disabled="!postsData.hasMore"
+                :class="[
+                  'flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300',
+                  !postsData.hasMore
+                    ? 'text-[var(--color-text-secondary)] bg-[var(--color-accent)] cursor-not-allowed opacity-50'
+                    : 'text-[var(--color-text-primary)] bg-[var(--color-secondary)] hover:bg-[var(--color-primary)] hover:text-white border border-[var(--color-border)] hover:border-[var(--color-primary)]',
+                ]"
+                @click="changePage(currentPage + 1)"
+              >
+                Next
+                <Icon
+                  name="heroicons:chevron-right"
+                  class="w-4 h-4 ml-1"
+                />
+              </button>
+            </nav>
+          </div>
         </section>
       </div>
     </main>
@@ -306,127 +412,150 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-
-// Fetch all blog posts from the content directory
-const { data: posts } = await useAsyncData(() =>
-  queryCollection('blog').all(),
-)
+import { computed, watch } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
+// Using auto-generated types from Nuxt Content v3 collections
+// No need to import custom types since queryCollection returns auto-typed data
 
 // Get route for SSR-compatible query parameter access
 const route = useRoute()
+const router = useRouter()
 
-// Sync search and tag filters with URL query parameters
-const params = useUrlSearchParams('history')
+// Reactive search params - initialize from route query for SSR
+const searchQuery = ref((route.query.search as string) || '')
+const selectedTag = ref((route.query.tag as string) || '')
+const currentPage = ref(parseInt((route.query.page as string) || '1', 10))
+const postsPerPage = 12
 
-// Initialize from route query for SSR compatibility
-const searchQuery = computed({
-  get: () => {
-    // Use route.query for SSR, fallback to params for client updates
-    if (import.meta.server) {
-      return (route.query.search as string) || ''
-    }
-    return params.search as string || ''
-  },
-  set: (value: string) => {
-    if (value) {
-      params.search = value
-    }
-    else {
-      delete params.search
-    }
-  },
+// Computed helper for active filters
+const hasActiveFilters = computed(() =>
+  searchQuery.value.trim() !== '' || selectedTag.value !== '',
+)
+
+// Fetch posts with server-side filtering and pagination
+const { data: postsData, pending } = await useLazyFetch('/api/blog/search', {
+  query: computed(() => ({
+    search: searchQuery.value || undefined,
+    tag: selectedTag.value || undefined,
+    page: currentPage.value,
+    limit: postsPerPage,
+  })),
+  server: true,
+  default: () => ({ posts: [], total: 0, page: 1, limit: postsPerPage, hasMore: false }),
 })
 
-const selectedTag = computed({
-  get: () => {
-    // Use route.query for SSR, fallback to params for client updates
-    if (import.meta.server) {
-      return (route.query.tag as string) || ''
-    }
-    return params.tag as string || ''
-  },
-  set: (value: string) => {
-    if (value) {
-      params.tag = value
-    }
-    else {
-      delete params.tag
-    }
-  },
+// Fetch featured posts
+const { data: featuredData } = await useLazyFetch('/api/blog/featured', {
+  server: true,
+  default: () => [],
 })
 
-// Sync URL params with route query on client hydration
-onMounted(() => {
-  // Ensure URL params are in sync with the current route query
-  if (route.query.search && !params.search) {
-    params.search = route.query.search as string
+// Fetch all tags
+const { data: tagsData } = await useLazyFetch('/api/blog/tags', {
+  server: true,
+  default: () => [],
+})
+
+// Add delayed loading state to prevent skeleton flash
+const showSkeletons = ref(false)
+let skeletonTimer: NodeJS.Timeout | null = null
+
+// Debounced search to avoid too many API calls
+const debouncedSearch = useDebounceFn(() => {
+  currentPage.value = 1 // Reset to first page on new search
+  updateUrlParams()
+}, 300)
+
+// Watch for changes and update URL
+watch([selectedTag, currentPage], () => {
+  updateUrlParams()
+})
+
+// Watch pending state to control skeleton visibility
+watch(pending, (isPending) => {
+  if (isPending) {
+    // Show skeletons only after 200ms delay
+    skeletonTimer = setTimeout(() => {
+      showSkeletons.value = true
+    }, 200)
   }
-  if (route.query.tag && !params.tag) {
-    params.tag = route.query.tag as string
-  }
-})
-
-// Get all unique tags, sorted alphabetically
-const allTags = computed(() => {
-  if (!posts.value) return []
-
-  const tags = new Set<string>()
-  posts.value.forEach((post) => {
-    if (post.tags && Array.isArray(post.tags)) {
-      post.tags.forEach(tag => tags.add(tag))
+  else {
+    // Hide skeletons immediately when data loads
+    if (skeletonTimer) {
+      clearTimeout(skeletonTimer)
+      skeletonTimer = null
     }
-  })
-  return Array.from(tags).sort()
-})
+    showSkeletons.value = false
+  }
+}, { immediate: true })
 
-// Featured posts (limit to 6 for better layout)
-const featuredPosts = computed(() => {
-  if (!posts.value) return []
-  return posts.value
-    .filter(post => post.featured === true)
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, 6)
-})
+// Update URL parameters
+const updateUrlParams = () => {
+  const query: Record<string, string> = {}
 
-// Filtered posts based on search and tag
-const filteredPosts = computed(() => {
-  if (!posts.value) return []
-
-  let filtered = [...posts.value]
-
-  // Apply search filter
   if (searchQuery.value.trim()) {
-    const query = searchQuery.value.toLowerCase().trim()
-    filtered = filtered.filter((post) => {
-      const searchableContent = [
-        post.title,
-        post.description,
-        post.author,
-        ...(post.tags || []),
-      ].join(' ').toLowerCase()
-
-      return searchableContent.includes(query)
-    })
+    query.search = searchQuery.value.trim()
   }
-
-  // Apply tag filter
   if (selectedTag.value) {
-    filtered = filtered.filter(post =>
-      post.tags && post.tags.includes(selectedTag.value),
-    )
+    query.tag = selectedTag.value
+  }
+  if (currentPage.value > 1) {
+    query.page = currentPage.value.toString()
   }
 
-  // Remove featured posts from regular listing if no filters applied
-  if (!searchQuery.value && !selectedTag.value) {
-    filtered = filtered.filter(post => !post.featured)
-  }
+  router.push({ query })
+}
 
-  // Sort by published date (newest first)
-  return filtered.sort((a, b) =>
-    new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-  )
+// Pagination helpers
+const totalPages = computed(() => {
+  if (!postsData.value) return 1
+  return Math.ceil(postsData.value.total / postsData.value.limit)
 })
+
+const visiblePages = computed(() => {
+  const total = totalPages.value
+  const current = currentPage.value
+  const delta = 2 // Number of pages to show on each side
+
+  const range = []
+  const rangeWithDots: (number | string)[] = []
+
+  for (let i = Math.max(2, current - delta); i <= Math.min(total - 1, current + delta); i++) {
+    range.push(i)
+  }
+
+  if (current - delta > 2) {
+    rangeWithDots.push(1, '...')
+  }
+  else {
+    rangeWithDots.push(1)
+  }
+
+  rangeWithDots.push(...range)
+
+  if (current + delta < total - 1) {
+    rangeWithDots.push('...', total)
+  }
+  else if (total > 1) {
+    rangeWithDots.push(total)
+  }
+
+  return rangeWithDots.filter((page, index, arr) =>
+    page !== '...' || (page === '...' && arr[index - 1] !== '...'),
+  ).filter(page => page !== 1 || totalPages.value === 1)
+})
+
+// Page change handler
+const changePage = (page: number) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+    // Scroll to top of posts section
+    const postsSection = document.getElementById('all-posts-heading')
+    if (postsSection) {
+      postsSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+}
 
 // Helper functions
 const formatDate = (dateString: string) => {
@@ -437,7 +566,7 @@ const formatDate = (dateString: string) => {
   })
 }
 
-const calculateReadTime = (content: string | object | undefined) => {
+const calculateReadTime = (content: unknown) => {
   if (!content) return 1
 
   const wordsPerMinute = 200
@@ -473,21 +602,25 @@ const getResultsTitle = () => {
 const clearFilters = () => {
   searchQuery.value = ''
   selectedTag.value = ''
+  currentPage.value = 1
+  updateUrlParams()
 }
 
 // Dynamic SEO based on filters
 const seoTitle = computed(() => {
+  const basePage = currentPage.value > 1 ? ` - Page ${currentPage.value}` : ''
+
   if (searchQuery.value && selectedTag.value) {
-    return `"${searchQuery.value}" in ${selectedTag.value} - Blog | Nethsara Elvitigala`
+    return `"${searchQuery.value}" in ${selectedTag.value}${basePage} - Blog | Nethsara Elvitigala`
   }
   else if (searchQuery.value) {
-    return `"${searchQuery.value}" - Blog | Nethsara Elvitigala`
+    return `"${searchQuery.value}"${basePage} - Blog | Nethsara Elvitigala`
   }
   else if (selectedTag.value) {
-    return `${selectedTag.value} Articles - Blog | Nethsara Elvitigala`
+    return `${selectedTag.value} Articles${basePage} - Blog | Nethsara Elvitigala`
   }
   else {
-    return 'Blog - Nethsara Elvitigala | Web Development Insights'
+    return `Blog${basePage} - Nethsara Elvitigala | Web Development Insights`
   }
 })
 
@@ -566,5 +699,33 @@ img {
   .aspect-video {
     aspect-ratio: 16 / 10;
   }
+}
+
+/* Floating animation for background effects */
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes floating-delayed {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.floating {
+  animation: floating 6s ease-in-out infinite;
+}
+
+.floating-delayed {
+  animation: floating-delayed 8s ease-in-out infinite;
+  animation-delay: 2s;
 }
 </style>

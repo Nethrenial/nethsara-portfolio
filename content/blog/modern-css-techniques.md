@@ -1,10 +1,16 @@
 ---
-title: 'Modern CSS Techniques Every Developer Should Know'
-description: 'Explore advanced CSS features like Grid, Flexbox, Custom Properties, and Container Queries that will transform your web design workflow.'
-publishedAt: '2024-01-10'
-tags: ['CSS', 'Web Design', 'Frontend', 'Responsive Design']
-image: '/blog/modern-css.jpg'
-author: 'Nethsara Elvitigala'
+title: Modern CSS Techniques Every Developer Should Know
+description: Explore advanced CSS features like Grid, Flexbox, Custom
+  Properties, and Container Queries that will transform your web design
+  workflow.
+publishedAt: 2024-01-10
+tags:
+  - CSS
+  - Web Design
+  - Frontend
+  - Responsive Design
+image: /blog/modern-css.jpg
+author: Nethsara Elvitigala
 featured: false
 ---
 
@@ -248,7 +254,7 @@ Organize and control CSS specificity with cascade layers.
 
 ## Advanced Selectors
 
-### :has() Pseudo-class
+### :has () Pseudo-class
 
 ```css
 /* Style cards that contain images */
@@ -267,7 +273,7 @@ Organize and control CSS specificity with cascade layers.
 }
 ```
 
-### :is() and :where() Pseudo-classes
+### :is () and :where () Pseudo-classes
 
 ```css
 /* :is() maintains specificity */
@@ -333,4 +339,4 @@ The key is to progressively adopt these features while maintaining browser compa
 
 ---
 
-*Want to stay updated on the latest CSS features? Follow the [CSS Working Group](https://www.w3.org/Style/CSS/) and experiment with new features using [Can I Use](https://caniuse.com/).* 
+*Want to stay updated on the latest CSS features? Follow the [CSS Working Group](https://www.w3.org/Style/CSS/) and experiment with new features using [Can I Use](https://caniuse.com/).*

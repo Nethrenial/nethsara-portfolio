@@ -4,7 +4,7 @@ description: 'Explore advanced CSS features like Grid, Flexbox, Custom Propertie
 publishedAt: '2024-01-10'
 tags: ['CSS', 'Web Design', 'Frontend', 'Responsive Design']
 image: '/blog/modern-css.jpg'
-author: 'Your Name'
+author: 'Nethsara Elvitigala'
 featured: false
 ---
 

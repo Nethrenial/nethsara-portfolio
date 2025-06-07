@@ -53,9 +53,9 @@ const closeMobileMenu = () => {
 
 // SEO
 useSeoMeta({
-  title: 'Your Name - Software Engineer',
+  title: 'Nethsara Elvitigala - Software Engineer',
   description: 'Full-Stack Software Engineer specializing in modern web technologies',
-  ogTitle: 'Your Name - Software Engineer',
+  ogTitle: 'Nethsara Elvitigala - Software Engineer',
   ogDescription: 'Full-Stack Software Engineer specializing in modern web technologies',
   ogImage: '/og-image.jpg',
   twitterCard: 'summary_large_image',

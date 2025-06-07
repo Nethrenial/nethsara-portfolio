@@ -94,7 +94,7 @@
 
 <script setup>
 useSeoMeta({
-  title: 'Terms of Service - Your Name',
+  title: 'Terms of Service - Nethsara Elvitigala',
   description: 'Terms and conditions for using our website and services.',
 })
 </script>

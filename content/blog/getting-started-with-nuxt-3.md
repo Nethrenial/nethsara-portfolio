@@ -4,7 +4,7 @@ description: 'Learn how to build modern web applications with Nuxt 3, the intuit
 publishedAt: '2024-01-15'
 tags: ['Nuxt', 'Vue.js', 'JavaScript', 'Web Development']
 image: '/blog/nuxt-3-guide.jpg'
-author: 'Your Name'
+author: 'Nethsara Elvitigala'
 featured: true
 ---
 

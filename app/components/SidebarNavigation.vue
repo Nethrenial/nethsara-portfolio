@@ -9,7 +9,7 @@
             <div class="w-full h-full rounded-full overflow-hidden bg-[var(--color-surface)]">
               <NuxtImg
                 src="/profile-image.jpg"
-                alt="Your Name"
+                alt="Nethsara Elvitigala"
                 class="w-full h-full object-cover"
               />
             </div>
@@ -18,7 +18,7 @@
 
         <!-- Name and Title -->
         <h1 class="text-xl font-bold gradient-text mb-1">
-          Your Name
+          Nethsara Elvitigala
         </h1>
         <p class="text-[var(--color-text-secondary)] text-sm mb-4">
           Full-Stack Software Engineer

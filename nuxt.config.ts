@@ -18,7 +18,7 @@ export default defineNuxtConfig({
   // SEO configuration
   site: {
     url: 'https://yourdomain.com',
-    name: 'Your Name - Software Engineer',
+    name: 'Nethsara Elvitigala - Software Engineer',
     description: 'Full-Stack Software Engineer specializing in modern web technologies',
     defaultLocale: 'en',
   },

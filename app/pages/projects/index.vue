@@ -289,7 +289,7 @@ const filteredProjects = computed(() => {
 
 // SEO
 useSeoMeta({
-  title: 'Projects - Your Name | Full Portfolio',
+  title: 'Projects - Nethsara Elvitigala | Full Portfolio',
   description: 'Explore my complete portfolio of web applications, mobile apps, APIs, and open source projects.',
 })
 </script>

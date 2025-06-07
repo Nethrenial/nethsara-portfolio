@@ -105,7 +105,7 @@ description: 'Post description for SEO'
 publishedAt: '2024-01-15'
 tags: ['JavaScript', 'Vue.js', 'Web Development']
 image: '/blog/your-image.jpg'
-author: 'Your Name'
+author: 'Nethsara Elvitigala'
 featured: false
 ---
 

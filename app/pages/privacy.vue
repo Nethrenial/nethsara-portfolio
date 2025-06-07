@@ -82,7 +82,7 @@
 
 <script setup>
 useSeoMeta({
-  title: 'Privacy Policy - Your Name',
+  title: 'Privacy Policy - Nethsara Elvitigala',
   description: 'Our privacy policy outlines how we collect, use, and protect your personal information.',
 })
 </script>

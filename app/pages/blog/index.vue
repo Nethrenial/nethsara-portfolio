@@ -274,7 +274,7 @@ const calculateReadTime = (content) => {
 
 // SEO
 useSeoMeta({
-  title: 'Blog - Your Name | Web Development Insights',
+  title: 'Blog - Nethsara Elvitigala | Web Development Insights',
   description: 'Read my latest thoughts and tutorials on web development, JavaScript, Vue.js, and modern software engineering practices.',
 })
 </script>

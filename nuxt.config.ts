@@ -39,6 +39,12 @@ export default defineNuxtConfig({
     indexable: true,
   },
 
+  content: {
+    preview: {
+      api: 'https://api.nuxt.studio',
+    },
+  },
+
   future: {
     compatibilityVersion: 4,
   },

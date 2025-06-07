@@ -27,7 +27,7 @@
         <!-- Quick Contact -->
         <div class="flex justify-center space-x-3">
           <a
-            href="mailto:your.email@example.com"
+            href="mailto:nethsarasandeepaelvitigala@gmail.com"
             class="w-10 h-10 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300"
           >
             <Icon

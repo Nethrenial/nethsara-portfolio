@@ -121,8 +121,8 @@ const contactMethods = [
   {
     title: 'Email',
     description: 'Drop me a line and I\'ll get back to you within 24 hours.',
-    action: 'your.email@example.com',
-    href: 'mailto:your.email@example.com',
+    action: 'nethsarasandeepaelvitigala@gmail.com',
+    href: 'mailto:nethsarasandeepaelvitigala@gmail.com',
     icon: 'heroicons:envelope',
     external: false,
   },

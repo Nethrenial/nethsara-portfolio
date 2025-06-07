@@ -77,10 +77,10 @@
                 <p class="text-[var(--color-text-secondary)] leading-relaxed">
                   If you have any questions about these Terms of Service, please contact us at
                   <a
-                    href="mailto:your.email@example.com"
+                    href="mailto:nethsarasandeepaelvitigala@gmail.com"
                     class="text-[var(--color-primary)] hover:underline"
                   >
-                    your.email@example.com
+                    nethsarasandeepaelvitigala@gmail.com
                   </a>
                 </p>
               </section>

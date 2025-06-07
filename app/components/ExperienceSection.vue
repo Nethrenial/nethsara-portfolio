@@ -10,9 +10,9 @@
 
       <div class="relative">
         <!-- Timeline Line -->
-        <div class="absolute left-6 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-[var(--color-border)]" />
+        <div class="absolute left-2 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-[var(--color-border)]" />
 
-        <div class="space-y-16">
+        <div class="space-y-12 md:space-y-16">
           <ExperienceCard
             v-for="(experience, index) in experiences"
             :key="index"

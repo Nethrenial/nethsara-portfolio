@@ -4,14 +4,15 @@
     :class="index % 2 === 0 ? 'md:flex-row-reverse' : ''"
   >
     <!-- Timeline Dot -->
-    <div class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-6 h-6 bg-[var(--color-primary)] rounded-full border-4 border-[var(--color-surface)] z-10" />
+    <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 md:w-6 h-4 md:h-6 bg-[var(--color-primary)] rounded-full border-2 md:border-4 border-[var(--color-surface)] z-10" />
 
     <!-- Content Card -->
     <div
-      class="ml-12 md:ml-0 md:w-5/12 bg-[var(--color-secondary)] rounded-xl p-8 border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-colors duration-300 card-hover"
-      :class="index % 2 === 0 ? 'md:mr-12' : 'md:ml-12'"
+      class="ml-6 md:ml-0 md:w-[calc(50%-1.5rem)] bg-[var(--color-secondary)] rounded-xl p-4 md:p-8 border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-colors duration-300 card-hover"
+      :class="index % 2 === 0 ? 'md:mr-3' : 'md:ml-3'"
     >
-      <div class="flex items-start justify-between mb-6">
+      <!-- Desktop Layout -->
+      <div class="hidden md:flex items-start justify-between mb-6">
         <div>
           <h3 class="text-2xl font-bold text-[var(--color-text-primary)] mb-2">
             {{ experience.position }}
@@ -24,6 +25,22 @@
           </p>
         </div>
         <span class="text-[var(--color-text-secondary)] text-sm bg-[var(--color-accent)] px-4 py-2 rounded-full whitespace-nowrap">
+          {{ experience.period }}
+        </span>
+      </div>
+
+      <!-- Mobile Layout -->
+      <div class="md:hidden mb-6">
+        <h3 class="text-xl font-bold text-[var(--color-text-primary)] mb-2">
+          {{ experience.position }}
+        </h3>
+        <p class="text-[var(--color-primary)] font-semibold text-base">
+          {{ experience.company }}
+        </p>
+        <p class="text-[var(--color-text-secondary)] text-sm">
+          {{ experience.location }}
+        </p>
+        <span class="inline-block mt-2 text-[var(--color-text-secondary)] text-xs bg-[var(--color-accent)] px-3 py-1 rounded-full">
           {{ experience.period }}
         </span>
       </div>

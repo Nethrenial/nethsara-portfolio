@@ -15,7 +15,7 @@
       </div>
 
       <!-- Contact Methods -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12 max-w-4xl mx-auto">
         <ContactCard
           v-for="contact in contactMethods"
           :key="contact.title"
@@ -121,7 +121,7 @@ const contactMethods = [
   {
     title: 'Email',
     description: 'Drop me a line and I\'ll get back to you within 24 hours.',
-    action: 'nethsarasandeepaelvitigala@gmail.com',
+    action: 'nethsara...@gmail.com',
     href: 'mailto:nethsarasandeepaelvitigala@gmail.com',
     icon: 'heroicons:envelope',
     external: false,

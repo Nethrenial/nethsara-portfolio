@@ -18,11 +18,11 @@
     </div>
 
     <!-- Skills Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <div
         v-for="category in filteredCategories"
         :key="category.name"
-        class="space-y-6"
+        class="space-y-4"
       >
         <div class="text-center">
           <div class="w-16 h-16 mx-auto mb-4 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center">
@@ -36,21 +36,21 @@
           </h3>
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-2">
           <div
             v-for="skill in category.skills"
             :key="skill.name"
-            class="flex flex-col items-center justify-between p-4 bg-[var(--color-secondary)] rounded-lg border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:scale-105 transition-all duration-300 group h-32 min-h-[128px]"
+            class="flex flex-col items-center justify-between p-3 bg-[var(--color-secondary)] rounded-lg border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:scale-105 transition-all duration-300 group h-24 min-h-[96px]"
           >
-            <div class="flex-1 flex items-center justify-center mb-3">
+            <div class="flex-1 flex items-center justify-center mb-2">
               <NuxtImg
                 :src="skill.logo"
                 :alt="`${skill.name} logo`"
-                class="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300"
+                class="w-7 h-7 object-contain group-hover:scale-110 transition-transform duration-300"
                 loading="lazy"
               />
             </div>
-            <span class="text-[var(--color-text-secondary)] text-sm text-center group-hover:text-[var(--color-text-primary)] transition-colors duration-300 leading-tight">
+            <span class="text-[var(--color-text-secondary)] text-xs text-center group-hover:text-[var(--color-text-primary)] transition-colors duration-300 leading-tight">
               {{ skill.name }}
             </span>
           </div>

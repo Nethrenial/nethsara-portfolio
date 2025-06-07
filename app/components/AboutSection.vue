@@ -11,9 +11,10 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
         <div>
           <p class="text-[var(--color-text-secondary)] text-lg leading-relaxed mb-8">
-            I'm a passionate full-stack software engineer with a love for creating digital solutions
-            that make a real difference. My journey in technology started with curiosity and has
-            evolved into a career dedicated to innovation and excellence.
+            I'm an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions.
+            My skills in modeling, coding, and debugging software come from my extensive experience in various tech
+            stacks and fast moving environments. I'm highly adaptable and capable of working independently or
+            collaboratively. Apart from that, I also enjoy teaching coding skills to my peers and geeking out on new technologies.
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
             <a
@@ -56,41 +57,39 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
         <div class="space-y-6">
           <h3 class="text-xl font-semibold text-[var(--color-primary)]">
-            The Beginning
+            Education & Foundation
           </h3>
           <p class="text-[var(--color-text-secondary)] leading-relaxed">
-            My fascination with technology began in high school when I first discovered programming.
-            What started as curiosity about how websites work quickly turned into a passion for
-            creating digital solutions that solve real-world problems.
+            I'm currently completing my Bachelor of Science in Computer Science at the University of Colombo School of Computing
+            (2021-2024), after completing my secondary education at Royal College. I also earned a Diploma in Information Technology
+            from Infortec International, which gave me an early foundation in tech.
           </p>
 
           <h3 class="text-xl font-semibold text-[var(--color-primary)]">
-            Education & Growth
+            Professional Journey
           </h3>
           <p class="text-[var(--color-text-secondary)] leading-relaxed">
-            I pursued Computer Science at university, where I learned the fundamentals of software
-            engineering, algorithms, and system design. But my real education came from building
-            projects, contributing to open source, and learning from the developer community.
+            Currently working as a Software Engineer at Haulmatic Technologies on revolutionary supply chain and logistics platforms,
+            while also co-founding ZaVolt where I've led numerous client projects and helped grow the company from zero to a team of 10 people.
           </p>
         </div>
 
         <div class="space-y-6">
           <h3 class="text-xl font-semibold text-[var(--color-primary)]">
-            Professional Journey
+            Open Source & Innovation
           </h3>
           <p class="text-[var(--color-text-secondary)] leading-relaxed">
-            Over the past 3+ years, I've had the privilege of working with amazing teams and clients,
-            from startups to established companies. Each project has taught me something new and
-            reinforced my belief in the power of well-crafted software.
+            I'm passionate about open source development, maintaining Nethren UI (a components library for React and Vue)
+            and developing BanhMi Web Framework for the Bun runtime. I believe in building tools that help other developers
+            be more productive.
           </p>
 
           <h3 class="text-xl font-semibold text-[var(--color-primary)]">
-            Today & Tomorrow
+            Teaching & Mentoring
           </h3>
           <p class="text-[var(--color-text-secondary)] leading-relaxed">
-            Today, I'm focused on creating scalable, maintainable applications using modern
-            technologies. I'm always learning, whether it's a new framework, design pattern,
-            or approach to solving complex problems.
+            Beyond coding, I enjoy teaching and mentoring. I regularly share knowledge with peers and love geeking out about
+            new technologies. I believe in the power of community and collaborative learning in the tech industry.
           </p>
         </div>
       </div>
@@ -116,33 +115,33 @@
 // Achievements data
 const achievements = [
   {
-    title: 'AWS Certified Solutions Architect',
-    description: 'Certified in designing distributed systems on AWS',
-    icon: 'heroicons:cloud',
+    title: 'Co-Founder at ZaVolt',
+    description: 'Helped grow company from zero to 10 people team delivering business solutions',
+    icon: 'heroicons:building-office',
   },
   {
-    title: 'Open Source Contributor',
-    description: 'Active contributor to various open source projects',
+    title: 'Open Source Maintainer',
+    description: 'Maintaining Nethren UI components library and BanhMi Web Framework',
     icon: 'heroicons:code-bracket',
   },
   {
-    title: 'Tech Speaker',
-    description: 'Spoken at local meetups and conferences about web development',
+    title: 'LLM Project Presenter',
+    description: 'Presented LLM-based intelligent test case generation to Sysco global leadership',
     icon: 'heroicons:microphone',
   },
   {
-    title: 'Hackathon Winner',
-    description: 'First place at TechCrunch Disrupt Hackathon 2023',
-    icon: 'heroicons:trophy',
-  },
-  {
-    title: 'Team Lead',
-    description: 'Led development teams of 5+ engineers',
+    title: 'University Project Leader',
+    description: 'Led 3rd-year project developing LMS with focus on content protection',
     icon: 'heroicons:user-group',
   },
   {
-    title: 'Mentor',
-    description: 'Mentoring junior developers and bootcamp graduates',
+    title: 'Full-Stack Developer',
+    description: 'Experience across multiple tech stacks and client projects',
+    icon: 'heroicons:cpu-chip',
+  },
+  {
+    title: 'Teaching Enthusiast',
+    description: 'Enjoys teaching coding skills to peers and sharing knowledge',
     icon: 'heroicons:academic-cap',
   },
 ]

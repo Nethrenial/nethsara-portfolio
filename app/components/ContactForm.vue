@@ -38,7 +38,7 @@
             type="email"
             required
             class="w-full px-4 py-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-primary)] transition-colors duration-300"
-            placeholder="your.email@example.com"
+            placeholder="your.email@domain.com"
           >
         </div>
       </div>

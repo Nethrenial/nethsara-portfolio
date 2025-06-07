@@ -21,7 +21,7 @@
           Nethsara Elvitigala
         </h1>
         <p class="text-[var(--color-text-secondary)] text-sm mb-4">
-          Full-Stack Software Engineer
+          Software Engineer
         </p>
 
         <!-- Quick Contact -->
@@ -36,7 +36,7 @@
             />
           </a>
           <a
-            href="https://linkedin.com/in/yourusername"
+            href="https://www.linkedin.com/in/nethsara-elvitigala/"
             target="_blank"
             rel="noopener noreferrer"
             class="w-10 h-10 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300"
@@ -47,7 +47,7 @@
             />
           </a>
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/Nethrenial"
             target="_blank"
             rel="noopener noreferrer"
             class="w-10 h-10 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300"

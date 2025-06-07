@@ -12,13 +12,14 @@
           Nethsara <span class="gradient-text">Elvitigala</span>
         </h1>
         <h2 class="text-2xl md:text-3xl lg:text-4xl font-semibold text-[var(--color-text-secondary)] mb-6 opacity-0 animate-fade-in animation-delay-400">
-          Full-Stack <span class="text-[var(--color-primary)]">Software Engineer</span>
+          <span class="text-[var(--color-primary)]">Software Engineer</span>
         </h2>
       </div>
 
       <p class="text-[var(--color-text-secondary)] text-lg leading-relaxed mb-8 max-w-2xl mx-auto opacity-0 animate-fade-in animation-delay-600">
-        I create exceptional digital experiences through clean code, innovative solutions, and cutting-edge technologies.
-        Passionate about building scalable applications that make a difference.
+        I'm an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions.
+        My skills in modeling, coding, and debugging software come from my extensive experience in various tech stacks
+        and fast moving environments.
       </p>
 
       <div class="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in animation-delay-800">

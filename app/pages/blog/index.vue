@@ -52,7 +52,7 @@
       <div class="max-w-6xl mx-auto px-8">
         <!-- Featured Posts -->
         <div
-          v-if="featuredPosts.length > 0 && !searchQuery && !selectedTag"
+          v-if="featuredPosts && featuredPosts.length > 0 && !searchQuery && !selectedTag"
           class="mb-20"
         >
           <h2 class="text-3xl font-bold text-[var(--color-text-primary)] mb-12">
@@ -61,7 +61,7 @@
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
             <article
               v-for="post in featuredPosts"
-              :key="post._path"
+              :key="post.path"
               class="group bg-[var(--color-secondary)] rounded-xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-all duration-300 card-hover"
             >
               <div class="relative overflow-hidden">
@@ -86,7 +86,7 @@
                 </div>
 
                 <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-primary)] transition-colors duration-300">
-                  <NuxtLink :to="post._path">{{ post.title }}</NuxtLink>
+                  <NuxtLink :to="post.path">{{ post.title }}</NuxtLink>
                 </h3>
 
                 <p class="text-[var(--color-text-secondary)] mb-4 line-clamp-3">
@@ -104,7 +104,7 @@
                 </div>
 
                 <NuxtLink
-                  :to="post._path"
+                  :to="post.path"
                   class="inline-flex items-center text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] transition-colors duration-300 font-medium"
                 >
                   Read More
@@ -146,7 +146,7 @@
           >
             <article
               v-for="post in filteredPosts"
-              :key="post._path"
+              :key="post.path"
               class="group bg-[var(--color-secondary)] rounded-xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-all duration-300 card-hover"
             >
               <div class="relative overflow-hidden">
@@ -166,7 +166,7 @@
                 </div>
 
                 <h3 class="text-lg font-semibold text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-primary)] transition-colors duration-300">
-                  <NuxtLink :to="post._path">{{ post.title }}</NuxtLink>
+                  <NuxtLink :to="post.path">{{ post.title }}</NuxtLink>
                 </h3>
 
                 <p class="text-[var(--color-text-secondary)] text-sm mb-4 line-clamp-2">
@@ -175,14 +175,14 @@
 
                 <div class="flex flex-wrap gap-2 mb-4">
                   <span
-                    v-for="tag in post.tags.slice(0, 2)"
+                    v-for="tag in post.tags?.slice(0, 2)"
                     :key="tag"
                     class="px-2 py-1 bg-[var(--color-accent)] text-[var(--color-text-secondary)] text-xs rounded"
                   >
                     {{ tag }}
                   </span>
                   <span
-                    v-if="post.tags.length > 2"
+                    v-if="post.tags && post.tags.length > 2"
                     class="px-2 py-1 bg-[var(--color-primary)]/20 text-[var(--color-primary)] text-xs rounded"
                   >
                     +{{ post.tags.length - 2 }}
@@ -190,7 +190,7 @@
                 </div>
 
                 <NuxtLink
-                  :to="post._path"
+                  :to="post.path"
                   class="inline-flex items-center text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] transition-colors duration-300 font-medium text-sm"
                 >
                   Read More
@@ -208,19 +208,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 
-// Fetch all blog posts
-const { data: posts } = await queryContent('/blog').sort({ publishedAt: -1 }).find()
+// Fetch all blog posts from the content directory
+const { data: posts } = await useAsyncData('blog-posts', () =>
+  queryCollection('blog').path('/blog').all(),
+)
 
 const searchQuery = ref('')
 const selectedTag = ref('')
 
 // Get all unique tags
 const allTags = computed(() => {
-  const tags = new Set()
-  posts.forEach((post) => {
+  const tags = new Set<string>()
+  posts.value?.forEach((post) => {
     post.tags?.forEach(tag => tags.add(tag))
   })
   return Array.from(tags).sort()
@@ -228,24 +230,26 @@ const allTags = computed(() => {
 
 // Featured posts
 const featuredPosts = computed(() => {
-  return posts.filter(post => post.featured).slice(0, 2)
+  return posts.value?.filter(post => post.featured).slice(0, 2) || []
 })
 
 // Filtered posts based on search and tag
 const filteredPosts = computed(() => {
-  let filtered = posts
+  let filtered = posts.value || []
 
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     filtered = filtered.filter(post =>
       post.title.toLowerCase().includes(query)
       || post.description.toLowerCase().includes(query)
-      || post.tags?.some(tag => tag.toLowerCase().includes(query)),
+      || post.tags?.some((tag: string) => tag.toLowerCase().includes(query)),
     )
   }
 
   if (selectedTag.value) {
-    filtered = filtered.filter(post => post.tags?.includes(selectedTag.value))
+    filtered = filtered.filter(post =>
+      post.tags?.includes(selectedTag.value),
+    )
   }
 
   // Remove featured posts from regular listing if no filters applied
@@ -257,7 +261,7 @@ const filteredPosts = computed(() => {
 })
 
 // Helper functions
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -265,10 +269,12 @@ const formatDate = (dateString) => {
   })
 }
 
-const calculateReadTime = (content) => {
+const calculateReadTime = (content: string | object) => {
   if (!content) return 0
   const wordsPerMinute = 200
-  const words = content.split(' ').length
+  // Convert content to string and count words
+  const text = typeof content === 'string' ? content : JSON.stringify(content)
+  const words = text.split(/\s+/).length
   return Math.ceil(words / wordsPerMinute)
 }
 

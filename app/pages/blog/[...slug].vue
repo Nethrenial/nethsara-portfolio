@@ -26,7 +26,7 @@
               </li>
               <li>/</li>
               <li class="text-[var(--color-text-primary)]">
-                {{ data.title }}
+                {{ data?.title }}
               </li>
             </ol>
           </nav>
@@ -35,7 +35,7 @@
           <div class="mb-8">
             <div class="flex flex-wrap gap-2 mb-4">
               <span
-                v-for="tag in data.tags"
+                v-for="tag in data?.tags"
                 :key="tag"
                 class="px-3 py-1 bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-sm rounded-full"
               >
@@ -44,15 +44,18 @@
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--color-text-primary)] mb-6 leading-tight">
-              {{ data.title }}
+              {{ data?.title }}
             </h1>
 
             <p class="text-lg md:text-xl text-[var(--color-text-secondary)] mb-8 leading-relaxed">
-              {{ data.description }}
+              {{ data?.description }}
             </p>
 
             <div class="flex items-center space-x-6 text-sm text-[var(--color-text-secondary)]">
-              <div class="flex items-center space-x-2">
+              <div
+                v-if="data?.author"
+                class="flex items-center space-x-2"
+              >
                 <Icon
                   name="heroicons:user"
                   class="w-4 h-4"
@@ -64,7 +67,7 @@
                   name="heroicons:calendar"
                   class="w-4 h-4"
                 />
-                <span>{{ formatDate(data.publishedAt) }}</span>
+                <span>{{ formatDate(data?.publishedAt) }}</span>
               </div>
               <div class="flex items-center space-x-2">
                 <Icon
@@ -78,12 +81,12 @@
 
           <!-- Featured Image -->
           <div
-            v-if="data.image"
+            v-if="data?.image"
             class="mb-12"
           >
             <NuxtImg
               :src="data.image"
-              :alt="data.title"
+              :alt="data.title || 'Blog post image'"
               class="w-full h-64 md:h-96 object-cover rounded-xl"
               loading="eager"
             />
@@ -101,7 +104,7 @@
             <aside class="lg:col-span-1 order-2 lg:order-1">
               <div class="sticky top-24">
                 <div
-                  v-if="data.body?.toc?.links?.length"
+                  v-if="data?.body?.toc?.links?.length"
                   class="bg-[var(--color-secondary)] rounded-xl p-6 border border-[var(--color-border)]"
                 >
                   <h3 class="text-lg font-semibold text-[var(--color-text-primary)] mb-4">
@@ -144,7 +147,10 @@
 
             <!-- Main Content -->
             <div class="lg:col-span-3 order-1 lg:order-2">
-              <div class="prose prose-lg prose-invert max-w-none">
+              <div
+                v-if="data"
+                class="prose prose-lg prose-invert max-w-none"
+              >
                 <ContentRenderer :value="data" />
               </div>
 
@@ -157,7 +163,7 @@
                   </h3>
                   <div class="flex flex-wrap gap-2">
                     <NuxtLink
-                      v-for="tag in data.tags"
+                      v-for="tag in data?.tags"
                       :key="tag"
                       :to="`/blog?tag=${encodeURIComponent(tag)}`"
                       class="px-3 py-1 bg-[var(--color-secondary)] text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 transition-all duration-300 rounded-full text-sm"
@@ -215,7 +221,7 @@
 
     <!-- Related Articles -->
     <section
-      v-if="relatedPosts.length > 0"
+      v-if="relatedPosts && relatedPosts.length > 0"
       class="py-20 bg-[var(--color-secondary)]"
     >
       <div class="container mx-auto px-6">
@@ -227,7 +233,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <article
               v-for="post in relatedPosts"
-              :key="post._path"
+              :key="post.path"
               class="group bg-[var(--color-accent)] rounded-xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-all duration-300 card-hover"
             >
               <div class="relative overflow-hidden">
@@ -247,7 +253,7 @@
                 </div>
 
                 <h3 class="text-lg font-semibold text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-primary)] transition-colors duration-300">
-                  <NuxtLink :to="post._path">{{ post.title }}</NuxtLink>
+                  <NuxtLink :to="post.path">{{ post.title }}</NuxtLink>
                 </h3>
 
                 <p class="text-[var(--color-text-secondary)] text-sm mb-4 line-clamp-2">
@@ -255,7 +261,7 @@
                 </p>
 
                 <NuxtLink
-                  :to="post._path"
+                  :to="post.path"
                   class="inline-flex items-center text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] transition-colors duration-300 font-medium text-sm"
                 >
                   Read More
@@ -297,35 +303,47 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 
 const route = useRoute()
-const { data } = await queryContent(route.path).findOne()
+const { data } = await useAsyncData('blog-post', () =>
+  queryCollection('blog').path(route.path).first(),
+)
+
+// Redirect to 404 if post not found
+if (!data.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Post not found' })
+}
 
 // Get related posts
-const { data: allPosts } = await queryContent('/blog').find()
+const { data: allPosts } = await useAsyncData('blog-posts', () =>
+  queryCollection('blog').path('/blog').all(),
+)
+
 const relatedPosts = computed(() => {
-  return allPosts
+  if (!allPosts.value || !data.value) return []
+
+  return allPosts.value
     .filter(post =>
-      post._path !== data._path
-      && post.tags?.some(tag => data.tags?.includes(tag)),
+      post.path !== data.value?.path
+      && post.tags?.some(tag => data.value?.tags?.includes(tag)),
     )
     .slice(0, 2)
 })
 
 // Calculate read time
 const readTime = computed(() => {
-  if (!data.body) return 0
+  if (!data.value?.body) return 0
   const wordsPerMinute = 200
-  const words = JSON.stringify(data.body).split(' ').length
+  const words = JSON.stringify(data.value.body).split(' ').length
   return Math.ceil(words / wordsPerMinute)
 })
 
 // Share URLs
 const shareUrls = computed(() => {
   const url = `${useRequestURL().origin}${route.path}`
-  const text = `${data.title} - ${data.description}`
+  const text = `${data.value?.title} - ${data.value?.description}`
 
   return {
     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
@@ -334,7 +352,8 @@ const shareUrls = computed(() => {
 })
 
 // Helper functions
-const formatDate = (dateString) => {
+const formatDate = (dateString: string | undefined) => {
+  if (!dateString) return ''
   return new Date(dateString).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -342,7 +361,7 @@ const formatDate = (dateString) => {
   })
 }
 
-const calculateReadTime = (content) => {
+const calculateReadTime = (content: unknown) => {
   if (!content) return 0
   const wordsPerMinute = 200
   const words = JSON.stringify(content).split(' ').length
@@ -361,136 +380,30 @@ const copyToClipboard = async () => {
 
 // SEO
 useSeoMeta({
-  title: data.title,
-  description: data.description,
-  ogTitle: data.title,
-  ogDescription: data.description,
-  ogImage: data.image,
+  title: data.value?.title,
+  description: data.value?.description,
+  ogTitle: data.value?.title,
+  ogDescription: data.value?.description,
+  ogImage: data.value?.image,
   twitterCard: 'summary_large_image',
-  twitterTitle: data.title,
-  twitterDescription: data.description,
-  twitterImage: data.image,
+  twitterTitle: data.value?.title,
+  twitterDescription: data.value?.description,
+  twitterImage: data.value?.image,
 })
 
 // JSON-LD structured data
 useSchemaOrg([
   {
     '@type': 'BlogPosting',
-    'headline': data.title,
-    'description': data.description,
-    'image': data.image,
+    'headline': data.value?.title,
+    'description': data.value?.description,
+    'image': data.value?.image,
     'author': {
       '@type': 'Person',
-      'name': data.author,
+      'name': data.value?.author || 'Nethsara Elvitigala',
     },
-    'datePublished': data.publishedAt,
-    'dateModified': data.publishedAt,
+    'datePublished': data.value?.publishedAt,
+    'dateModified': data.value?.publishedAt,
   },
 ])
 </script>
-
-<style>
-/* Custom prose styling for dark theme */
-.prose {
-  color: var(--color-text-primary);
-}
-
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  color: var(--color-text-primary);
-}
-
-.prose h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 3rem;
-  margin-bottom: 1.5rem;
-}
-
-.prose h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.prose p {
-  color: var(--color-text-secondary);
-  line-height: 1.625;
-  margin-bottom: 1.5rem;
-}
-
-.prose a {
-  color: var(--color-primary);
-  transition-property: color;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-}
-
-.prose a:hover {
-  color: var(--color-primary-dark);
-}
-
-.prose code {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-}
-
-.prose pre {
-  background-color: var(--color-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  overflow-x: auto;
-}
-
-.prose pre code {
-  background-color: transparent;
-  padding: 0;
-}
-
-.prose blockquote {
-  border-left-width: 4px;
-  border-left-color: var(--color-primary);
-  padding-left: 1.5rem;
-  font-style: italic;
-  color: var(--color-text-secondary);
-}
-
-.prose ul, .prose ol {
-  color: var(--color-text-secondary);
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.prose li {
-  line-height: 1.625;
-}
-
-.prose img {
-  border-radius: 0.5rem;
-}
-
-.prose table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid var(--color-border);
-}
-
-.prose th, .prose td {
-  border: 1px solid var(--color-border);
-  padding: 0.5rem 1rem;
-}
-
-.prose th {
-  background-color: var(--color-secondary);
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.prose td {
-  color: var(--color-text-secondary);
-}
-</style>

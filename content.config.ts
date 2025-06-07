@@ -1,13 +1,20 @@
-import { defineCollection, defineContentConfig } from '@nuxt/content'
+import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 import { asSeoCollection } from '@nuxtjs/seo/content'
 
 export default defineContentConfig({
   collections: {
-    content: defineCollection(
-      // adds the robots frontmatter key to the collection
+    blog: defineCollection(
       asSeoCollection({
         type: 'page',
-        source: '**/*.md',
+        source: 'blog/*.md',
+        schema: z.object({
+          tags: z.array(z.string()),
+          featured: z.boolean(),
+          image: z.string(),
+          alt: z.string(),
+          publishedAt: z.string().datetime(),
+          author: z.string(),
+        }),
       }),
     ),
   },

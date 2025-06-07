@@ -32,10 +32,11 @@ export default defineNuxtConfig({
 
   // SEO configuration
   site: {
-    url: 'https://yourdomain.com',
+    url: 'https://nethsara.me',
     name: 'Nethsara Elvitigala - Software Engineer',
-    description: 'Full-Stack Software Engineer specializing in modern web technologies',
+    description: 'Full-Stack Software Engineer specializing in modern technologies',
     defaultLocale: 'en',
+    indexable: true,
   },
 
   future: {

@@ -3,7 +3,7 @@
     <!-- Profile Section -->
     <div class="p-8 border-b border-[var(--color-border)]">
       <div class="text-center">
-        <!-- Profile Image -->
+        <!-- Profile Image - simplified -->
         <div class="w-24 h-24 mx-auto mb-4 relative">
           <div class="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] p-1">
             <div class="w-full h-full rounded-full overflow-hidden bg-[var(--color-surface)]">
@@ -14,9 +14,11 @@
               />
             </div>
           </div>
+          <!-- Simple status indicator -->
+          <div class="absolute bottom-1 right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
         </div>
 
-        <!-- Name and Title -->
+        <!-- Name and Title - simplified -->
         <h1 class="text-xl font-bold gradient-text mb-1">
           Nethsara Elvitigala
         </h1>
@@ -24,44 +26,36 @@
           Software Engineer
         </p>
 
-        <!-- Quick Contact -->
+        <!-- Quick Contact - simplified -->
         <div class="flex justify-center space-x-3">
-          <a
+          <BaseButton
             href="mailto:nethsarasandeepaelvitigala@gmail.com"
-            class="w-10 h-10 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300"
-          >
-            <Icon
-              name="heroicons:envelope"
-              class="w-5 h-5"
-            />
-          </a>
-          <a
+            variant="secondary"
+            icon="heroicons:envelope"
+            circular
+            size="sm"
+          />
+          <BaseButton
             href="https://www.linkedin.com/in/nethsara-elvitigala/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="w-10 h-10 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300"
-          >
-            <Icon
-              name="heroicons:link"
-              class="w-5 h-5"
-            />
-          </a>
-          <a
+            variant="secondary"
+            icon="heroicons:link"
+            circular
+            size="sm"
+            external
+          />
+          <BaseButton
             href="https://github.com/Nethrenial"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="w-10 h-10 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)] transition-colors duration-300"
-          >
-            <Icon
-              name="heroicons:code-bracket"
-              class="w-5 h-5"
-            />
-          </a>
+            variant="secondary"
+            icon="heroicons:code-bracket"
+            circular
+            size="sm"
+            external
+          />
         </div>
       </div>
     </div>
 
-    <!-- Navigation Links -->
+    <!-- Navigation Links - simplified -->
     <nav class="flex-1 p-6">
       <div class="space-y-2">
         <!-- Home page sections -->
@@ -110,7 +104,7 @@
           </NuxtLink>
         </template>
 
-        <!-- Blog Link (always visible) -->
+        <!-- Blog Link -->
         <NuxtLink
           to="/blog"
           class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group"
@@ -126,19 +120,17 @@
       </div>
     </nav>
 
-    <!-- Download Resume Button -->
-    <div class="p-6 border-t border-[var(--color-border)]">
-      <a
+    <!-- Download Resume Button - fixed positioning -->
+    <div class="p-6 border-t border-[var(--color-border)] mt-auto">
+      <BaseButton
         href="/resume.pdf"
-        target="_blank"
-        class="w-full bg-[var(--color-primary)] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] flex items-center justify-center space-x-2"
-      >
-        <Icon
-          name="heroicons:arrow-down-tray"
-          class="w-5 h-5"
-        />
-        <span>Download Resume</span>
-      </a>
+        variant="primary"
+        icon="heroicons:arrow-down-tray"
+        text="Download Resume"
+        full-width
+        external
+        class="!rounded-lg"
+      />
     </div>
   </div>
 </template>

@@ -134,23 +134,15 @@
         />
       </div>
 
-      <button
+      <BaseButton
         type="submit"
         :disabled="isSubmitting"
-        class="btn-primary w-full glow-on-hover disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-3 py-4 relative overflow-hidden group"
-      >
-        <Icon
-          v-if="isSubmitting"
-          name="heroicons:arrow-path"
-          class="w-5 h-5 animate-spin"
-        />
-        <Icon
-          v-else
-          name="heroicons:paper-airplane"
-          class="w-5 h-5 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
-        />
-        <span>{{ isSubmitting ? 'Sending...' : 'Send Message' }}</span>
-      </button>
+        variant="primary"
+        :icon="isSubmitting ? 'heroicons:arrow-path' : 'heroicons:paper-airplane'"
+        :text="isSubmitting ? 'Sending...' : 'Send Message'"
+        full-width
+        size="lg"
+      />
     </form>
 
     <!-- Enhanced Success/Error Messages -->

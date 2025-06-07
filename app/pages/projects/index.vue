@@ -46,91 +46,13 @@
     <section class="py-16 px-8">
       <div class="max-w-6xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
+          <ProjectCard
             v-for="project in filteredProjects"
             :key="project.id"
-            class="group bg-[var(--color-secondary)] rounded-xl overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-colors duration-300 card-hover"
-          >
-            <!-- Project Image -->
-            <div class="relative overflow-hidden">
-              <div class="w-full h-48 bg-gradient-to-br from-[var(--color-primary)]/20 to-[var(--color-primary-dark)]/20 flex items-center justify-center">
-                <Icon
-                  :name="project.icon"
-                  class="w-16 h-16 text-[var(--color-primary)]"
-                />
-              </div>
-              <div class="absolute inset-0 bg-[var(--color-surface)]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div class="flex space-x-4">
-                  <a
-                    :href="project.demo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="w-12 h-12 bg-[var(--color-primary)] rounded-full flex items-center justify-center text-white hover:bg-[var(--color-primary-dark)] transition-colors duration-300"
-                  >
-                    <Icon
-                      name="heroicons:eye"
-                      class="w-5 h-5"
-                    />
-                  </a>
-                  <a
-                    :href="project.github"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="w-12 h-12 bg-[var(--color-accent)] rounded-full flex items-center justify-center text-[var(--color-text-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-300"
-                  >
-                    <Icon
-                      name="heroicons:code-bracket"
-                      class="w-5 h-5"
-                    />
-                  </a>
-                </div>
-              </div>
-
-              <!-- Category Badge -->
-              <div class="absolute top-4 left-4">
-                <span class="bg-[var(--color-primary)] text-white px-3 py-1 rounded-full text-sm font-medium">
-                  {{ project.category }}
-                </span>
-              </div>
-            </div>
-
-            <!-- Project Content -->
-            <div class="p-6">
-              <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-3 group-hover:text-[var(--color-primary)] transition-colors duration-300">
-                {{ project.title }}
-              </h3>
-
-              <p class="text-[var(--color-text-secondary)] text-sm mb-4 line-clamp-3">
-                {{ project.description }}
-              </p>
-
-              <div class="flex flex-wrap gap-2 mb-4">
-                <span
-                  v-for="tech in project.technologies.slice(0, 3)"
-                  :key="tech"
-                  class="px-2 py-1 bg-[var(--color-accent)] text-[var(--color-text-secondary)] text-xs rounded"
-                >
-                  {{ tech }}
-                </span>
-                <span
-                  v-if="project.technologies.length > 3"
-                  class="px-2 py-1 bg-[var(--color-primary)]/20 text-[var(--color-primary)] text-xs rounded"
-                >
-                  +{{ project.technologies.length - 3 }}
-                </span>
-              </div>
-
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <Icon
-                    name="heroicons:star"
-                    class="w-4 h-4 text-[var(--color-primary)]"
-                  />
-                  <span class="text-[var(--color-text-secondary)] text-xs">{{ project.status }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+            :project="project"
+            variant="compact"
+            :max-technologies="4"
+          />
         </div>
 
         <!-- Empty State -->
@@ -162,12 +84,12 @@
           <p class="text-[var(--color-text-secondary)] mb-6">
             I'm always excited to take on new challenges and bring innovative ideas to life.
           </p>
-          <a
+          <BaseButton
+            variant="primary"
             href="/#contact"
-            class="bg-[var(--color-primary)] text-white px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary-dark)] transition-colors duration-300 hover:shadow-[var(--shadow-glow)] inline-block"
-          >
-            Let's Work Together
-          </a>
+            text="Let's Work Together"
+            size="lg"
+          />
         </div>
       </div>
     </section>
@@ -189,10 +111,12 @@ const projects = [
     category: 'Open Source',
     description: 'A UI components library for React and Vue. Released several pre-release versions of the VueJS edition. Used as the UI library for 3rd year university project.',
     icon: 'heroicons:cube',
+    image: 'https://picsum.photos/seed/nethren-ui/600/400',
     technologies: ['VueJS', 'SCSS', 'TypeScript', 'React'],
     demo: 'https://nethren-ui-vue-docs.pages.dev',
     github: 'https://github.com/Nethrenial/nethren-ui-vue',
     status: 'Active',
+    featured: true,
   },
   {
     id: 2,
@@ -200,11 +124,13 @@ const projects = [
     slug: 'banh-mi-framework',
     category: 'Open Source',
     description: 'An experimental web framework for the Bun runtime from scratch. API inspired by ExpressJS but with major differences. Published early version with features for simple full-stack web apps.',
-    icon: 'heroicons:cog',
+    icon: 'heroicons:cog-6-tooth',
+    image: 'https://picsum.photos/seed/banh-mi/600/400',
     technologies: ['Bun Runtime', 'TypeScript'],
     demo: 'https://github.com/banh-mi-org/examples',
     github: 'https://github.com/banh-mi-org/framework',
     status: 'Active',
+    featured: true,
   },
   {
     id: 3,
@@ -213,6 +139,7 @@ const projects = [
     category: 'Web App',
     description: 'B2B sales portal and inventory management system with microfrontend and microservices architecture, emulating Sysco shop for wholesale food products.',
     icon: 'heroicons:shopping-cart',
+    image: 'https://picsum.photos/seed/ecommerce-b2b/600/400',
     technologies: ['ReactJS', 'Single-SPA', 'Chakra UI', 'TypeScript', 'ExpressJS', 'Java', 'Spring Boot', 'PostgreSQL'],
     demo: '#',
     github: '#',
@@ -225,10 +152,12 @@ const projects = [
     category: 'Web App',
     description: 'LMS and institute management system for private tuition institute with focus on content protection and improving student engagement. Led as project leader.',
     icon: 'heroicons:academic-cap',
+    image: 'https://picsum.photos/seed/sailingpen-lms/600/400',
     technologies: ['VueJS', 'SCSS', 'TailwindCSS', 'TypeScript', 'NestJS', 'Prisma', 'PostgreSQL', 'Cloudflare Stream'],
     demo: '#',
     github: '#',
     status: 'Completed',
+    featured: true,
   },
   {
     id: 5,
@@ -236,7 +165,8 @@ const projects = [
     slug: 'autorealm',
     category: 'Web App',
     description: 'Vehicle maintenance center management system with e-commerce website and employee dashboards. Built custom PHP framework from scratch.',
-    icon: 'heroicons:wrench',
+    icon: 'heroicons:wrench-screwdriver',
+    image: 'https://picsum.photos/seed/autorealm/600/400',
     technologies: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
     demo: '#',
     github: '#',
@@ -249,6 +179,7 @@ const projects = [
     category: 'Web App',
     description: 'Official opportunity portal and admin dashboard for AIESEC in Colombo Central with Firebase and Algolia integration.',
     icon: 'heroicons:briefcase',
+    image: 'https://picsum.photos/seed/aiesec-portal/600/400',
     technologies: ['VueJS', 'TypeScript', 'SCSS', 'Firebase', 'Algolia'],
     demo: 'https://opps.uoc.aiesec.lk/',
     github: 'https://github.com/Nethrenial/aiesec-opportunities',
@@ -262,6 +193,7 @@ const projects = [
     category: 'Tool',
     description: 'LLM-based tool for intelligent test case generation presented to Sysco global technical leadership team.',
     icon: 'heroicons:cpu-chip',
+    image: 'https://picsum.photos/seed/llm-test-generator/600/400',
     technologies: ['Python', 'LangChain', 'Gemini'],
     demo: '#',
     github: '#',

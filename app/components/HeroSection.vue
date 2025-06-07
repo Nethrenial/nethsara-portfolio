@@ -69,35 +69,27 @@
 
       <!-- Enhanced CTA Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in animation-delay-1000">
-        <a
+        <BaseButton
           href="#projects"
-          class="btn-primary glow-on-hover inline-flex items-center justify-center space-x-2"
-        >
-          <Icon
-            name="heroicons:eye"
-            class="w-5 h-5"
-          />
-          <span>View My Work</span>
-        </a>
-        <a
+          variant="primary"
+          icon="heroicons:eye"
+          text="View My Work"
+        />
+        <BaseButton
           href="#contact"
-          class="glass-card text-[var(--color-primary)] px-8 py-4 rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300 glow-on-hover inline-flex items-center justify-center space-x-2"
-        >
-          <Icon
-            name="heroicons:chat-bubble-left-ellipsis"
-            class="w-5 h-5"
-          />
-          <span>Get In Touch</span>
-        </a>
+          variant="secondary"
+          icon="heroicons:chat-bubble-left-ellipsis"
+          text="Get In Touch"
+        />
       </div>
+    </div>
 
-      <!-- Scroll Indicator -->
-      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 animate-fade-in animation-delay-1200">
-        <div class="flex flex-col items-center space-y-2">
-          <span class="text-[var(--color-text-secondary)] text-xs">Scroll to explore</span>
-          <div class="w-6 h-10 border-2 border-[var(--color-primary)]/30 rounded-full flex justify-center">
-            <div class="w-1 h-3 bg-[var(--color-primary)] rounded-full animate-pulse mt-2" />
-          </div>
+    <!-- Scroll Indicator - positioned relative to section, not content container -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 animate-fade-in animation-delay-1200 z-20">
+      <div class="flex flex-col items-center space-y-2">
+        <span class="text-[var(--color-text-secondary)] text-xs">Scroll to explore</span>
+        <div class="w-6 h-10 border-2 border-[var(--color-primary)]/30 rounded-full flex justify-center">
+          <div class="w-1 h-3 bg-[var(--color-primary)] rounded-full animate-pulse mt-2" />
         </div>
       </div>
     </div>

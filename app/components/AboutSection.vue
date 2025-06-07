@@ -39,27 +39,19 @@
 
           <!-- Enhanced CTAs -->
           <div class="flex flex-col sm:flex-row gap-4">
-            <a
+            <BaseButton
               href="#contact"
-              class="btn-primary glow-on-hover inline-flex items-center justify-center space-x-2"
-            >
-              <Icon
-                name="heroicons:chat-bubble-left-right"
-                class="w-5 h-5"
-              />
-              <span>Get In Touch</span>
-            </a>
-            <a
+              variant="primary"
+              icon="heroicons:chat-bubble-left-right"
+              text="Get In Touch"
+            />
+            <BaseButton
               href="/resume.pdf"
-              target="_blank"
-              class="glass-card text-[var(--color-primary)] px-8 py-3 rounded-full font-semibold hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300 text-center inline-flex items-center justify-center space-x-2 glow-on-hover"
-            >
-              <Icon
-                name="heroicons:document-arrow-down"
-                class="w-5 h-5"
-              />
-              <span>Download Resume</span>
-            </a>
+              variant="secondary"
+              icon="heroicons:document-arrow-down"
+              text="Download Resume"
+              external
+            />
           </div>
         </div>
 

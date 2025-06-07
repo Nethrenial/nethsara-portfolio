@@ -1,9 +1,9 @@
 <template>
-  <div class="pt-20">
+  <div class="pt-2">
     <!-- Article Header -->
-    <article class="py-20">
+    <article class="py-16">
       <div class="container mx-auto px-6">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-6xl mx-auto">
           <!-- Breadcrumb -->
           <nav class="mb-8">
             <ol class="flex items-center space-x-2 text-sm text-[var(--color-text-secondary)]">
@@ -98,7 +98,7 @@
     <!-- Article Content -->
     <section class="pb-20">
       <div class="container mx-auto px-6">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-6xl mx-auto">
           <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
             <!-- Table of Contents (Desktop) -->
             <aside class="lg:col-span-1 order-2 lg:order-1">
@@ -151,7 +151,9 @@
                 v-if="data"
                 class="prose prose-lg prose-invert max-w-none"
               >
-                <ContentRenderer :value="data" />
+                <ContentRenderer
+                  :value="data"
+                />
               </div>
 
               <!-- Article Footer -->
@@ -307,7 +309,7 @@
 import { computed } from 'vue'
 
 const route = useRoute()
-const { data } = await useAsyncData('blog-post', () =>
+const { data } = await useAsyncData(() =>
   queryCollection('blog').path(route.path).first(),
 )
 
@@ -317,7 +319,7 @@ if (!data.value) {
 }
 
 // Get related posts
-const { data: allPosts } = await useAsyncData('blog-posts', () =>
+const { data: allPosts } = await useAsyncData(() =>
   queryCollection('blog').path('/blog').all(),
 )
 

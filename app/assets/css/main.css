@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography" {
+  className: prose;
+}
 
 @layer base {
   :root {

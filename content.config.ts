@@ -6,7 +6,7 @@ export default defineContentConfig({
     blog: defineCollection(
       asSeoCollection({
         type: 'page',
-        source: 'blog/*.md',
+        source: 'blog/**/*.md',
         schema: z.object({
           tags: z.array(z.string()),
           featured: z.boolean(),

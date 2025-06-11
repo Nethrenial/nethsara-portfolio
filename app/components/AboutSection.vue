@@ -62,9 +62,9 @@
             <div class="glass-card p-8 rounded-3xl transform rotate-3 group-hover:rotate-0 transition-all duration-500">
               <div class="w-72 h-72 rounded-2xl overflow-hidden border-4 border-[var(--color-primary)]/20 relative">
                 <NuxtImg
-                  src="/about-image.jpg"
+                  src="/images/profile/nethsara.jpg"
                   alt="About me"
-                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-surface)]/50 to-transparent" />

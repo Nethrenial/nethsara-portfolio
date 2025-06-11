@@ -88,11 +88,16 @@ Customize the color scheme in `app/assets/css/main.css`:
 - **Blog Posts**: Add markdown files to `content/blog/`
 
 ### 4. Images
-Replace placeholder images in the `public/` directory:
-- `profile-image.jpg` - Your profile photo
-- `about-image.jpg` - About page image
-- `og-image.jpg` - Social sharing image
-- `blog/*.jpg` - Blog post featured images
+Replace placeholder images in the organized `public/` directory structure:
+- `images/profile/` - Profile and personal photos
+  - `profile-image.jpg` - Main profile photo
+  - `nethsara.jpg` - About page image
+  - `about-image.jpg` - Additional about image
+- `images/social/` - Social media and sharing images
+  - `og-image.png` - Social sharing image (Open Graph)
+- `blog/` - Blog post featured images
+- `projects/` - Project showcase images
+- `favicons/` - All favicon and app icon files
 
 ## 📝 Adding Blog Posts
 

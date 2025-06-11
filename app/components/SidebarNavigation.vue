@@ -8,7 +8,7 @@
           <div class="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] p-1">
             <div class="w-full h-full rounded-full overflow-hidden bg-[var(--color-surface)]">
               <NuxtImg
-                src="/profile-image.jpg"
+                src="/favicons/web-app-manifest-192x192.png"
                 alt="Nethsara Elvitigala"
                 class="w-full h-full object-cover"
               />

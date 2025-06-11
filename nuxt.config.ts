@@ -72,7 +72,7 @@ export default defineNuxtConfig({
   // Image configuration
   image: {
     quality: 80,
-    format: ['webp', 'png', 'jpg'],
+    format: ['webp'],
   },
 
   seo: {
@@ -88,7 +88,7 @@ export default defineNuxtConfig({
       ogUrl: 'https://nethsara.me',
       ogTitle: 'Nethsara Elvitigala - Software Engineer',
       ogDescription: 'Full-Stack Software Engineer specializing in modern web technologies',
-      ogImage: '/og-image.png',
+      ogImage: '/images/social/og-image.png',
       ogType: 'website',
       ogLocale: 'en_US',
       ogSiteName: 'Nethsara Elvitigala',
@@ -98,7 +98,7 @@ export default defineNuxtConfig({
       twitterCreator: '@NSElvitigala',
       twitterTitle: 'Nethsara Elvitigala - Software Engineer & Tech Enthusiast',
       twitterDescription: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
-      twitterImage: 'https://nethsara.me/og-image.png',
+      twitterImage: 'https://nethsara.me/images/social/og-image.png',
       twitterImageAlt: 'Nethsara Elvitigala - Software Engineer & Tech Enthusiast',
       twitterSite: '@NSElvitigala',
 

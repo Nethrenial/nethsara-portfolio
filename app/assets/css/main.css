@@ -5,33 +5,33 @@
 
 @layer base {
   :root {
-    /* Enhanced color palette with more sophisticated tones */
-    --color-primary: #4885a8;
-    --color-primary-dark: #3b7296;
-    --color-primary-light: #5a9dc1;
-    --color-secondary: #151515;
-    --color-accent: #262626;
-    --color-surface: #121212;
+    /* Enhanced color palette with softer purple and blue tones */
+    --color-primary: #6366f1;
+    --color-primary-dark: #4f46e5;
+    --color-primary-light: #818cf8;
+    --color-secondary: #0a0a0a;
+    --color-accent: #1a1a1a;
+    --color-surface: #050505;
     --color-text-primary: #ffffff;
-    --color-text-secondary: #b4b4b8;
+    --color-text-secondary: #cccccc;
     --color-border: #333333;
     
-    /* Modern gradients */
-    --gradient-primary: linear-gradient(135deg, #4885a8 0%, #2b5a7d 100%);
-    --gradient-secondary: linear-gradient(135deg, #262626 0%, #1a1a1a 100%);
-    --gradient-glow: radial-gradient(circle at 50% 50%, rgba(72, 133, 168, 0.15) 0%, transparent 70%);
-    --gradient-hero: linear-gradient(135deg, rgba(72, 133, 168, 0.1) 0%, rgba(43, 90, 125, 0.05) 100%);
+    /* Modern gradients with softer purple-blue colors */
+    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --gradient-secondary: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+    --gradient-glow: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+    --gradient-hero: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%);
     
-    /* Enhanced shadows */
-    --shadow-glow: 0 0 30px rgba(72, 133, 168, 0.3);
-    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
-    --shadow-card-hover: 0 20px 60px rgba(0, 0, 0, 0.4);
-    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12);
-    --shadow-floating: 0 25px 50px rgba(0, 0, 0, 0.25);
+    /* Enhanced shadows with softer purple-blue glow */
+    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.4);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-card-hover: 0 20px 60px rgba(0, 0, 0, 0.5);
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.15);
+    --shadow-floating: 0 25px 50px rgba(0, 0, 0, 0.3);
     
-    /* Glassmorphism properties */
-    --glass-bg: rgba(38, 38, 38, 0.8);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    /* Glassmorphism properties with darker backgrounds */
+    --glass-bg: rgba(26, 26, 26, 0.8);
+    --glass-border: rgba(99, 102, 241, 0.15);
     --glass-blur: blur(20px);
     
     /* Animation timing */
@@ -49,8 +49,8 @@
   body {
     background: var(--color-surface);
     background-image: 
-      radial-gradient(circle at 20% 50%, rgba(72, 133, 168, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(72, 133, 168, 0.03) 0%, transparent 50%);
+      radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
     overflow-x: hidden;
   }
 
@@ -66,7 +66,7 @@
     transform: translateZ(0);
   }
 
-  /* Modern scrollbar */
+  /* Modern scrollbar with softer purple-blue colors */
   ::-webkit-scrollbar {
     width: 6px;
   }
@@ -95,9 +95,9 @@
     line-height: 1.6;
   }
 
-  /* Modern selection styling */
+  /* Modern selection styling with softer purple-blue colors */
   ::selection {
-    background: rgba(72, 133, 168, 0.3);
+    background: rgba(99, 102, 241, 0.3);
     color: white;
   }
 }
@@ -150,12 +150,12 @@
 
   /* Glass subtle effect */
   .glass-subtle {
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
   }
 
-  /* Glowing effect */
+  /* Glowing effect with softer purple-blue colors */
   .glow-on-hover {
     transition: all 0.3s ease;
   }
@@ -199,9 +199,9 @@
     box-shadow: var(--shadow-glow);
   }
 
-  /* Animated gradient text */
+  /* Animated gradient text with softer purple-blue colors */
   .gradient-text-animated {
-    background: linear-gradient(-45deg, #4885a8, #5a9dc1, #4885a8, #3b7296);
+    background: linear-gradient(-45deg, #6366f1, #818cf8, #8b5cf6, #6366f1);
     background-size: 400% 400%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -209,7 +209,7 @@
     animation: gradient-shift 4s ease infinite;
   }
 
-  /* Pulse effect */
+  /* Pulse effect with softer purple-blue glow */
   .pulse-glow {
     animation: pulse-glow 2s infinite;
   }
@@ -224,7 +224,7 @@
 
   .form-input:focus {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px rgba(72, 133, 168, 0.2);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
     outline: none;
   }
 }
@@ -298,11 +298,11 @@
 
 @keyframes pulse-glow {
   0%, 100% { 
-    box-shadow: 0 0 10px rgba(72, 133, 168, 0.3);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
     transform: scale(1);
   }
   50% { 
-    box-shadow: 0 0 30px rgba(72, 133, 168, 0.6);
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.7);
     transform: scale(1.05);
   }
 }

@@ -28,7 +28,7 @@
           <div class="w-16 h-16 mx-auto mb-4 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center">
             <Icon
               :name="category.icon"
-              class="w-8 h-8 text-[var(--color-primary)]"
+              class="text-sm text-[var(--color-primary)]"
             />
           </div>
           <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-6">
@@ -43,11 +43,9 @@
             class="flex flex-col items-center justify-between p-3 bg-[var(--color-secondary)] rounded-lg border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:scale-105 transition-all duration-300 group h-24 min-h-[96px]"
           >
             <div class="flex-1 flex items-center justify-center mb-2">
-              <NuxtImg
-                :src="skill.logo"
-                :alt="`${skill.name} logo`"
-                class="w-7 h-7 object-contain group-hover:scale-110 transition-transform duration-300"
-                loading="lazy"
+              <Icon
+                :name="skill.icon"
+                class="text-3xl group-hover:scale-110 transition-transform duration-300"
               />
             </div>
             <span class="text-[var(--color-text-secondary)] text-xs text-center group-hover:text-[var(--color-text-primary)] transition-colors duration-300 leading-tight">
@@ -110,80 +108,78 @@ const skillCategories = [
     name: 'Languages',
     icon: 'heroicons:code-bracket',
     skills: [
-      { name: 'JavaScript', logo: 'https://picsum.photos/80/80?random=1', tags: ['frontend', 'backend', 'fullstack'] },
-      { name: 'TypeScript', logo: 'https://picsum.photos/80/80?random=2', tags: ['frontend', 'backend', 'fullstack'] },
-      { name: 'Python', logo: 'https://picsum.photos/80/80?random=3', tags: ['backend', 'fullstack'] },
-      { name: 'Java', logo: 'https://picsum.photos/80/80?random=4', tags: ['backend'] },
-      { name: 'PHP', logo: 'https://picsum.photos/80/80?random=5', tags: ['backend'] },
-      { name: 'C/C++', logo: 'https://picsum.photos/80/80?random=6', tags: ['backend'] },
-      { name: 'Dart', logo: 'https://picsum.photos/80/80?random=7', tags: ['mobile'] },
-      { name: 'HTML/CSS', logo: 'https://picsum.photos/80/80?random=8', tags: ['frontend'] },
+      { name: 'JavaScript', icon: 'skill-icons:javascript', tags: ['frontend', 'backend', 'fullstack'] },
+      { name: 'TypeScript', icon: 'skill-icons:typescript', tags: ['frontend', 'backend', 'fullstack'] },
+      { name: 'Python', icon: 'skill-icons:python-light', tags: ['backend', 'fullstack'] },
+      { name: 'Java', icon: 'skill-icons:java-light', tags: ['backend'] },
+      { name: 'PHP', icon: 'skill-icons:php-light', tags: ['backend'] },
+      { name: 'C/C++', icon: 'skill-icons:cpp', tags: ['backend'] },
+      { name: 'Dart', icon: 'skill-icons:dart-light', tags: ['mobile'] },
+      { name: 'HTML/CSS', icon: 'skill-icons:html', tags: ['frontend'] },
     ],
   },
   {
     name: 'Frontend Frameworks',
     icon: 'heroicons:rectangle-stack',
     skills: [
-      { name: 'Vue.js', logo: 'https://picsum.photos/80/80?random=9', tags: ['frontend', 'fullstack'] },
-      { name: 'Nuxt.js', logo: 'https://picsum.photos/80/80?random=10', tags: ['frontend', 'fullstack'] },
-      { name: 'React', logo: 'https://picsum.photos/80/80?random=11', tags: ['frontend', 'fullstack'] },
-      { name: 'Next.js', logo: 'https://picsum.photos/80/80?random=12', tags: ['frontend', 'fullstack'] },
-      { name: 'Angular', logo: 'https://picsum.photos/80/80?random=13', tags: ['frontend', 'fullstack'] },
-      { name: 'SCSS', logo: 'https://picsum.photos/80/80?random=14', tags: ['frontend'] },
+      { name: 'Vue.js', icon: 'skill-icons:vuejs-light', tags: ['frontend', 'fullstack'] },
+      { name: 'Nuxt.js', icon: 'skill-icons:nuxtjs-light', tags: ['frontend', 'fullstack'] },
+      { name: 'React', icon: 'skill-icons:react-light', tags: ['frontend', 'fullstack'] },
+      { name: 'Next.js', icon: 'skill-icons:nextjs-light', tags: ['frontend', 'fullstack'] },
+      { name: 'Angular', icon: 'skill-icons:angular-light', tags: ['frontend', 'fullstack'] },
+      { name: 'SCSS', icon: 'devicon:sass', tags: ['frontend'] },
     ],
   },
   {
     name: 'Backend Frameworks',
     icon: 'heroicons:server',
     skills: [
-      { name: 'Node.js', logo: 'https://picsum.photos/80/80?random=15', tags: ['backend', 'fullstack'] },
-      { name: 'Express.js', logo: 'https://picsum.photos/80/80?random=16', tags: ['backend', 'fullstack'] },
-      { name: 'NestJS', logo: 'https://picsum.photos/80/80?random=17', tags: ['backend', 'fullstack'] },
-      { name: 'Spring Boot', logo: 'https://picsum.photos/80/80?random=18', tags: ['backend'] },
-      { name: 'Laravel', logo: 'https://picsum.photos/80/80?random=19', tags: ['backend'] },
+      { name: 'Node.js', icon: 'skill-icons:nodejs-light', tags: ['backend', 'fullstack'] },
+      { name: 'Express.js', icon: 'skill-icons:expressjs-light', tags: ['backend', 'fullstack'] },
+      { name: 'NestJS', icon: 'skill-icons:nestjs-light', tags: ['backend', 'fullstack'] },
+      { name: 'Spring Boot', icon: 'skill-icons:spring-light', tags: ['backend'] },
+      { name: 'Laravel', icon: 'skill-icons:laravel-light', tags: ['backend'] },
     ],
   },
   {
     name: 'Databases & ORMs',
     icon: 'heroicons:circle-stack',
     skills: [
-      { name: 'PostgreSQL', logo: 'https://picsum.photos/80/80?random=20', tags: ['backend', 'fullstack'] },
-      { name: 'MongoDB', logo: 'https://picsum.photos/80/80?random=21', tags: ['backend', 'fullstack'] },
-      { name: 'MySQL', logo: 'https://picsum.photos/80/80?random=22', tags: ['backend', 'fullstack'] },
-      { name: 'Firestore', logo: 'https://picsum.photos/80/80?random=23', tags: ['backend', 'fullstack'] },
-      { name: 'Prisma', logo: 'https://picsum.photos/80/80?random=24', tags: ['backend', 'fullstack'] },
-      { name: 'Mongoose', logo: 'https://picsum.photos/80/80?random=25', tags: ['backend', 'fullstack'] },
-      { name: 'Hibernate', logo: 'https://picsum.photos/80/80?random=26', tags: ['backend'] },
+      { name: 'PostgreSQL', icon: 'skill-icons:postgresql-light', tags: ['backend', 'fullstack'] },
+      { name: 'MongoDB', icon: 'skill-icons:mongodb', tags: ['backend', 'fullstack'] },
+      { name: 'MySQL', icon: 'skill-icons:mysql-light', tags: ['backend', 'fullstack'] },
+      { name: 'Firestore', icon: 'devicon:firebase', tags: ['backend', 'fullstack'] },
+      { name: 'Prisma', icon: 'skill-icons:prisma', tags: ['backend', 'fullstack'] },
+      { name: 'Mongoose', icon: 'skill-icons:mongodb', tags: ['backend', 'fullstack'] },
+      { name: 'Hibernate', icon: 'skill-icons:hibernate-light', tags: ['backend'] },
     ],
   },
   {
     name: 'Cloud & Services',
     icon: 'heroicons:cloud',
     skills: [
-      { name: 'AWS', logo: 'https://picsum.photos/80/80?random=27', tags: ['devops', 'backend', 'fullstack'] },
-      { name: 'Firebase', logo: 'https://picsum.photos/80/80?random=28', tags: ['backend', 'fullstack', 'mobile'] },
-      { name: 'VPS Deployment', logo: 'https://picsum.photos/80/80?random=29', tags: ['devops'] },
+      { name: 'AWS', icon: 'skill-icons:aws-light', tags: ['devops', 'backend', 'fullstack'] },
+      { name: 'Firebase', icon: 'devicon:firebase', tags: ['backend', 'fullstack', 'mobile'] },
+      { name: 'VPS Deployment', icon: 'skill-icons:gcp-light', tags: ['devops'] },
     ],
   },
   {
     name: 'DevOps & Tools',
     icon: 'heroicons:wrench-screwdriver',
     skills: [
-      { name: 'Git & GitHub', logo: 'https://picsum.photos/80/80?random=30', tags: ['devops', 'fullstack'] },
-      { name: 'Visual Studio Code', logo: 'https://picsum.photos/80/80?random=31', tags: ['fullstack', 'frontend', 'backend'] },
-      { name: 'JetBrains IDEs', logo: 'https://picsum.photos/80/80?random=32', tags: ['fullstack', 'backend'] },
-      { name: 'Postman', logo: 'https://picsum.photos/80/80?random=33', tags: ['backend', 'fullstack'] },
-      { name: 'Draw.io', logo: 'https://picsum.photos/80/80?random=34', tags: ['fullstack'] },
+      { name: 'Git & GitHub', icon: 'skill-icons:git', tags: ['devops', 'fullstack'] },
+      { name: 'Visual Studio Code', icon: 'skill-icons:vscode-light', tags: ['fullstack', 'frontend', 'backend'] },
+      { name: 'JetBrains IDEs', icon: 'devicon:intellij', tags: ['fullstack', 'backend'] },
+      { name: 'Postman', icon: 'skill-icons:postman', tags: ['backend', 'fullstack'] },
     ],
   },
   {
     name: 'Mobile & Other',
     icon: 'heroicons:device-phone-mobile',
     skills: [
-      { name: 'Flutter', logo: 'https://picsum.photos/80/80?random=35', tags: ['mobile'] },
-      { name: 'RxJS', logo: 'https://picsum.photos/80/80?random=36', tags: ['frontend', 'fullstack'] },
-      { name: 'GraphQL', logo: 'https://picsum.photos/80/80?random=37', tags: ['backend', 'fullstack'] },
-      { name: 'Socket Programming', logo: 'https://picsum.photos/80/80?random=38', tags: ['backend'] },
+      { name: 'Flutter', icon: 'skill-icons:flutter-light', tags: ['mobile'] },
+      { name: 'RxJS', icon: 'skill-icons:reactivex-light', tags: ['frontend', 'fullstack'] },
+      { name: 'GraphQL', icon: 'skill-icons:graphql-light', tags: ['backend', 'fullstack'] },
     ],
   },
 ]

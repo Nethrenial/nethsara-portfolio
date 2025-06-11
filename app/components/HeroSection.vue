@@ -39,7 +39,7 @@
         </p>
 
         <!-- Key Stats -->
-        <div class="grid grid-cols-3 gap-6 mt-8">
+        <!-- <div class="grid grid-cols-3 gap-6 mt-8">
           <div class="text-center">
             <div class="text-2xl md:text-3xl font-bold text-[var(--color-primary)] mb-1">
               3+
@@ -64,7 +64,7 @@
               Open Source
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Enhanced CTA Buttons -->

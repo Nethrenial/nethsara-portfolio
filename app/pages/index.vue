@@ -18,7 +18,7 @@
 <script setup>
 // SEO
 useSeoMeta({
-  title: 'Nethsara Elvitigala - Software Engineer',
+  title: '',
   description: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
 })
 </script>

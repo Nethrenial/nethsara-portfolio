@@ -11,7 +11,6 @@
       />
     </button>
 
-    <!-- Fixed Left Sidebar Navigation -->
     <aside
       class="fixed left-0 top-0 h-screen w-80 bg-[var(--color-secondary)] border-r border-[var(--color-border)] z-40 overflow-y-auto transition-transform duration-300 lg:transform-none"
       :class="isMobileMenuOpen ? 'transform translate-x-0' : 'transform -translate-x-full lg:translate-x-0'"
@@ -38,9 +37,7 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-
+<script setup lang="ts">
 const isMobileMenuOpen = ref(false)
 
 const toggleMobileMenu = () => {
@@ -50,14 +47,4 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false
 }
-
-// SEO
-useSeoMeta({
-  title: 'Nethsara Elvitigala - Software Engineer',
-  description: 'Full-Stack Software Engineer specializing in modern web technologies',
-  ogTitle: 'Nethsara Elvitigala - Software Engineer',
-  ogDescription: 'Full-Stack Software Engineer specializing in modern web technologies',
-  ogImage: '/og-image.jpg',
-  twitterCard: 'summary_large_image',
-})
 </script>

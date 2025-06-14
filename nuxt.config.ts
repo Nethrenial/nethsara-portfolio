@@ -8,7 +8,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
     '@nuxtjs/seo',
-    '@nuxt/content',
     '@vueuse/nuxt',
   ],
   devtools: { enabled: true },
@@ -38,19 +37,6 @@ export default defineNuxtConfig({
 
     defaultLocale: 'en',
     indexable: true,
-  },
-
-  content: {
-    preview: {
-      api: 'https://api.nuxt.studio',
-    },
-    build: {
-      markdown: {
-        highlight: {
-          theme: 'monokai',
-        },
-      },
-    },
   },
 
   future: {

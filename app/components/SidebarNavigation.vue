@@ -103,20 +103,6 @@
             <span class="font-medium">Projects Overview</span>
           </NuxtLink>
         </template>
-
-        <!-- Blog Link -->
-        <NuxtLink
-          to="/blog"
-          class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group"
-          :class="{ 'text-[var(--color-primary)] bg-[var(--color-accent)]': $route.path.startsWith('/blog') }"
-          @click="handleMobileClose"
-        >
-          <Icon
-            name="heroicons:newspaper"
-            class="w-5 h-5"
-          />
-          <span class="font-medium">Blog</span>
-        </NuxtLink>
       </div>
     </nav>
 

@@ -81,6 +81,10 @@ export default defineNuxtConfig({
     },
   },
 
+  icon: {
+    mode: 'svg',
+  },
+
   // Image configuration
   image: {
     quality: 80,

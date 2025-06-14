@@ -1,5 +1,7 @@
 <template>
-  <div class="space-y-0 pt-16 lg:pt-0">
+  <div
+    class="space-y-0 pt-16 lg:pt-0"
+  >
     <!-- Hero Section -->
     <HeroSection />
     <!-- About Section -->

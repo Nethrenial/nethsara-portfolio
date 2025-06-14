@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/icon', '@nuxt/image', '@nuxt/scripts', '@nuxtjs/seo', '@vueuse/nuxt', 'nuxt-gtag'],
+  ssr: true,
   devtools: { enabled: true },
 
   app: {
@@ -30,6 +31,17 @@ export default defineNuxtConfig({
 
     defaultLocale: 'en',
     indexable: true,
+  },
+
+  runtimeConfig: {
+    emailHost: 'smtp.zoho.com',
+    emailPort: 465,
+    emailUser: '',
+    emailPassword: '',
+    emailTo: 'nethsarasandeepaelvitigala@gmail.com',
+    public: {
+      siteUrl: 'https://nethsara.me',
+    },
   },
 
   future: {

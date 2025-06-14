@@ -28,7 +28,7 @@
       ref="mobileMenuRef"
       class="fixed left-0 top-0 h-screen w-80 bg-[var(--color-secondary)] border-r border-[var(--color-border)] z-40 overflow-y-auto transition-transform duration-300 lg:transform-none"
       :class="isMobileMenuOpen ? 'transform translate-x-0' : 'transform -translate-x-full lg:translate-x-0'"
-      :aria-hidden="!isMobileMenuOpen ? 'true' : 'false'"
+      :inert="!isMobileMenuOpen && windowWidth < 1024"
     >
       <SidebarNavigation @close-mobile="closeMobileMenu" />
     </aside>
@@ -62,6 +62,7 @@ import { nextTick } from 'vue'
 const isMobileMenuOpen = ref(false)
 const mobileMenuRef = ref<HTMLElement>()
 const menuButtonRef = ref<HTMLElement>()
+const windowWidth = ref(1024)
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
@@ -91,15 +92,22 @@ const handleEscapeKey = (event: KeyboardEvent) => {
   }
 }
 
+const updateWindowWidth = () => {
+  windowWidth.value = window.innerWidth
+}
+
 onMounted(() => {
   if (import.meta.client) {
     document.addEventListener('keydown', handleEscapeKey)
+    window.addEventListener('resize', updateWindowWidth)
+    updateWindowWidth() // Set initial value
   }
 })
 
 onUnmounted(() => {
   if (import.meta.client) {
     document.removeEventListener('keydown', handleEscapeKey)
+    window.removeEventListener('resize', updateWindowWidth)
   }
 })
 </script>

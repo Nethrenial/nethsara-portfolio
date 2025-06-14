@@ -60,10 +60,12 @@
             external
             target="_blank"
             class="w-12 h-12 bg-[var(--color-primary)] rounded-full flex items-center justify-center text-white hover:bg-[var(--color-primary-dark)] transition-colors duration-300 shadow-lg hover:scale-110 hover:-translate-y-1"
+            :aria-label="`View live demo of ${project.title} project (opens in new tab)`"
           >
             <Icon
               name="heroicons:eye"
               class="w-5 h-5"
+              aria-hidden="true"
             />
           </NuxtLink>
           <NuxtLink
@@ -72,10 +74,12 @@
             external
             target="_blank"
             class="w-12 h-12 glass-card rounded-full flex items-center justify-center text-[var(--color-text-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300 shadow-lg hover:scale-110 hover:-translate-y-1"
+            :aria-label="`View source code for ${project.title} on GitHub (opens in new tab)`"
           >
             <Icon
               name="heroicons:code-bracket"
               class="w-5 h-5"
+              aria-hidden="true"
             />
           </NuxtLink>
         </div>

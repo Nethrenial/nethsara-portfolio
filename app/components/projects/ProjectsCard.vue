@@ -177,14 +177,14 @@
 import type { Project } from '~/models/Project'
 import { ProjectVariant } from '~/enums/ProjectVariant'
 
-interface ProjectCardProps {
+interface ProjectsCardProps {
   project: Project
   variant?: ProjectVariant
   maxTechnologies?: number
   showProgress?: boolean
 }
 
-withDefaults(defineProps<ProjectCardProps>(), {
+withDefaults(defineProps<ProjectsCardProps>(), {
   variant: ProjectVariant.DEFAULT,
   maxTechnologies: 3,
   showProgress: false,

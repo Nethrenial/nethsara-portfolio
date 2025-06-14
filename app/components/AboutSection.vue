@@ -95,89 +95,13 @@
 
       <!-- My Story with Enhanced Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-        <div class="glass-card p-8 rounded-2xl card-hover">
-          <div class="flex items-center mb-6">
-            <div class="w-12 h-12 bg-[var(--color-primary)]/20 rounded-full flex items-center justify-center mr-4">
-              <Icon
-                name="heroicons:academic-cap"
-                class="w-6 h-6 text-[var(--color-primary)]"
-              />
-            </div>
-            <h3 class="text-xl font-semibold text-[var(--color-primary)]">
-              Education & Foundation
-            </h3>
-          </div>
-          <p class="text-[var(--color-text-secondary)] leading-relaxed mb-6">
-            I'm currently completing my Bachelor of Science in Computer Science at the University of Colombo School of Computing
-            (2021-2024), after completing my secondary education at Royal College.
-          </p>
-          <p class="text-[var(--color-text-secondary)] leading-relaxed">
-            I also earned a Diploma in Information Technology from Infortec International, which gave me an early foundation in tech.
-          </p>
-        </div>
-
-        <div class="glass-card p-8 rounded-2xl card-hover">
-          <div class="flex items-center mb-6">
-            <div class="w-12 h-12 bg-[var(--color-primary)]/20 rounded-full flex items-center justify-center mr-4">
-              <Icon
-                name="heroicons:briefcase"
-                class="w-6 h-6 text-[var(--color-primary)]"
-              />
-            </div>
-            <h3 class="text-xl font-semibold text-[var(--color-primary)]">
-              Professional Journey
-            </h3>
-          </div>
-          <p class="text-[var(--color-text-secondary)] leading-relaxed mb-6">
-            Currently working as a Software Engineer at Haulmatic Technologies on revolutionary supply chain and logistics platforms,
-            while also co-founding ZaVolt.
-          </p>
-          <p class="text-[var(--color-text-secondary)] leading-relaxed">
-            I've led numerous client projects and helped grow the company from zero to a team of 10 people.
-          </p>
-        </div>
-
-        <div class="glass-card p-8 rounded-2xl card-hover">
-          <div class="flex items-center mb-6">
-            <div class="w-12 h-12 bg-[var(--color-primary)]/20 rounded-full flex items-center justify-center mr-4">
-              <Icon
-                name="heroicons:code-bracket"
-                class="w-6 h-6 text-[var(--color-primary)]"
-              />
-            </div>
-            <h3 class="text-xl font-semibold text-[var(--color-primary)]">
-              Open Source & Innovation
-            </h3>
-          </div>
-          <p class="text-[var(--color-text-secondary)] leading-relaxed mb-6">
-            I'm passionate about open source development, maintaining Nethren UI (a components library for React and Vue)
-            and developing BanhMi Web Framework for the Bun runtime.
-          </p>
-          <p class="text-[var(--color-text-secondary)] leading-relaxed">
-            I believe in building tools that help other developers be more productive.
-          </p>
-        </div>
-
-        <div class="glass-card p-8 rounded-2xl card-hover">
-          <div class="flex items-center mb-6">
-            <div class="w-12 h-12 bg-[var(--color-primary)]/20 rounded-full flex items-center justify-center mr-4">
-              <Icon
-                name="heroicons:users"
-                class="w-6 h-6 text-[var(--color-primary)]"
-              />
-            </div>
-            <h3 class="text-xl font-semibold text-[var(--color-primary)]">
-              Teaching & Mentoring
-            </h3>
-          </div>
-          <p class="text-[var(--color-text-secondary)] leading-relaxed mb-6">
-            Beyond coding, I enjoy teaching and mentoring. I regularly share knowledge with peers and love geeking out about
-            new technologies.
-          </p>
-          <p class="text-[var(--color-text-secondary)] leading-relaxed">
-            I believe in the power of community and collaborative learning in the tech industry.
-          </p>
-        </div>
+        <StoryCard
+          v-for="story in storyCards"
+          :key="story.title"
+          :icon="story.icon"
+          :title="story.title"
+          :paragraphs="story.paragraphs"
+        />
       </div>
 
       <!-- Enhanced Achievements -->
@@ -214,7 +138,43 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
+// Story cards data
+const storyCards = [
+  {
+    title: 'Education & Foundation',
+    icon: 'heroicons:academic-cap',
+    paragraphs: [
+      'I\'ve completed my Bachelor of Science in Computer Science at the University of Colombo School of Computing in 2024, after completing my secondary education at Royal College, Colombo.',
+      'I\'ve also learned a lot of technologies from platforms like Udemy, Coursera, and YouTube in my pursuit of knowledge.',
+    ],
+  },
+  {
+    title: 'Professional Journey',
+    icon: 'heroicons:briefcase',
+    paragraphs: [
+      'Currently working as a Software Engineer at Haulmatic Technologies on revolutionary supply chain and logistics platforms, while also watching over ZaVolt, a startup company I co-founded with my friends.',
+      'I\'ve worked on numerous client projects and helped grow the company from zero to what it\'s today. Go check it out at <a href="https://zavolt.com" target="_blank" class="text-[var(--color-primary)] hover:underline">zavolt.com</a>.',
+    ],
+  },
+  {
+    title: 'Open Source & Innovation',
+    icon: 'heroicons:code-bracket',
+    paragraphs: [
+      'I\'m passionate about open source development, currently building Nethren UI (a components library for React and Vue) and developing BanhMi Web Framework for the Bun runtime.',
+      'I believe in building tools that help other developers be more productive.',
+    ],
+  },
+  {
+    title: 'Teaching & Mentoring',
+    icon: 'heroicons:users',
+    paragraphs: [
+      'Beyond coding, I enjoy teaching and mentoring. I regularly share knowledge with peers and love geeking out about new technologies. I\'ve had the opportunity of conducting a few workshops and discussions on various topics.',
+      'I believe in the power of community and collaborative learning in the tech industry.',
+    ],
+  },
+]
+
 // Achievements data
 const achievements = [
   {

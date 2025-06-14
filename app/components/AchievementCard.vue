@@ -4,7 +4,7 @@
       <div :class="iconContainerClasses">
         <Icon
           :name="achievement.icon"
-          class="w-6 h-6 text-[var(--color-primary)]"
+          class="text-2xl text-[var(--color-primary)]"
         />
       </div>
       <div :class="contentClasses">

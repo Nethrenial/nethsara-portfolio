@@ -17,8 +17,8 @@
       <!-- Company Logo Placeholder -->
       <div class="absolute top-6 right-6 w-12 h-12 glass-card rounded-lg flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity duration-300">
         <Icon
-          name="heroicons:building-office-2"
-          class="w-6 h-6 text-[var(--color-primary)]"
+          name="heroicons:briefcase"
+          class="text-2xl text-[var(--color-primary)]"
         />
       </div>
 
@@ -64,7 +64,7 @@
           <p class="text-[var(--color-text-secondary)] text-sm flex items-center mb-2">
             <Icon
               name="heroicons:map-pin"
-              class="w-4 h-4 mr-1"
+              class="text-sm mr-1"
             />
             {{ experience.location }}
           </p>
@@ -90,7 +90,7 @@
         <h4 class="text-[var(--color-text-primary)] font-semibold mb-4 flex items-center">
           <Icon
             name="heroicons:trophy"
-            class="w-5 h-5 mr-2 text-[var(--color-primary)]"
+            class="text-xl mr-2 text-[var(--color-primary)]"
           />
           Key Achievements
         </h4>
@@ -103,7 +103,7 @@
             <div class="w-5 h-5 bg-[var(--color-primary)]/20 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
               <Icon
                 name="heroicons:check"
-                class="w-3 h-3 text-[var(--color-primary)]"
+                class="text-xs text-[var(--color-primary)]"
               />
             </div>
             <span class="leading-relaxed">{{ achievement }}</span>
@@ -116,7 +116,7 @@
         <h4 class="text-[var(--color-text-primary)] font-semibold mb-3 flex items-center">
           <Icon
             name="heroicons:cog-6-tooth"
-            class="w-5 h-5 mr-2 text-[var(--color-primary)]"
+            class="text-xl mr-2 text-[var(--color-primary)]"
           />
           Technologies Used
         </h4>

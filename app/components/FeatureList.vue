@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<FeatureListProps>(), {
   iconColor: 'text-[var(--color-primary)]',
   textColor: 'text-[var(--color-text-secondary)]',
   spacing: 'space-y-3',
-  iconSize: 'w-5 h-5',
+  iconSize: 'text-xl',
 })
 
 const listClasses = computed(() => {

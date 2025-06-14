@@ -20,11 +20,13 @@
         :size="ButtonSize.LARGE"
         aria-label="Navigate to projects page to view all projects"
       >
-        <span>View All Projects</span>
-        <Icon
-          name="heroicons:arrow-right"
-          class="w-5 h-5 ml-2 transform group-hover:translate-x-2 transition-transform duration-300"
-        />
+        <span class="flex items-center">
+          <span>View All Projects</span>
+          <Icon
+            name="heroicons:arrow-right"
+            class="text-xl ml-2 transform group-hover:translate-x-2 transition-transform duration-300"
+          />
+        </span>
       </BaseButton>
     </div>
   </div>

@@ -19,7 +19,7 @@
     >
       <Icon
         :name="isMobileMenuOpen ? 'heroicons:x-mark' : 'heroicons:bars-3'"
-        class="w-6 h-6"
+        class="text-2xl"
       />
     </button>
 

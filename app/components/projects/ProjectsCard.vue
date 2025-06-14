@@ -36,7 +36,7 @@
             <div class="w-20 h-20 bg-[var(--color-primary)]/30 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
               <Icon
                 :name="project.icon || 'heroicons:cube'"
-                class="w-10 h-10 text-[var(--color-primary)]"
+                class="text-4xl text-[var(--color-primary)]"
               />
             </div>
             <!-- Animated background circles -->
@@ -64,7 +64,7 @@
           >
             <Icon
               name="heroicons:eye"
-              class="w-5 h-5"
+              class="text-xl"
               aria-hidden="true"
             />
           </NuxtLink>
@@ -78,7 +78,7 @@
           >
             <Icon
               name="heroicons:code-bracket"
-              class="w-5 h-5"
+              class="text-xl"
               aria-hidden="true"
             />
           </NuxtLink>
@@ -138,7 +138,7 @@
           <div class="flex items-center space-x-1">
             <Icon
               name="heroicons:star"
-              class="w-4 h-4 text-[var(--color-primary)]"
+              class="text-sm text-[var(--color-primary)]"
             />
             <span>{{ project.featured ? 'Featured' : 'Project' }}</span>
           </div>
@@ -148,7 +148,7 @@
           >
             <Icon
               name="heroicons:calendar"
-              class="w-4 h-4 text-[var(--color-primary)]"
+              class="text-sm text-[var(--color-primary)]"
             />
             <span>{{ project.year }}</span>
           </div>
@@ -159,7 +159,7 @@
           <span class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">View Details</span>
           <Icon
             name="heroicons:arrow-right"
-            class="w-4 h-4"
+            class="text-sm"
           />
         </div>
       </div>

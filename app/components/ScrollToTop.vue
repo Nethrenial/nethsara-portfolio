@@ -52,7 +52,7 @@
           <div class="w-10 h-10 glass-card rounded-full flex items-center justify-center text-[var(--color-text-primary)] group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:scale-110">
             <Icon
               name="heroicons:arrow-up"
-              class="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-0.5"
+              class="text-xl transition-transform duration-300 group-hover:-translate-y-0.5"
             />
           </div>
         </div>

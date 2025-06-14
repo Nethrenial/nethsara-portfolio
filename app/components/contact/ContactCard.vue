@@ -3,12 +3,14 @@
     :href="contact.href"
     :target="contact.external ? '_blank' : undefined"
     :rel="contact.external ? 'noopener noreferrer' : undefined"
+    :aria-label="`${contact.action}${contact.external ? ' (opens in new tab)' : ''}`"
     class="group flex items-center p-4 bg-[var(--color-accent)] rounded-lg border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-all duration-300 card-hover hover:shadow-lg"
   >
     <div class="w-12 h-12 bg-[var(--color-primary)]/10 rounded-lg flex items-center justify-center group-hover:bg-[var(--color-primary)]/20 transition-colors duration-300 flex-shrink-0 mr-4">
       <Icon
         :name="contact.icon"
         class="w-6 h-6 text-[var(--color-primary)]"
+        aria-hidden="true"
       />
     </div>
     <div class="flex-1 min-w-0">
@@ -27,11 +29,13 @@
         v-if="contact.external"
         name="heroicons:arrow-top-right-on-square"
         class="w-4 h-4 text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors duration-300"
+        aria-hidden="true"
       />
       <Icon
         v-else
         name="heroicons:chevron-right"
         class="w-4 h-4 text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors duration-300"
+        aria-hidden="true"
       />
     </div>
   </a>

@@ -3,11 +3,13 @@
   <div :class="containerClasses">
     <h2
       v-if="!isH1"
+      :id="sectionId ? `${sectionId}-heading` : undefined"
       :class="titleClasses"
       v-html="formattedTitle"
     />
     <h1
       v-else
+      :id="sectionId ? `${sectionId}-heading` : undefined"
       :class="titleClasses"
       v-html="formattedTitle"
     />
@@ -32,6 +34,7 @@ interface SectionHeaderProps {
   isH1?: boolean
   size?: 'default' | 'large' | 'extra-large'
   marginBottom?: string
+  sectionId?: string
 }
 
 const props = withDefaults(defineProps<SectionHeaderProps>(), {
@@ -41,6 +44,7 @@ const props = withDefaults(defineProps<SectionHeaderProps>(), {
   isH1: false,
   size: 'default',
   marginBottom: 'mb-16',
+  sectionId: undefined,
 })
 
 const containerClasses = computed(() => {

@@ -10,6 +10,9 @@
     <button
       v-if="showScrollToTop"
       class="fixed bottom-8 right-8 z-40 group"
+      aria-label="Scroll to top of page"
+      :title="`Scroll progress: ${Math.round(scrollProgress)}%`"
+      type="button"
       @click="scrollToTop"
     >
       <!-- Progress Circle Background -->

@@ -7,10 +7,12 @@
           <NuxtLink
             to="/#projects"
             class="flex items-center text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 mr-4"
+            aria-label="Go back to home page projects section"
           >
             <Icon
               name="heroicons:arrow-left"
               class="w-5 h-5 mr-2"
+              aria-hidden="true"
             />
             <span>Back to Home</span>
           </NuxtLink>
@@ -66,6 +68,7 @@
       :button-variant="ButtonVariant.PRIMARY"
       :button-size="ButtonSize.LARGE"
       background="secondary"
+      button-aria-label="Navigate to contact section to discuss your project"
     />
   </div>
 </template>

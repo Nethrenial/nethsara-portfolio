@@ -11,6 +11,7 @@
     <SectionHeader
       title="Featured Projects"
       highlighted-word="Projects"
+      section-id="projects"
     />
 
     <ProjectsPreview />

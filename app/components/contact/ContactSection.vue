@@ -7,6 +7,7 @@
       title="Let's Connect"
       highlighted-word="Connect"
       description="Ready to bring your ideas to life? I'm always excited to discuss new projects, creative ideas, or opportunities to be part of your vision."
+      section-id="contact"
     />
 
     <!-- Contact Methods -->

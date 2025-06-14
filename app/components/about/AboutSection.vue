@@ -11,6 +11,7 @@
     <SectionHeader
       title="About Me"
       highlighted-word="Me"
+      section-id="about"
     />
 
     <!-- Main About Content -->
@@ -18,10 +19,14 @@
       <!-- Text Content -->
       <div class="space-y-8">
         <div class="glass-card p-8 rounded-2xl">
-          <h3 class="text-xl font-semibold text-[var(--color-primary)] mb-4 flex items-center">
+          <h3
+            id="who-i-am"
+            class="text-xl font-semibold text-[var(--color-primary)] mb-4 flex items-center"
+          >
             <Icon
               name="heroicons:user-circle"
               class="w-6 h-6 mr-3"
+              aria-hidden="true"
             />
             Who I Am
           </h3>
@@ -43,6 +48,7 @@
             :variant="ButtonVariant.PRIMARY"
             icon="heroicons:chat-bubble-left-right"
             text="Get In Touch"
+            aria-label="Navigate to contact section to get in touch with me"
           />
           <BaseButton
             href="/resume.pdf"
@@ -50,6 +56,7 @@
             icon="heroicons:document-arrow-down"
             text="Download Resume"
             external
+            aria-label="Download Nethsara's resume PDF file"
           />
         </div>
       </div>
@@ -62,7 +69,7 @@
             <div class="w-72 h-72 rounded-2xl overflow-hidden border-4 border-[var(--color-primary)]/20 relative">
               <NuxtImg
                 src="/images/profile/nethsara.jpg"
-                alt="About me"
+                alt="Professional headshot of Nethsara Elvitigala, Software Engineer"
                 class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
               />
@@ -105,7 +112,10 @@
 
     <!-- Enhanced Achievements -->
     <div>
-      <h3 class="text-2xl font-semibold text-[var(--color-text-primary)] mb-8 text-center">
+      <h3
+        id="key-achievements"
+        class="text-2xl font-semibold text-[var(--color-text-primary)] mb-8 text-center"
+      >
         Key <span class="gradient-text">Achievements</span>
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

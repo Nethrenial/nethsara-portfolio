@@ -11,6 +11,7 @@
     <SectionHeader
       title="Technical Expertise"
       highlighted-word="Expertise"
+      section-id="skills"
     />
 
     <SkillsSection />

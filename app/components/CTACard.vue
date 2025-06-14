@@ -13,6 +13,7 @@
           :href="buttonHref"
           :text="buttonText"
           :size="buttonSize"
+          :aria-label="buttonAriaLabel || `${buttonText}. ${description}`"
         />
       </div>
     </div>
@@ -31,6 +32,7 @@ interface CTACardProps {
   buttonVariant?: ButtonVariant
   buttonSize?: ButtonSize
   background?: 'secondary' | 'transparent'
+  buttonAriaLabel?: string
 }
 
 const props = withDefaults(defineProps<CTACardProps>(), {

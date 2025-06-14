@@ -2,6 +2,8 @@
   <section
     :id="id"
     :class="sectionClasses"
+    :aria-labelledby="id ? `${id}-heading` : undefined"
+    role="region"
   >
     <!-- Background Effects -->
     <div

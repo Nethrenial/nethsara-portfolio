@@ -11,6 +11,7 @@
     <SectionHeader
       title="Professional Journey"
       highlighted-word="Journey"
+      section-id="experience"
     />
 
     <div class="relative">

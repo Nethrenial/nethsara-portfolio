@@ -34,6 +34,7 @@
             icon="heroicons:envelope"
             circular
             :size="ButtonSize.SMALL"
+            aria-label="Send email to Nethsara Elvitigala"
           />
           <BaseButton
             href="https://www.linkedin.com/in/nethsara-elvitigala/"
@@ -42,6 +43,7 @@
             circular
             :size="ButtonSize.SMALL"
             external
+            aria-label="Visit Nethsara's LinkedIn profile"
           />
           <BaseButton
             href="https://github.com/Nethrenial"
@@ -50,22 +52,29 @@
             circular
             :size="ButtonSize.SMALL"
             external
+            aria-label="Visit Nethsara's GitHub profile"
           />
         </div>
       </div>
     </div>
 
     <!-- Navigation Links - simplified -->
-    <nav class="flex-1 p-6">
+    <nav
+      class="flex-1 p-6"
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div class="space-y-2">
         <!-- Home page sections -->
         <template v-if="$route.path === '/'">
-          <a
+          <button
             v-for="link in navLinks"
             :key="link.id"
-            :href="`#${link.id}`"
-            class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group"
+            type="button"
+            class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group w-full text-left"
             :class="{ 'text-[var(--color-primary)] bg-[var(--color-accent)]': activeSection === link.id }"
+            :aria-label="`Navigate to ${link.name} section`"
+            :aria-current="activeSection === link.id ? 'page' : undefined"
             @click="handleSectionClick(link.id)"
           >
             <Icon
@@ -73,7 +82,7 @@
               class="w-5 h-5"
             />
             <span class="font-medium">{{ link.name }}</span>
-          </a>
+          </button>
         </template>
 
         <!-- Other pages navigation -->
@@ -81,6 +90,7 @@
           <NuxtLink
             to="/"
             class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group"
+            aria-label="Navigate to home page"
             @click="handleMobileClose"
           >
             <Icon
@@ -94,6 +104,7 @@
             v-if="$route.path.startsWith('/projects')"
             to="/#projects"
             class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group"
+            aria-label="Navigate to projects overview section"
             @click="handleMobileClose"
           >
             <Icon
@@ -116,6 +127,7 @@
         full-width
         external
         class="!rounded-lg"
+        aria-label="Download Nethsara's resume PDF file"
       />
     </div>
   </div>

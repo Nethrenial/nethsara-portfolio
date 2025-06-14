@@ -2,14 +2,21 @@
   <div>
     <!-- Filter Tags -->
     <div class="mb-12">
-      <div class="flex flex-wrap gap-3 justify-center">
+      <div
+        class="flex flex-wrap gap-3 justify-center"
+        role="group"
+        aria-label="Skills category filters"
+      >
         <button
           v-for="filter in filters"
           :key="filter.id"
+          type="button"
           class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300"
           :class="activeFilter === filter.id
             ? 'bg-[var(--color-primary)] text-white shadow-[var(--shadow-glow)]'
             : 'bg-[var(--color-secondary)] text-[var(--color-text-secondary)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:text-[var(--color-primary)]'"
+          :aria-pressed="activeFilter === filter.id"
+          :aria-label="`Filter skills by ${filter.name}${activeFilter === filter.id ? ' (currently selected)' : ''}`"
           @click="activeFilter = filter.id"
         >
           {{ filter.name }}

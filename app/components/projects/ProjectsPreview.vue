@@ -18,6 +18,7 @@
         :variant="ButtonVariant.PRIMARY"
         icon="heroicons:folder-open"
         :size="ButtonSize.LARGE"
+        aria-label="Navigate to projects page to view all projects"
       >
         <span>View All Projects</span>
         <Icon

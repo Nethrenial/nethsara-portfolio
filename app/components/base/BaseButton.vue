@@ -6,12 +6,14 @@
     target="_blank"
     rel="noopener noreferrer"
     :class="buttonClasses"
+    :aria-label="ariaLabel || (text ? `${text} (opens in new tab)` : undefined)"
     @click="handleClick"
   >
     <Icon
       v-if="icon"
       :name="icon"
       :class="iconClasses"
+      aria-hidden="true"
     />
     <span v-if="$slots.default">
       <slot />
@@ -24,12 +26,14 @@
     v-else-if="href"
     :to="href"
     :class="buttonClasses"
+    :aria-label="ariaLabel"
     @click="handleClick"
   >
     <Icon
       v-if="icon"
       :name="icon"
       :class="iconClasses"
+      aria-hidden="true"
     />
     <span v-if="$slots.default">
       <slot />
@@ -43,12 +47,15 @@
     :type="type"
     :disabled="disabled"
     :class="buttonClasses"
+    :aria-label="ariaLabel"
+    :aria-describedby="ariaDescribedBy"
     @click="handleClick"
   >
     <Icon
       v-if="icon"
       :name="icon"
       :class="iconClasses"
+      aria-hidden="true"
     />
     <span v-if="$slots.default">
       <slot />
@@ -85,6 +92,10 @@ interface BaseButtonProps {
   fullWidth?: boolean
   glow?: boolean
   circular?: boolean
+
+  // Accessibility
+  ariaLabel?: string
+  ariaDescribedBy?: string
 }
 
 const props = withDefaults(defineProps<BaseButtonProps>(), {
@@ -99,6 +110,8 @@ const props = withDefaults(defineProps<BaseButtonProps>(), {
   fullWidth: false,
   glow: true,
   circular: false,
+  ariaLabel: undefined,
+  ariaDescribedBy: undefined,
 })
 
 const emit = defineEmits<{

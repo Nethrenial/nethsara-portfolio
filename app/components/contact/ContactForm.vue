@@ -10,6 +10,7 @@
 
     <form
       class="space-y-6"
+      novalidate
       @submit.prevent="submitForm"
     >
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -29,9 +30,21 @@
             v-model="form.name"
             type="text"
             required
+            :aria-invalid="formErrors.name ? 'true' : 'false'"
+            :aria-describedby="formErrors.name ? 'name-error' : undefined"
             class="form-input w-full px-4 py-3 rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-all duration-300"
+            :class="{ 'border-red-400 focus:ring-red-400/30': formErrors.name }"
             placeholder="Your name"
+            @blur="validateField('name')"
           >
+          <div
+            v-if="formErrors.name"
+            id="name-error"
+            class="text-red-400 text-sm mt-2"
+            role="alert"
+          >
+            {{ formErrors.name }}
+          </div>
         </div>
         <div>
           <label
@@ -49,9 +62,21 @@
             v-model="form.email"
             type="email"
             required
+            :aria-invalid="formErrors.email ? 'true' : 'false'"
+            :aria-describedby="formErrors.email ? 'email-error' : undefined"
             class="form-input w-full px-4 py-3 rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-all duration-300"
+            :class="{ 'border-red-400 focus:ring-red-400/30': formErrors.email }"
             placeholder="your.email@domain.com"
+            @blur="validateField('email')"
           >
+          <div
+            v-if="formErrors.email"
+            id="email-error"
+            class="text-red-400 text-sm mt-2"
+            role="alert"
+          >
+            {{ formErrors.email }}
+          </div>
         </div>
       </div>
 
@@ -129,26 +154,41 @@
           v-model="form.message"
           rows="6"
           required
+          :aria-invalid="formErrors.message ? 'true' : 'false'"
+          :aria-describedby="formErrors.message ? 'message-error' : undefined"
           class="form-input w-full px-4 py-3 rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-all duration-300 resize-vertical"
+          :class="{ 'border-red-400 focus:ring-red-400/30': formErrors.message }"
           placeholder="Tell me about your project, goals, timeline, or any questions you have..."
+          @blur="validateField('message')"
         />
+        <div
+          v-if="formErrors.message"
+          id="message-error"
+          class="text-red-400 text-sm mt-2"
+          role="alert"
+        >
+          {{ formErrors.message }}
+        </div>
       </div>
 
       <BaseButton
         :type="ButtonType.SUBMIT"
-        :disabled="isSubmitting"
+        :disabled="isSubmitting || !isFormValid"
         :variant="ButtonVariant.PRIMARY"
         :icon="isSubmitting ? 'heroicons:arrow-path' : 'heroicons:paper-airplane'"
         :text="isSubmitting ? 'Sending...' : 'Send Message'"
         full-width
         :size="ButtonSize.LARGE"
+        :aria-describedby="formStatus === FormStatus.ERROR ? 'form-error' : undefined"
       />
     </form>
 
-    <!-- Enhanced Success/Error Messages -->
+    <!-- Enhanced Success/Error Messages with Live Regions -->
     <div
       v-if="formStatus === FormStatus.SUCCESS"
       class="mt-6 glass-card p-6 rounded-xl border border-green-400/30"
+      role="alert"
+      aria-live="polite"
     >
       <div class="flex items-center">
         <div class="w-12 h-12 bg-green-400/20 rounded-full flex items-center justify-center mr-4">
@@ -170,7 +210,10 @@
 
     <div
       v-if="formStatus === FormStatus.ERROR"
+      id="form-error"
       class="mt-6 glass-card p-6 rounded-xl border border-red-400/30"
+      role="alert"
+      aria-live="assertive"
     >
       <div class="flex items-center">
         <div class="w-12 h-12 bg-red-400/20 rounded-full flex items-center justify-center mr-4">
@@ -193,7 +236,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { ContactForm } from '~/models/ContactForm'
 import { FormStatus } from '~/enums/FormStatus'
 import { ButtonType } from '~/enums/ButtonType'
@@ -211,8 +254,59 @@ const form = ref<ContactForm>({
 
 const isSubmitting = ref<boolean>(false)
 const formStatus = ref<string>(FormStatus.IDLE)
+const formErrors = ref<Record<string, string>>({})
+
+const isFormValid = computed((): boolean => {
+  return form.value.name.trim() !== ''
+    && form.value.email.trim() !== ''
+    && form.value.message.trim() !== ''
+    && Object.keys(formErrors.value).length === 0
+})
+
+const validateField = (field: string): void => {
+  formErrors.value = { ...formErrors.value }
+
+  switch (field) {
+    case 'name':
+      if (!form.value.name.trim()) {
+        formErrors.value.name = 'Name is required'
+      }
+      else {
+        delete formErrors.value.name
+      }
+      break
+    case 'email':
+      if (!form.value.email.trim()) {
+        formErrors.value.email = 'Email is required'
+      }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
+        formErrors.value.email = 'Please enter a valid email address'
+      }
+      else {
+        delete formErrors.value.email
+      }
+      break
+    case 'message':
+      if (!form.value.message.trim()) {
+        formErrors.value.message = 'Message is required'
+      }
+      else {
+        delete formErrors.value.message
+      }
+      break
+  }
+}
 
 const submitForm = async (): Promise<void> => {
+  // Validate all fields before submitting
+  validateField('name')
+  validateField('email')
+  validateField('message')
+
+  if (!isFormValid.value) {
+    return
+  }
+
   isSubmitting.value = true
   formStatus.value = FormStatus.IDLE
 
@@ -229,6 +323,7 @@ const submitForm = async (): Promise<void> => {
       budget: '',
       message: '',
     }
+    formErrors.value = {}
   }
   catch {
     formStatus.value = FormStatus.ERROR

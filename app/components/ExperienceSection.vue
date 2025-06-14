@@ -1,34 +1,32 @@
 <template>
-  <section
+  <BaseSection
     id="experience"
-    class="section-padding bg-[var(--color-secondary)] relative overflow-hidden"
+    background="secondary"
   >
-    <!-- Background Effects -->
-    <div class="absolute inset-0 pointer-events-none">
+    <template #background>
       <div class="absolute top-60 left-20 w-72 h-72 bg-[var(--color-primary)]/4 rounded-full blur-3xl floating" />
       <div class="absolute bottom-40 right-10 w-80 h-80 bg-[var(--color-primary)]/6 rounded-full blur-3xl floating-delayed" />
-    </div>
+    </template>
 
-    <div class="container-modern relative z-10">
-      <h2 class="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-16 text-center">
-        Professional <span class="gradient-text">Journey</span>
-      </h2>
+    <SectionHeader
+      title="Professional Journey"
+      highlighted-word="Journey"
+    />
 
-      <div class="relative">
-        <!-- Enhanced Timeline Line -->
-        <div class="absolute left-3 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--color-primary)] via-[var(--color-primary)]/50 to-transparent" />
+    <div class="relative">
+      <!-- Enhanced Timeline Line -->
+      <div class="absolute left-3 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--color-primary)] via-[var(--color-primary)]/50 to-transparent" />
 
-        <div class="space-y-16 md:space-y-20">
-          <ExperienceCard
-            v-for="(experience, index) in experiences"
-            :key="index"
-            :experience="experience"
-            :index="index"
-          />
-        </div>
+      <div class="space-y-16 md:space-y-20">
+        <ExperienceCard
+          v-for="(experience, index) in experiences"
+          :key="index"
+          :experience="experience"
+          :index="index"
+        />
       </div>
     </div>
-  </section>
+  </BaseSection>
 </template>
 
 <script setup lang="ts">

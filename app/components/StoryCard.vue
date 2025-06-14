@@ -25,18 +25,11 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  icon: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  paragraphs: {
-    type: Array,
-    required: true,
-  },
-})
+interface StoryCardProps {
+  icon: string
+  title: string
+  paragraphs: string[]
+}
+
+defineProps<StoryCardProps>()
 </script>

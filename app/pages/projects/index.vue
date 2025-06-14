@@ -7,10 +7,12 @@
           <NuxtLink
             to="/#projects"
             class="flex items-center text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 mr-4"
+            aria-label="Go back to home page projects section"
           >
             <Icon
               name="heroicons:arrow-left"
               class="w-5 h-5 mr-2"
+              aria-hidden="true"
             />
             <span>Back to Home</span>
           </NuxtLink>
@@ -25,19 +27,11 @@
           </p>
 
           <!-- Filter Buttons -->
-          <div class="flex flex-wrap justify-center gap-3">
-            <button
-              v-for="category in categories"
-              :key="category"
-              class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300"
-              :class="selectedCategory === category
-                ? 'bg-[var(--color-primary)] text-white'
-                : 'bg-[var(--color-accent)] text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] border border-[var(--color-border)] hover:border-[var(--color-primary)]'"
-              @click="selectedCategory = category"
-            >
-              {{ category }}
-            </button>
-          </div>
+          <FilterButtonGroup
+            :categories="categories"
+            :selected-category="selectedCategory"
+            @update:selected-category="selectedCategory = $event"
+          />
         </div>
       </div>
     </section>
@@ -46,64 +40,51 @@
     <section class="py-16 px-8">
       <div class="max-w-6xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <ProjectCard
+          <ProjectsCard
             v-for="project in filteredProjects"
             :key="project.id"
             :project="project"
-            variant="compact"
+            :variant="ProjectVariant.COMPACT"
             :max-technologies="4"
           />
         </div>
 
         <!-- Empty State -->
-        <div
+        <EmptyState
           v-if="filteredProjects.length === 0"
-          class="text-center py-20"
-        >
-          <Icon
-            name="heroicons:folder-open"
-            class="w-16 h-16 text-[var(--color-text-secondary)] mx-auto mb-4"
-          />
-          <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-2">
-            No projects found
-          </h3>
-          <p class="text-[var(--color-text-secondary)]">
-            Try selecting a different category.
-          </p>
-        </div>
+          icon="heroicons:folder-open"
+          title="No projects found"
+          message="Try selecting a different category."
+        />
       </div>
     </section>
 
     <!-- Call to Action -->
-    <section class="py-16 px-8 bg-[var(--color-secondary)]">
-      <div class="max-w-4xl mx-auto">
-        <div class="text-center bg-[var(--color-accent)] rounded-xl p-8 border border-[var(--color-border)]">
-          <h2 class="text-2xl font-bold text-[var(--color-text-primary)] mb-4">
-            Have a Project in Mind?
-          </h2>
-          <p class="text-[var(--color-text-secondary)] mb-6">
-            I'm always excited to take on new challenges and bring innovative ideas to life.
-          </p>
-          <BaseButton
-            variant="primary"
-            href="/#contact"
-            text="Let's Work Together"
-            size="lg"
-          />
-        </div>
-      </div>
-    </section>
+    <CTACard
+      title="Have a Project in Mind?"
+      description="I'm always excited to take on new challenges and bring innovative ideas to life."
+      button-text="Let's Work Together"
+      button-href="/#contact"
+      :button-variant="ButtonVariant.PRIMARY"
+      :button-size="ButtonSize.LARGE"
+      background="secondary"
+      button-aria-label="Navigate to contact section to discuss your project"
+    />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
+import type { Project } from '~/models/Project'
+import { ButtonVariant } from '~/enums/ButtonVariant'
+import { ButtonSize } from '~/enums/ButtonSize'
+import { ProjectVariant } from '~/enums/ProjectVariant'
 
-const selectedCategory = ref('All')
+const selectedCategory = ref<string>('All')
 
-const categories = ['All', 'Web App', 'Mobile App', 'API', 'Tool', 'Open Source']
+const categories: string[] = ['All', 'Web App', 'Mobile App', 'API', 'Tool', 'Open Source']
 
-const projects = [
+const projects: Project[] = [
   {
     id: 1,
     title: 'Nethren UI',
@@ -201,7 +182,7 @@ const projects = [
   },
 ]
 
-const filteredProjects = computed(() => {
+const filteredProjects = computed((): Project[] => {
   if (selectedCategory.value === 'All') {
     return projects
   }

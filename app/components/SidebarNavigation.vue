@@ -30,42 +30,51 @@
         <div class="flex justify-center space-x-3">
           <BaseButton
             href="mailto:nethsarasandeepaelvitigala@gmail.com"
-            variant="secondary"
+            :variant="ButtonVariant.SECONDARY"
             icon="heroicons:envelope"
             circular
-            size="sm"
+            :size="ButtonSize.SMALL"
+            aria-label="Send email to Nethsara Elvitigala"
           />
           <BaseButton
             href="https://www.linkedin.com/in/nethsara-elvitigala/"
-            variant="secondary"
+            :variant="ButtonVariant.SECONDARY"
             icon="heroicons:link"
             circular
-            size="sm"
+            :size="ButtonSize.SMALL"
             external
+            aria-label="Visit Nethsara's LinkedIn profile"
           />
           <BaseButton
             href="https://github.com/Nethrenial"
-            variant="secondary"
+            :variant="ButtonVariant.SECONDARY"
             icon="heroicons:code-bracket"
             circular
-            size="sm"
+            :size="ButtonSize.SMALL"
             external
+            aria-label="Visit Nethsara's GitHub profile"
           />
         </div>
       </div>
     </div>
 
     <!-- Navigation Links - simplified -->
-    <nav class="flex-1 p-6">
+    <nav
+      class="flex-1 p-6"
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div class="space-y-2">
         <!-- Home page sections -->
         <template v-if="$route.path === '/'">
-          <a
+          <button
             v-for="link in navLinks"
             :key="link.id"
-            :href="`#${link.id}`"
-            class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group"
+            type="button"
+            class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group w-full text-left"
             :class="{ 'text-[var(--color-primary)] bg-[var(--color-accent)]': activeSection === link.id }"
+            :aria-label="`Navigate to ${link.name} section`"
+            :aria-current="activeSection === link.id ? 'page' : undefined"
             @click="handleSectionClick(link.id)"
           >
             <Icon
@@ -73,7 +82,7 @@
               class="w-5 h-5"
             />
             <span class="font-medium">{{ link.name }}</span>
-          </a>
+          </button>
         </template>
 
         <!-- Other pages navigation -->
@@ -81,6 +90,7 @@
           <NuxtLink
             to="/"
             class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group"
+            aria-label="Navigate to home page"
             @click="handleMobileClose"
           >
             <Icon
@@ -94,6 +104,7 @@
             v-if="$route.path.startsWith('/projects')"
             to="/#projects"
             class="flex items-center space-x-3 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 py-3 px-4 rounded-lg hover:bg-[var(--color-accent)] group"
+            aria-label="Navigate to projects overview section"
             @click="handleMobileClose"
           >
             <Icon
@@ -110,23 +121,30 @@
     <div class="p-6 border-t border-[var(--color-border)] mt-auto">
       <BaseButton
         href="/resume.pdf"
-        variant="primary"
+        :variant="ButtonVariant.PRIMARY"
         icon="heroicons:arrow-down-tray"
         text="Download Resume"
         full-width
         external
         class="!rounded-lg"
+        aria-label="Download Nethsara's resume PDF file"
       />
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import type { NavLink } from '~/models/NavLink'
+import type { SectionElement } from '~/models/SectionElement'
+import { ButtonVariant } from '~/enums/ButtonVariant'
+import { ButtonSize } from '~/enums/ButtonSize'
 
-const emit = defineEmits(['close-mobile'])
+const emit = defineEmits<{
+  'close-mobile': []
+}>()
 
-const navLinks = [
+const navLinks: NavLink[] = [
   { id: 'hero', name: 'Home', icon: 'heroicons:home' },
   { id: 'about', name: 'About', icon: 'heroicons:user' },
   { id: 'experience', name: 'Experience', icon: 'heroicons:briefcase' },
@@ -135,11 +153,11 @@ const navLinks = [
   { id: 'contact', name: 'Contact', icon: 'heroicons:envelope' },
 ]
 
-const activeSection = ref('hero')
+const activeSection = ref<string>('hero')
 let ticking = false
-let sectionElements = []
+let sectionElements: SectionElement[] = []
 
-const scrollToSection = (sectionId) => {
+const scrollToSection = (sectionId: string): void => {
   const element = document.getElementById(sectionId)
   if (element) {
     element.scrollIntoView({
@@ -149,18 +167,18 @@ const scrollToSection = (sectionId) => {
   }
 }
 
-const handleSectionClick = (sectionId) => {
+const handleSectionClick = (sectionId: string): void => {
   scrollToSection(sectionId)
   handleMobileClose()
 }
 
-const handleMobileClose = () => {
+const handleMobileClose = (): void => {
   emit('close-mobile')
 }
 
 // Cache section elements and their positions for better performance
-const cacheSectionElements = () => {
-  sectionElements = navLinks.map((link) => {
+const cacheSectionElements = (): void => {
+  sectionElements = navLinks.map((link): SectionElement => {
     const element = document.getElementById(link.id)
     return {
       id: link.id,
@@ -170,7 +188,7 @@ const cacheSectionElements = () => {
   }).filter(section => section.element)
 }
 
-const updateActiveSection = () => {
+const updateActiveSection = (): void => {
   if (!ticking) {
     requestAnimationFrame(() => {
       const scrollPosition = window.scrollY + 100
@@ -178,7 +196,7 @@ const updateActiveSection = () => {
       // Find the active section more efficiently
       for (let i = sectionElements.length - 1; i >= 0; i--) {
         const section = sectionElements[i]
-        if (section.offsetTop <= scrollPosition) {
+        if (section && section.offsetTop <= scrollPosition) {
           activeSection.value = section.id
           break
         }
@@ -191,7 +209,7 @@ const updateActiveSection = () => {
 }
 
 // Throttled scroll handler
-const handleScroll = () => {
+const handleScroll = (): void => {
   if (import.meta.client) {
     updateActiveSection()
   }

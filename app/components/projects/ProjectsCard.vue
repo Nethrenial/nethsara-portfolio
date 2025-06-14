@@ -173,28 +173,25 @@
   </article>
 </template>
 
-<script setup>
-defineProps({
-  project: {
-    type: Object,
-    required: true,
-  },
-  variant: {
-    type: String,
-    default: 'default', // 'default' | 'compact'
-  },
-  maxTechnologies: {
-    type: Number,
-    default: 3,
-  },
-  showProgress: {
-    type: Boolean,
-    default: false,
-  },
+<script setup lang="ts">
+import type { Project } from '~/models/Project'
+import { ProjectVariant } from '~/enums/ProjectVariant'
+
+interface ProjectsCardProps {
+  project: Project
+  variant?: ProjectVariant
+  maxTechnologies?: number
+  showProgress?: boolean
+}
+
+withDefaults(defineProps<ProjectsCardProps>(), {
+  variant: ProjectVariant.DEFAULT,
+  maxTechnologies: 3,
+  showProgress: false,
 })
 
 // Helper function for status colors
-const getStatusColor = (status) => {
+const getStatusColor = (status?: string): string => {
   switch (status?.toLowerCase()) {
     case 'active':
     case 'live':

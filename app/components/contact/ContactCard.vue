@@ -37,13 +37,14 @@
   </a>
 </template>
 
-<script setup>
-defineProps({
-  contact: {
-    type: Object,
-    required: true,
-  },
-})
+<script setup lang="ts">
+import type { ContactMethod } from '~/models/ContactMethod'
+
+interface ContactCardProps {
+  contact: ContactMethod
+}
+
+defineProps<ContactCardProps>()
 </script>
 
 <style scoped>

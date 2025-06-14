@@ -134,20 +134,18 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  experience: {
-    type: Object,
-    required: true,
-  },
-  index: {
-    type: Number,
-    required: true,
-  },
-})
+<script setup lang="ts">
+import type { Experience } from '~/models/Experience'
+
+interface ExperienceCardProps {
+  experience: Experience
+  index: number
+}
+
+defineProps<ExperienceCardProps>()
 
 // Helper function to determine if position is current
-const getStatus = (period) => {
+const getStatus = (period: string): string => {
   if (period.toLowerCase().includes('present')) {
     return 'Current'
   }

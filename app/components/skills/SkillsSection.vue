@@ -67,7 +67,7 @@
           <div class="w-16 h-16 mx-auto mb-4 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center">
             <Icon
               :name="cert.icon"
-              class="w-8 h-8 text-[var(--color-primary)]"
+              class="text-3xl text-[var(--color-primary)]"
             />
           </div>
           <h4 class="text-[var(--color-text-primary)] font-semibold mb-2">

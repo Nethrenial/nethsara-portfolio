@@ -9,7 +9,7 @@
     <div class="w-12 h-12 bg-[var(--color-primary)]/10 rounded-lg flex items-center justify-center group-hover:bg-[var(--color-primary)]/20 transition-colors duration-300 flex-shrink-0 mr-4">
       <Icon
         :name="contact.icon"
-        class="w-6 h-6 text-[var(--color-primary)]"
+        class="text-2xl text-[var(--color-primary)]"
         aria-hidden="true"
       />
     </div>
@@ -28,13 +28,13 @@
       <Icon
         v-if="contact.external"
         name="heroicons:arrow-top-right-on-square"
-        class="w-4 h-4 text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors duration-300"
+        class="text-sm text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors duration-300"
         aria-hidden="true"
       />
       <Icon
         v-else
         name="heroicons:chevron-right"
-        class="w-4 h-4 text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors duration-300"
+        class="text-sm text-[var(--color-text-secondary)] group-hover:text-[var(--color-primary)] transition-colors duration-300"
         aria-hidden="true"
       />
     </div>

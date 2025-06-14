@@ -202,11 +202,11 @@ const buttonClasses = computed((): string => {
 const iconClasses = computed((): string => {
   switch (props.size) {
     case ButtonSize.SMALL:
-      return 'w-4 h-4'
+      return 'text-sm'
     case ButtonSize.LARGE:
-      return 'w-6 h-6'
+      return 'text-xl'
     default:
-      return 'w-5 h-5'
+      return 'text-lg'
   }
 })
 </script>

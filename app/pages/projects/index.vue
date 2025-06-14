@@ -11,7 +11,7 @@
           >
             <Icon
               name="heroicons:arrow-left"
-              class="w-5 h-5 mr-2"
+              class="text-xl mr-2"
               aria-hidden="true"
             />
             <span>Back to Home</span>

@@ -25,7 +25,7 @@
           >
             <Icon
               name="heroicons:user-circle"
-              class="w-6 h-6 mr-3"
+              class="text-2xl mr-3"
               aria-hidden="true"
             />
             Who I Am
@@ -80,7 +80,7 @@
             <div class="absolute -bottom-4 -right-4 glass-card p-4 rounded-full border border-[var(--color-primary)]/30">
               <Icon
                 name="heroicons:code-bracket"
-                class="w-8 h-8 text-[var(--color-primary)]"
+                class="text-3xl text-[var(--color-primary)]"
               />
             </div>
 

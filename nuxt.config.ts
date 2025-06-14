@@ -1,7 +1,7 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/icon', '@nuxt/image', '@nuxt/scripts', '@nuxtjs/seo', '@vueuse/nuxt', '@nuxtjs/partytown'],
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/icon', '@nuxt/image', '@nuxt/scripts', '@nuxtjs/seo', '@vueuse/nuxt', 'nuxt-gtag'],
   devtools: { enabled: true },
 
   app: {
@@ -15,19 +15,6 @@ export default defineNuxtConfig({
       ],
       meta: [
         { name: 'apple-mobile-web-app-title', content: 'Nethsara Elvitigala - Software Engineer Portfolio' },
-      ],
-      script: [
-        {
-          // The GTM loader script, as provided by Google
-          innerHTML: `
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-MCXSVMTB');
-          `,
-          type: 'text/partytown',
-        },
       ],
 
     },
@@ -87,6 +74,10 @@ export default defineNuxtConfig({
     },
   },
 
+  gtag: {
+    id: 'G-YWPBBDQD20',
+  },
+
   icon: {
     mode: 'svg',
   },
@@ -95,11 +86,6 @@ export default defineNuxtConfig({
   image: {
     quality: 80,
     format: ['webp'],
-  },
-
-  partytown: {
-    forward: ['dataLayer.push', 'gtag'], // Forward gtag calls to the main thread
-    // Optional: custom config, e.g., debug: true
   },
 
   seo: {

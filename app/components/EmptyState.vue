@@ -24,7 +24,7 @@ interface EmptyStateProps {
 
 const props = withDefaults(defineProps<EmptyStateProps>(), {
   icon: 'heroicons:folder-open',
-  iconSize: 'w-16 h-16',
+  iconSize: 'text-6xl',
   iconColor: 'text-[var(--color-text-secondary)]',
 })
 

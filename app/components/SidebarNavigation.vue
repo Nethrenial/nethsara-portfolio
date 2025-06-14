@@ -79,7 +79,7 @@
           >
             <Icon
               :name="link.icon"
-              class="w-5 h-5"
+              class="text-xl"
             />
             <span class="font-medium">{{ link.name }}</span>
           </button>
@@ -95,7 +95,7 @@
           >
             <Icon
               name="heroicons:home"
-              class="w-5 h-5"
+              class="text-xl"
             />
             <span class="font-medium">Home</span>
           </NuxtLink>
@@ -109,7 +109,7 @@
           >
             <Icon
               name="heroicons:square-3-stack-3d"
-              class="w-5 h-5"
+              class="text-xl"
             />
             <span class="font-medium">Projects Overview</span>
           </NuxtLink>

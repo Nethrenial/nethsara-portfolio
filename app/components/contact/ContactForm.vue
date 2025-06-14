@@ -3,7 +3,7 @@
     <h3 class="text-2xl font-bold text-[var(--color-text-primary)] mb-8 flex items-center">
       <Icon
         name="heroicons:paper-airplane"
-        class="w-6 h-6 mr-3 text-[var(--color-primary)]"
+        class="text-2xl mr-3 text-[var(--color-primary)]"
       />
       Send Me a <span class="gradient-text ml-2">Message</span>
     </h3>
@@ -17,11 +17,11 @@
         <div>
           <label
             for="name"
-            class="block text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
+            class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
           >
             <Icon
               name="heroicons:user"
-              class="w-4 h-4 mr-2 text-[var(--color-primary)]"
+              class="text-sm mr-2 text-[var(--color-primary)]"
             />
             Name *
           </label>
@@ -49,11 +49,11 @@
         <div>
           <label
             for="email"
-            class="block text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
+            class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
           >
             <Icon
               name="heroicons:envelope"
-              class="w-4 h-4 mr-2 text-[var(--color-primary)]"
+              class="text-sm mr-2 text-[var(--color-primary)]"
             />
             Email *
           </label>
@@ -84,11 +84,11 @@
         <div>
           <label
             for="subject"
-            class="block text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
+            class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
           >
             <Icon
               name="heroicons:tag"
-              class="w-4 h-4 mr-2 text-[var(--color-primary)]"
+              class="text-sm mr-2 text-[var(--color-primary)]"
             />
             Subject
           </label>
@@ -103,11 +103,11 @@
         <div>
           <label
             for="budget"
-            class="block text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
+            class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
           >
             <Icon
               name="heroicons:currency-dollar"
-              class="w-4 h-4 mr-2 text-[var(--color-primary)]"
+              class="text-sm mr-2 text-[var(--color-primary)]"
             />
             Budget Range
           </label>
@@ -141,11 +141,11 @@
       <div>
         <label
           for="message"
-          class="block text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
+          class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
         >
           <Icon
             name="heroicons:chat-bubble-left-ellipsis"
-            class="w-4 h-4 mr-2 text-[var(--color-primary)]"
+            class="text-sm mr-2 text-[var(--color-primary)]"
           />
           Message *
         </label>
@@ -194,7 +194,7 @@
         <div class="w-12 h-12 bg-green-400/20 rounded-full flex items-center justify-center mr-4">
           <Icon
             name="heroicons:check-circle"
-            class="w-6 h-6 text-green-400"
+            class="text-2xl text-green-400"
           />
         </div>
         <div>
@@ -219,7 +219,7 @@
         <div class="w-12 h-12 bg-red-400/20 rounded-full flex items-center justify-center mr-4">
           <Icon
             name="heroicons:exclamation-triangle"
-            class="w-6 h-6 text-red-400"
+            class="text-2xl text-red-400"
           />
         </div>
         <div>

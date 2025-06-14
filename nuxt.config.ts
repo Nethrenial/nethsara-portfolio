@@ -44,13 +44,35 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-05-15',
 
-  nitro: {
-    static: true,
-  },
   vite: {
     plugins: [
       tailwindcss(),
+      {
+        name: 'vite-plugin-ignore-sourcemap-warnings',
+        apply: 'build',
+        configResolved(config) {
+          const originalOnWarn = config.build.rollupOptions.onwarn
+          config.build.rollupOptions.onwarn = (warning, warn) => {
+            if (
+              warning.code === 'SOURCEMAP_BROKEN'
+              && warning.plugin === '@tailwindcss/vite:generate:build'
+            ) {
+              return
+            }
+            if (originalOnWarn) {
+              originalOnWarn(warning, warn)
+            }
+            else {
+              warn(warning)
+            }
+          }
+        },
+      },
     ],
+  },
+
+  typescript: {
+    typeCheck: true,
   },
 
   eslint: {

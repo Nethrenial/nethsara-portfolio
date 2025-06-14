@@ -17,11 +17,12 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  achievement: {
-    type: Object,
-    required: true,
-  },
-})
+<script setup lang="ts">
+import type { Achievement } from '~/models/Achievement'
+
+interface AchievementCardProps {
+  achievement: Achievement
+}
+
+defineProps<AchievementCardProps>()
 </script>

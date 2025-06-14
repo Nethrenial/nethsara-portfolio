@@ -135,19 +135,19 @@
       </div>
 
       <BaseButton
-        type="submit"
+        :type="ButtonType.SUBMIT"
         :disabled="isSubmitting"
-        variant="primary"
+        :variant="ButtonVariant.PRIMARY"
         :icon="isSubmitting ? 'heroicons:arrow-path' : 'heroicons:paper-airplane'"
         :text="isSubmitting ? 'Sending...' : 'Send Message'"
         full-width
-        size="lg"
+        :size="ButtonSize.LARGE"
       />
     </form>
 
     <!-- Enhanced Success/Error Messages -->
     <div
-      v-if="formStatus === 'success'"
+      v-if="formStatus === FormStatus.SUCCESS"
       class="mt-6 glass-card p-6 rounded-xl border border-green-400/30"
     >
       <div class="flex items-center">
@@ -169,7 +169,7 @@
     </div>
 
     <div
-      v-if="formStatus === 'error'"
+      v-if="formStatus === FormStatus.ERROR"
       class="mt-6 glass-card p-6 rounded-xl border border-red-400/30"
     >
       <div class="flex items-center">
@@ -192,11 +192,16 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { ContactForm } from '~/models/ContactForm'
+import { FormStatus } from '~/enums/FormStatus'
+import { ButtonType } from '~/enums/ButtonType'
+import { ButtonVariant } from '~/enums/ButtonVariant'
+import { ButtonSize } from '~/enums/ButtonSize'
 
 // Contact form
-const form = ref({
+const form = ref<ContactForm>({
   name: '',
   email: '',
   subject: '',
@@ -204,17 +209,17 @@ const form = ref({
   message: '',
 })
 
-const isSubmitting = ref(false)
-const formStatus = ref('')
+const isSubmitting = ref<boolean>(false)
+const formStatus = ref<string>(FormStatus.IDLE)
 
-const submitForm = async () => {
+const submitForm = async (): Promise<void> => {
   isSubmitting.value = true
-  formStatus.value = ''
+  formStatus.value = FormStatus.IDLE
 
   try {
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1500))
-    formStatus.value = 'success'
+    formStatus.value = FormStatus.SUCCESS
 
     // Reset form
     form.value = {
@@ -226,7 +231,7 @@ const submitForm = async () => {
     }
   }
   catch {
-    formStatus.value = 'error'
+    formStatus.value = FormStatus.ERROR
   }
   finally {
     isSubmitting.value = false

@@ -80,7 +80,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 useSeoMeta({
   title: 'Privacy Policy - Nethsara Elvitigala',
   description: 'Our privacy policy outlines how we collect, use, and protect your personal information.',

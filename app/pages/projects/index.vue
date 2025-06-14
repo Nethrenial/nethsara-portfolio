@@ -50,7 +50,7 @@
             v-for="project in filteredProjects"
             :key="project.id"
             :project="project"
-            variant="compact"
+            :variant="ProjectVariant.COMPACT"
             :max-technologies="4"
           />
         </div>
@@ -85,10 +85,10 @@
             I'm always excited to take on new challenges and bring innovative ideas to life.
           </p>
           <BaseButton
-            variant="primary"
+            :variant="ButtonVariant.PRIMARY"
             href="/#contact"
             text="Let's Work Together"
-            size="lg"
+            :size="ButtonSize.LARGE"
           />
         </div>
       </div>
@@ -96,14 +96,18 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
+import type { Project } from '~/models/Project'
+import { ButtonVariant } from '~/enums/ButtonVariant'
+import { ButtonSize } from '~/enums/ButtonSize'
+import { ProjectVariant } from '~/enums/ProjectVariant'
 
-const selectedCategory = ref('All')
+const selectedCategory = ref<string>('All')
 
-const categories = ['All', 'Web App', 'Mobile App', 'API', 'Tool', 'Open Source']
+const categories: string[] = ['All', 'Web App', 'Mobile App', 'API', 'Tool', 'Open Source']
 
-const projects = [
+const projects: Project[] = [
   {
     id: 1,
     title: 'Nethren UI',
@@ -201,7 +205,7 @@ const projects = [
   },
 ]
 
-const filteredProjects = computed(() => {
+const filteredProjects = computed((): Project[] => {
   if (selectedCategory.value === 'All') {
     return projects
   }

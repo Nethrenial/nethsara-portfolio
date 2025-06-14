@@ -57,72 +57,56 @@
   </button>
 </template>
 
-<script setup>
-const props = defineProps({
+<script setup lang="ts">
+import { ButtonVariant } from '~/enums/ButtonVariant'
+import { ButtonSize } from '~/enums/ButtonSize'
+import { ButtonType } from '~/enums/ButtonType'
+
+interface BaseButtonProps {
   // Element type
-  href: {
-    type: String,
-    default: null,
-  },
-  external: {
-    type: Boolean,
-    default: false,
-  },
+  href?: string | null
+  external?: boolean
 
   // Button specific
-  type: {
-    type: String,
-    default: 'button',
-    validator: value => ['button', 'submit', 'reset'].includes(value),
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  type?: ButtonType
+  disabled?: boolean
 
   // Content
-  text: {
-    type: String,
-    default: null,
-  },
-  icon: {
-    type: String,
-    default: null,
-  },
+  text?: string | null
+  icon?: string | null
 
   // Design variants
-  variant: {
-    type: String,
-    default: 'primary',
-    validator: value => ['primary', 'secondary', 'glass'].includes(value),
-  },
+  variant?: ButtonVariant
 
   // Size variants
-  size: {
-    type: String,
-    default: 'default',
-    validator: value => ['sm', 'default', 'lg'].includes(value),
-  },
+  size?: ButtonSize
 
   // Additional styling
-  fullWidth: {
-    type: Boolean,
-    default: false,
-  },
-  glow: {
-    type: Boolean,
-    default: true,
-  },
-  circular: {
-    type: Boolean,
-    default: false,
-  },
+  fullWidth?: boolean
+  glow?: boolean
+  circular?: boolean
+}
+
+const props = withDefaults(defineProps<BaseButtonProps>(), {
+  href: null,
+  external: false,
+  type: ButtonType.BUTTON,
+  disabled: false,
+  text: null,
+  icon: null,
+  variant: ButtonVariant.PRIMARY,
+  size: ButtonSize.DEFAULT,
+  fullWidth: false,
+  glow: true,
+  circular: false,
 })
 
-const emit = defineEmits(['click'])
+const emit = defineEmits<{
+  click: [event: Event]
+}>()
 
 // Handle click events
-const handleClick = (event) => {
+const handleClick = (event: Event): void => {
   if (props.disabled) {
     event.preventDefault()
     return
@@ -131,7 +115,7 @@ const handleClick = (event) => {
 }
 
 // Base classes that apply to all buttons
-const baseClasses = computed(() => {
+const baseClasses = computed((): string => {
   const base = 'inline-flex items-center justify-center font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50'
   const spacing = props.circular ? '' : 'space-x-2'
   const shape = 'rounded-full'
@@ -139,21 +123,21 @@ const baseClasses = computed(() => {
 })
 
 // Size-specific classes
-const sizeClasses = computed(() => {
+const sizeClasses = computed((): string => {
   if (props.circular) {
     switch (props.size) {
-      case 'sm':
+      case ButtonSize.SMALL:
         return 'w-10 h-10 text-sm'
-      case 'lg':
+      case ButtonSize.LARGE:
         return 'w-16 h-16 text-lg'
       default:
         return 'w-12 h-12'
     }
   }
   switch (props.size) {
-    case 'sm':
+    case ButtonSize.SMALL:
       return 'px-6 py-2 text-sm'
-    case 'lg':
+    case ButtonSize.LARGE:
       return 'px-10 py-4 text-lg'
     default:
       return 'px-8 py-3'
@@ -161,13 +145,13 @@ const sizeClasses = computed(() => {
 })
 
 // Variant-specific classes
-const variantClasses = computed(() => {
+const variantClasses = computed((): string => {
   switch (props.variant) {
-    case 'primary':
+    case ButtonVariant.PRIMARY:
       return 'btn-primary text-white'
-    case 'secondary':
+    case ButtonVariant.SECONDARY:
       return 'glass-card text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white'
-    case 'glass':
+    case ButtonVariant.GLASS:
       return 'glass-card text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white'
     default:
       return 'btn-primary text-white'
@@ -175,22 +159,22 @@ const variantClasses = computed(() => {
 })
 
 // Glow effect classes
-const glowClasses = computed(() => {
+const glowClasses = computed((): string => {
   return props.glow ? 'glow-on-hover' : ''
 })
 
 // Disabled classes
-const disabledClasses = computed(() => {
+const disabledClasses = computed((): string => {
   return props.disabled ? 'opacity-50 cursor-not-allowed' : ''
 })
 
 // Full width classes
-const widthClasses = computed(() => {
+const widthClasses = computed((): string => {
   return props.fullWidth ? 'w-full' : ''
 })
 
 // Combine all classes
-const buttonClasses = computed(() => {
+const buttonClasses = computed((): string => {
   return [
     baseClasses.value,
     sizeClasses.value,
@@ -202,11 +186,11 @@ const buttonClasses = computed(() => {
 })
 
 // Icon size based on button size
-const iconClasses = computed(() => {
+const iconClasses = computed((): string => {
   switch (props.size) {
-    case 'sm':
+    case ButtonSize.SMALL:
       return 'w-4 h-4'
-    case 'lg':
+    case ButtonSize.LARGE:
       return 'w-6 h-6'
     default:
       return 'w-5 h-5'

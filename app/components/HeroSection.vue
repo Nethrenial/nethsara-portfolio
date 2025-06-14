@@ -71,13 +71,13 @@
       <div class="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in animation-delay-1000">
         <BaseButton
           href="#projects"
-          variant="primary"
+          :variant="ButtonVariant.PRIMARY"
           icon="heroicons:eye"
           text="View My Work"
         />
         <BaseButton
           href="#contact"
-          variant="secondary"
+          :variant="ButtonVariant.SECONDARY"
           icon="heroicons:chat-bubble-left-ellipsis"
           text="Get In Touch"
         />
@@ -95,6 +95,10 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { ButtonVariant } from '~/enums/ButtonVariant'
+</script>
 
 <style scoped>
 .animate-fade-in {

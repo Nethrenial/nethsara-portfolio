@@ -41,13 +41,13 @@
           <div class="flex flex-col sm:flex-row gap-4">
             <BaseButton
               href="#contact"
-              variant="primary"
+              :variant="ButtonVariant.PRIMARY"
               icon="heroicons:chat-bubble-left-right"
               text="Get In Touch"
             />
             <BaseButton
               href="/resume.pdf"
-              variant="secondary"
+              :variant="ButtonVariant.SECONDARY"
               icon="heroicons:document-arrow-down"
               text="Download Resume"
               external
@@ -139,8 +139,12 @@
 </template>
 
 <script setup lang="ts">
+import type { StoryCard } from '~/models/StoryCard'
+import type { Achievement } from '~/models/Achievement'
+import { ButtonVariant } from '~/enums/ButtonVariant'
+
 // Story cards data
-const storyCards = [
+const storyCards: StoryCard[] = [
   {
     title: 'Education & Foundation',
     icon: 'heroicons:academic-cap',
@@ -176,7 +180,7 @@ const storyCards = [
 ]
 
 // Achievements data
-const achievements = [
+const achievements: Achievement[] = [
   {
     title: 'Co-Founder at ZaVolt',
     description: 'Helped grow company from zero to 10 people team delivering business solutions',

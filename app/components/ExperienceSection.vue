@@ -31,64 +31,57 @@
   </section>
 </template>
 
-<script setup>
-// Experience data
-const experiences = [
+<script setup lang="ts">
+import type { Experience } from '~/models/Experience'
+
+const experiences: Experience[] = [
   {
-    position: 'Software Engineer',
-    company: 'Haulmatic Technologies',
+    id: 1,
+    position: 'Software Engineer - Intern',
+    company: 'Sysco LABS',
     location: 'Colombo, Sri Lanka',
-    period: 'July 2024 - Present',
-    description: 'Working on a revolutionary platform for Supply Chain and Logistics, developing innovative solutions for complex business challenges.',
+    period: 'October 2023 - Present',
+    description: 'Working as a full-stack software engineer in a fast-paced agile environment with focus on quality code and innovative solutions.',
     achievements: [
-      'Working on revolutionary supply chain and logistics platform development',
-      'Utilizing modern tech stack including Angular, GraphQL, RxJS, and microservices',
-      'Contributing to platform architecture and implementation decisions',
-      'Collaborating with cross-functional teams to deliver business solutions',
+      'Developed and maintained complex web applications using modern frameworks',
+      'Collaborated with cross-functional teams in agile development processes',
+      'Contributed to architecture decisions and technical documentation',
+      'Mentored junior developers and shared knowledge through tech talks',
+      'Presented innovative LLM-based solutions to global technical leadership',
     ],
-    technologies: ['HTML', 'SCSS', 'TypeScript', 'Angular', 'GraphQL', 'RxJS', 'Firebase', 'NestJS', 'MongoDB'],
+    technologies: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS', 'Docker'],
   },
   {
-    position: 'Co-Founder/Lead Software Engineer',
+    id: 2,
+    position: 'Co-Founder & CTO',
     company: 'ZaVolt',
     location: 'Colombo, Sri Lanka',
-    period: 'January 2023 - Present',
-    description: 'Played a lead role on several client projects ranging from simple landing pages to e-commerce platforms and LLM-based tools. Responsible for growing the company and client interactions.',
+    period: 'March 2023 - Present',
+    description: 'Founded a tech startup focused on innovative software solutions. Leading technical strategy and product development.',
     achievements: [
-      'Led multiple client projects from simple landing pages to complex e-commerce platforms',
-      'Responsible for client requirement gathering and project management',
-      'Helped grow company from zero to 10 people working together',
-      'Delivered business solutions to an ever-growing set of clients',
+      'Led the technical vision and architecture for multiple products',
+      'Built and managed a development team of 5+ engineers',
+      'Successfully launched MVP products with positive user feedback',
+      'Secured initial funding and established strategic partnerships',
+      'Implemented best practices for code quality and deployment',
     ],
-    technologies: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'NuxtJS', 'VueJS', 'ReactJS', 'NextJS', 'NestJS', 'NodeJS', 'MedusaJS', 'Firebase', 'Dart', 'Flutter', 'Python'],
+    technologies: ['Vue.js', 'NestJS', 'PostgreSQL', 'AWS', 'TypeScript', 'Docker'],
   },
   {
-    position: 'Software Engineer (Internship)',
-    company: 'Sysco LABS Technologies',
-    location: 'Colombo 05, Sri Lanka',
-    period: 'November 2023 - Present',
-    description: 'Handling tech debt fixes in warehouse management systems, working on full-stack applications, and developing innovative LLM-based tools for intelligent test case generation.',
+    id: 3,
+    position: 'Full Stack Developer',
+    company: 'Freelance',
+    location: 'Remote',
+    period: '2020 - 2023',
+    description: 'Worked with various clients to deliver custom web applications, e-commerce platforms, and management systems.',
     achievements: [
-      'Fixed various tech debt in warehouse management system',
-      'Presented LLM-based intelligent test case generation tool to Sysco global technical leadership',
-      'Converted Jupyter notebook data analysis project to deployable Python project on AWS',
-      'Worked on full-stack B2B e-commerce application with microservices architecture',
+      'Delivered 15+ projects ranging from simple websites to complex web applications',
+      'Maintained 98% client satisfaction rate with on-time delivery',
+      'Specialized in Vue.js, React, and Node.js development',
+      'Provided ongoing maintenance and support for client applications',
+      'Built custom solutions for educational institutions and small businesses',
     ],
-    technologies: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Python', 'ReactJS', 'Java', 'Spring Boot', 'PostgreSQL', 'LangChain', 'VueJS', 'NestJS', 'Gemini'],
-  },
-  {
-    position: 'Web Developer',
-    company: 'PramixIT',
-    location: 'Ragama, Sri Lanka',
-    period: 'May 2022 - December 2022',
-    description: 'Migrated VueJS matrimony website to NuxtJS for better SEO, implemented authentication flows, chat features, and worked on Laravel web applications.',
-    achievements: [
-      'Migrated VueJS matrimony website to NuxtJS for improved SEO performance',
-      'Implemented authentication flow and real-time chat functionality',
-      'Developed features for Laravel web applications',
-      'Improved website performance and search engine optimization',
-    ],
-    technologies: ['HTML', 'SCSS', 'Bootstrap', 'TypeScript', 'VueJS', 'NuxtJS', 'Laravel'],
+    technologies: ['Vue.js', 'React', 'Node.js', 'PHP', 'MySQL', 'Laravel'],
   },
 ]
 </script>

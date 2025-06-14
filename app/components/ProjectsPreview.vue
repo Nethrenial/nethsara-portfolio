@@ -5,7 +5,7 @@
         v-for="project in featuredProjects"
         :key="project.id"
         :project="project"
-        variant="default"
+        :variant="ProjectVariant.DEFAULT"
         :max-technologies="3"
         :show-progress="true"
       />
@@ -15,9 +15,9 @@
     <div class="text-center">
       <BaseButton
         href="/projects"
-        variant="primary"
+        :variant="ButtonVariant.PRIMARY"
         icon="heroicons:folder-open"
-        size="lg"
+        :size="ButtonSize.LARGE"
       >
         <span>View All Projects</span>
         <Icon
@@ -29,8 +29,13 @@
   </div>
 </template>
 
-<script setup>
-const featuredProjects = [
+<script setup lang="ts">
+import type { Project } from '~/models/Project'
+import { ButtonVariant } from '~/enums/ButtonVariant'
+import { ButtonSize } from '~/enums/ButtonSize'
+import { ProjectVariant } from '~/enums/ProjectVariant'
+
+const featuredProjects: Project[] = [
   {
     id: 1,
     title: 'Nethren UI',

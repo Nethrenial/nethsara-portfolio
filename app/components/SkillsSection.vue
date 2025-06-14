@@ -86,24 +86,28 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
+import type { Filter } from '~/models/Filter'
+import type { SkillCategory } from '~/models/SkillCategory'
+import type { Certification } from '~/models/Certification'
+import { SkillFilterType } from '~/enums/SkillFilterType'
 
 // Active filter state
-const activeFilter = ref('all')
+const activeFilter = ref<string>(SkillFilterType.ALL)
 
 // Filter options
-const filters = [
-  { id: 'all', name: 'All Skills' },
-  { id: 'frontend', name: 'Frontend' },
-  { id: 'backend', name: 'Backend' },
-  { id: 'fullstack', name: 'Full Stack' },
-  { id: 'devops', name: 'DevOps' },
-  { id: 'mobile', name: 'Mobile' },
+const filters: Filter[] = [
+  { id: SkillFilterType.ALL, name: 'All Skills' },
+  { id: SkillFilterType.FRONTEND, name: 'Frontend' },
+  { id: SkillFilterType.BACKEND, name: 'Backend' },
+  { id: SkillFilterType.FULLSTACK, name: 'Full Stack' },
+  { id: SkillFilterType.DEVOPS, name: 'DevOps' },
+  { id: SkillFilterType.MOBILE, name: 'Mobile' },
 ]
 
 // Skills categories with tags for filtering
-const skillCategories = [
+const skillCategories: SkillCategory[] = [
   {
     name: 'Languages',
     icon: 'heroicons:code-bracket',
@@ -185,8 +189,8 @@ const skillCategories = [
 ]
 
 // Computed property for filtered categories
-const filteredCategories = computed(() => {
-  if (activeFilter.value === 'all') {
+const filteredCategories = computed((): SkillCategory[] => {
+  if (activeFilter.value === SkillFilterType.ALL) {
     return skillCategories
   }
 
@@ -198,7 +202,7 @@ const filteredCategories = computed(() => {
   })).filter(category => category.skills.length > 0)
 })
 
-const certifications = [
+const certifications: Certification[] = [
   {
     name: 'Computer Science Degree',
     issuer: 'University of Colombo',

@@ -64,7 +64,7 @@
   </Transition>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
 
@@ -72,10 +72,10 @@ import { useWindowScroll } from '@vueuse/core'
 const { y: scrollY } = useWindowScroll()
 
 // Show button when scrolled down 400px
-const showScrollToTop = computed(() => scrollY.value > 400)
+const showScrollToTop = computed((): boolean => scrollY.value > 400)
 
 // Calculate scroll progress percentage
-const scrollProgress = computed(() => {
+const scrollProgress = computed((): number => {
   if (import.meta.client) {
     const documentHeight = document.documentElement.scrollHeight - window.innerHeight
     const progress = (scrollY.value / documentHeight) * 100
@@ -86,13 +86,13 @@ const scrollProgress = computed(() => {
 
 // Calculate circle properties for progress
 const circumference = 2 * Math.PI * 24 // radius = 24
-const strokeDashoffset = computed(() => {
+const strokeDashoffset = computed((): number => {
   const progress = scrollProgress.value / 100
   return circumference - (progress * circumference)
 })
 
 // Smooth scroll to top
-const scrollToTop = () => {
+const scrollToTop = (): void => {
   window.scrollTo({
     top: 0,
     behavior: 'smooth',

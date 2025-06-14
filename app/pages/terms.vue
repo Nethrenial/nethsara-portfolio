@@ -92,9 +92,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 useSeoMeta({
   title: 'Terms of Service - Nethsara Elvitigala',
-  description: 'Terms and conditions for using our website and services.',
+  description: 'Terms of service for using this website and services.',
 })
 </script>

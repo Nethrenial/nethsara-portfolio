@@ -121,9 +121,11 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { ContactMethod } from '~/models/ContactMethod'
+
 // Contact methods data
-const contactMethods = [
+const contactMethods: ContactMethod[] = [
   {
     title: 'Email',
     description: 'Drop me a line and I\'ll get back to you within 24 hours.',

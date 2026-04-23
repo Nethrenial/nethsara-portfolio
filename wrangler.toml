@@ -1,3 +1,5 @@
+name = "nethsara-portfolio"
+pages_build_output_dir = "./dist"
 compatibility_flags = [ "nodejs_compat" ]
 # Set this to today's date
 compatibility_date = "2026-04-23"

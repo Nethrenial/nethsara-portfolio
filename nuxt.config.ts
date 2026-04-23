@@ -31,10 +31,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    emailHost: 'smtp.zoho.com',
-    emailPort: 465,
-    emailUser: '',
-    emailPassword: '',
+    resendApiKey: process.env.RESEND_API_KEY,
     emailTo: 'nethsarasandeepaelvitigala@gmail.com',
     public: {
       siteUrl: 'https://nethsara.me',

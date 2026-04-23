@@ -1,5 +1,3 @@
-import nodemailer from 'nodemailer'
-
 interface ContactFormData {
   name: string
   email: string
@@ -37,8 +35,8 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // Check if email configuration is available
-  if (!config.emailUser || !config.emailPassword) {
+  // Check if Resend API key is available
+  if (!config.resendApiKey) {
     throw createError({
       statusCode: 500,
       statusMessage: 'Email configuration not available',
@@ -46,36 +44,33 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    // Create nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      host: config.emailHost,
-      port: config.emailPort,
-      secure: true,
-      auth: {
-        user: config.emailUser,
-        pass: config.emailPassword,
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${config.resendApiKey}`,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        from: 'Portfolio Contact <contact-form@nethsara.me>',
+        to: config.emailTo,
+        reply_to: body.email,
+        subject: body.subject ? `Portfolio Contact: ${body.subject}` : `Portfolio Contact from ${body.name}`,
+        html: generateEmailHTML(body),
+        text: generatePlainTextEmail(body),
+      }),
     })
 
-    // Generate beautiful HTML email template
-    const htmlTemplate = generateEmailHTML(body)
-
-    // Email options
-    const mailOptions = {
-      from: config.emailUser, // Use authenticated email address as sender
-      to: config.emailTo,
-      replyTo: body.email, // User can reply directly to the contact person
-      subject: body.subject ? `Portfolio Contact: ${body.subject}` : `Portfolio Contact from ${body.name}`,
-      html: htmlTemplate,
-      text: generatePlainTextEmail(body), // Fallback plain text
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Resend API error:', errorData)
+      throw new Error(`Resend API returned ${response.status}`)
     }
 
-    // Send email
-    const info = await transporter.sendMail(mailOptions)
+    const data = await response.json() as { id: string }
 
     return {
       success: true,
-      messageId: info.messageId,
+      messageId: data.id,
     }
   }
   catch (error) {

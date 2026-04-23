@@ -194,4 +194,9 @@ useSeoMeta({
   title: 'Projects - Nethsara Elvitigala | Software Engineer Portfolio',
   description: 'Explore my portfolio of projects including open source libraries, web applications, and innovative software solutions.',
 })
+defineOgImage('PageLayout', {
+  section: 'Projects',
+  title: 'All Projects',
+  description: 'Explore my portfolio of projects including open source libraries, web applications, and innovative software solutions.',
+})
 </script>

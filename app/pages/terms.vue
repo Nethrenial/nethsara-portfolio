@@ -82,4 +82,9 @@ useSeoMeta({
   title: 'Terms of Service - Nethsara Elvitigala',
   description: 'Terms of service for using this website and services.',
 })
+defineOgImage('PageLayout', {
+  section: 'Legal',
+  title: 'Terms of Service',
+  description: 'Terms and conditions for using this website and its services.',
+})
 </script>

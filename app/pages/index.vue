@@ -1,5 +1,7 @@
 <template>
-  <div class="space-y-0 pt-16 lg:pt-0">
+  <div
+    class="space-y-0 pt-16 lg:pt-0"
+  >
     <!-- Hero Section -->
     <HeroSection />
     <!-- About Section -->
@@ -20,6 +22,10 @@
 useSeoMeta({
   title: '',
   description: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
+})
+defineOgImage('HomePage', {
+  title: 'Nethsara Elvitigala',
+  description: 'Senior Software Engineer specializing in distributed systems & cloud-native architecture. Builds scalable backend and modern frontend apps with TypeScript, Java, Python.',
 })
 </script>
 

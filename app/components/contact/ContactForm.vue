@@ -191,7 +191,7 @@
       aria-live="polite"
     >
       <div class="flex items-center">
-        <div class="w-12 h-12 bg-green-400/20 rounded-full flex items-center justify-center mr-4">
+        <div class="w-12 h-12 aspect-square bg-green-400/20 rounded-full flex items-center justify-center mr-4">
           <Icon
             name="heroicons:check-circle"
             class="text-2xl text-green-400"
@@ -311,21 +311,37 @@ const submitForm = async (): Promise<void> => {
   formStatus.value = FormStatus.IDLE
 
   try {
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    formStatus.value = FormStatus.SUCCESS
+    // Submit form to API
+    const response = await $fetch('/api/contact', {
+      method: 'POST',
+      body: {
+        name: form.value.name,
+        email: form.value.email,
+        subject: form.value.subject,
+        budget: form.value.budget,
+        message: form.value.message,
+      },
+    })
 
-    // Reset form
-    form.value = {
-      name: '',
-      email: '',
-      subject: '',
-      budget: '',
-      message: '',
+    if (response.success) {
+      formStatus.value = FormStatus.SUCCESS
+
+      // Reset form
+      form.value = {
+        name: '',
+        email: '',
+        subject: '',
+        budget: '',
+        message: '',
+      }
+      formErrors.value = {}
     }
-    formErrors.value = {}
+    else {
+      formStatus.value = FormStatus.ERROR
+    }
   }
-  catch {
+  catch (error) {
+    console.error('Form submission error:', error)
     formStatus.value = FormStatus.ERROR
   }
   finally {

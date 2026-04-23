@@ -1,17 +1,14 @@
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/icon', '@nuxt/image', '@nuxt/scripts', '@nuxtjs/seo', '@vueuse/nuxt', 'nuxt-gtag'],
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/icon', '@nuxt/image', '@nuxtjs/seo', '@vueuse/nuxt', 'nuxt-gtag'],
+  ssr: true,
   devtools: { enabled: true },
 
   app: {
     head: {
       link: [
-        { rel: 'icon', type: 'image/png', href: '/favicons/favicon-96x96.png', sizes: '96x96' },
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicons/favicon.svg' },
-        { rel: 'shortcut icon', href: '/favicons/favicon.ico' },
-        { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' },
-        { rel: 'manifest', href: '/favicons/site.webmanifest' },
+        { rel: 'manifest', href: '/site.webmanifest' },
       ],
       meta: [
         { name: 'apple-mobile-web-app-title', content: 'Nethsara Elvitigala - Software Engineer Portfolio' },
@@ -25,17 +22,39 @@ export default defineNuxtConfig({
   // SEO configuration
   site: {
     url: 'https://nethsara.me',
-    name: 'Nethsara Elvitigala - Software Engineer & Tech Enthusiast',
+    name: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
     description: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
 
     defaultLocale: 'en',
     indexable: true,
+    trailingSlash: false,
   },
 
-  future: {
-    compatibilityVersion: 4,
+  runtimeConfig: {
+    emailHost: 'smtp.zoho.com',
+    emailPort: 465,
+    emailUser: '',
+    emailPassword: '',
+    emailTo: 'nethsarasandeepaelvitigala@gmail.com',
+    public: {
+      siteUrl: 'https://nethsara.me',
+    },
   },
-  compatibilityDate: '2025-05-15',
+
+  compatibilityDate: '2025-07-15',
+
+  nitro: {
+    preset: 'cloudflare-pages',
+    prerender: {
+      crawlLinks: true,
+      routes: [
+        '/',
+        '/terms',
+        '/privacy',
+        '/projects',
+      ],
+    },
+  },
 
   vite: {
     plugins: [
@@ -74,6 +93,13 @@ export default defineNuxtConfig({
     },
   },
 
+  fonts: {
+    defaults: {
+      weights: ['400 700'],
+      styles: ['normal', 'italic'],
+    },
+  },
+
   gtag: {
     id: 'G-YWPBBDQD20',
   },
@@ -88,6 +114,29 @@ export default defineNuxtConfig({
     format: ['webp'],
   },
 
+  ogImage: {
+    zeroRuntime: true,
+  },
+  schemaOrg: {
+    identity: {
+      '@type': 'Person',
+      'name': 'Nethsara Sandeepa Elvitigala',
+      'image': '/icon-512x512.png',
+      'description': 'Senior Software Engineer | Distributed Systems & Cloud-Native Architecture | TypeScript • Java • Python',
+      'url': 'nethsara.me',
+      'jobTitle': 'Senior Software Engineer',
+      'worksFor': {
+        '@type': 'Organization',
+        'name': 'HeyMilo AI',
+      },
+      'sameAs': [
+        'https://linkedin.com/in/nethsara-elvitigala',
+        'https://github.com/Nethrenial',
+        'https://www.facebook.com/nethsara.sandeepa',
+      ],
+    },
+  },
+
   seo: {
     mergeWithSiteConfig: true,
     meta: {
@@ -99,9 +148,8 @@ export default defineNuxtConfig({
 
       // Open Graph
       ogUrl: 'https://nethsara.me',
-      ogTitle: 'Nethsara Elvitigala - Software Engineer',
-      ogDescription: 'Full-Stack Software Engineer specializing in modern web technologies',
-      ogImage: '/images/social/og-image.png',
+      ogTitle: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
+      ogDescription: 'Senior Software Engineer specializing in distributed systems & cloud-native architecture. Builds scalable backend and modern frontend apps with TypeScript, Java, Python.',
       ogType: 'website',
       ogLocale: 'en_US',
       ogSiteName: 'Nethsara Elvitigala',
@@ -109,10 +157,9 @@ export default defineNuxtConfig({
       // Twitter
       twitterCard: 'summary_large_image',
       twitterCreator: '@NSElvitigala',
-      twitterTitle: 'Nethsara Elvitigala - Software Engineer & Tech Enthusiast',
+      twitterTitle: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
       twitterDescription: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
-      twitterImage: 'https://nethsara.me/images/social/og-image.png',
-      twitterImageAlt: 'Nethsara Elvitigala - Software Engineer & Tech Enthusiast',
+      twitterImageAlt: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
       twitterSite: '@NSElvitigala',
 
       // Mobile Web App
@@ -124,4 +171,9 @@ export default defineNuxtConfig({
       title: 'Nethsara Elvitigala - Software Engineer',
     },
   },
+
+  sitemap: {
+    zeroRuntime: true,
+  },
+
 })

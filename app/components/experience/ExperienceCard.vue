@@ -86,7 +86,10 @@
       </p>
 
       <!-- Enhanced Key Achievements -->
-      <div class="mb-6 relative z-10">
+      <div
+        v-if="experience.achievements.length > 0"
+        class="mb-6 relative z-10"
+      >
         <h4 class="text-[var(--color-text-primary)] font-semibold mb-4 flex items-center">
           <Icon
             name="heroicons:trophy"

@@ -32,7 +32,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     resendApiKey: process.env.RESEND_API_KEY,
-    emailTo: 'nethsarasandeepaelvitigala@gmail.com',
+    emailTo: process.env.NUXT_EMAIL_TO,
     public: {
       siteUrl: 'https://nethsara.me',
     },

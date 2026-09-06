@@ -191,7 +191,7 @@ const filteredProjects = computed((): Project[] => {
 
 // SEO
 useSeoMeta({
-  title: 'Projects - Nethsara Elvitigala | Software Engineer Portfolio',
+  title: 'Projects',
   description: 'Explore my portfolio of projects including open source libraries, web applications, and innovative software solutions.',
 })
 defineOgImage('PageLayout', {

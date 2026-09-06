@@ -20,8 +20,10 @@
 <script setup lang="ts">
 // SEO
 useSeoMeta({
-  title: '',
+  titleTemplate: '%s',
+  title: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
   description: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
+  ogDescription: 'Senior Software Engineer specializing in distributed systems & cloud-native architecture. Builds scalable backend and modern frontend apps with TypeScript, Java, Python.',
 })
 defineOgImage('HomePage', {
   title: 'Nethsara Elvitigala',

@@ -1,93 +1,73 @@
 <template>
-  <div>
-    <!-- Filter Tags -->
-    <div class="mb-12">
-      <div
-        class="flex flex-wrap gap-3 justify-center"
-        role="group"
-        aria-label="Skills category filters"
+  <BaseSection id="toolkit">
+    <SectionHeader
+      index="04 / Toolkit"
+      title="What I reach for"
+      description="Filter by the kind of work. Categories with nothing to show drop out."
+      section-id="toolkit"
+    />
+
+    <!-- Segmented control rather than another row of pills -->
+    <div
+      v-reveal
+      class="mb-16 inline-flex flex-wrap gap-1 rounded-xl border border-line bg-surface-2 p-1"
+      role="group"
+      aria-label="Filter the toolkit by discipline"
+    >
+      <button
+        v-for="filter in filters"
+        :key="filter.id"
+        type="button"
+        class="rounded-lg px-3 py-2 text-sm font-medium transition-all duration-700 ease-out-expo active:scale-[0.98]"
+        :class="activeFilter === filter.id
+          ? 'bg-accent text-accent-ink'
+          : 'text-ink-2 hover:bg-surface-3 hover:text-ink'"
+        :aria-pressed="activeFilter === filter.id"
+        @click="activeFilter = filter.id"
       >
-        <button
-          v-for="filter in filters"
-          :key="filter.id"
-          type="button"
-          class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300"
-          :class="activeFilter === filter.id
-            ? 'bg-[var(--color-primary)] text-white shadow-[var(--shadow-glow)]'
-            : 'bg-[var(--color-secondary)] text-[var(--color-text-secondary)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:text-[var(--color-primary)]'"
-          :aria-pressed="activeFilter === filter.id"
-          :aria-label="`Filter skills by ${filter.name}${activeFilter === filter.id ? ' (currently selected)' : ''}`"
-          @click="activeFilter = filter.id"
-        >
-          {{ filter.name }}
-        </button>
-      </div>
+        {{ filter.name }}
+      </button>
     </div>
 
-    <!-- Skills Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <!-- Category name on the left, tools inline on the right -->
+    <div v-if="filteredCategories.length">
       <div
-        v-for="category in filteredCategories"
+        v-for="(category, index) in filteredCategories"
         :key="category.name"
-        class="space-y-4"
+        v-reveal="{ delay: index * 60 }"
+        class="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-line py-8 md:grid-cols-[12rem_1fr]"
       >
-        <div class="text-center">
-          <div class="w-16 h-16 mx-auto mb-4 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center">
-            <Icon
-              :name="category.icon"
-              class="text-sm text-[var(--color-primary)]"
-            />
-          </div>
-          <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-6">
-            {{ category.name }}
-          </h3>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
+        <h3 class="flex items-center gap-2.5 text-base font-semibold text-ink">
+          <Icon
+            :name="category.icon"
+            class="text-xl text-ink-3"
+            aria-hidden="true"
+          />
+          {{ category.name }}
+        </h3>
+        <ul class="flex flex-wrap gap-2">
           <SkillsCard
             v-for="skill in category.skills"
             :key="skill.name"
             :skill="skill"
           />
-        </div>
+        </ul>
       </div>
     </div>
 
-    <!-- Certifications & Achievements -->
-    <div class="mt-20">
-      <h3 class="text-2xl font-semibold text-[var(--color-text-primary)] mb-8 text-center">
-        Certifications & Achievements
-      </h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div
-          v-for="cert in certifications"
-          :key="cert.name"
-          class="text-center p-6 bg-[var(--color-secondary)] rounded-xl border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-all duration-300 card-hover"
-        >
-          <div class="w-16 h-16 mx-auto mb-4 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center">
-            <Icon
-              :name="cert.icon"
-              class="text-3xl text-[var(--color-primary)]"
-            />
-          </div>
-          <h4 class="text-[var(--color-text-primary)] font-semibold mb-2">
-            {{ cert.name }}
-          </h4>
-          <p class="text-[var(--color-text-secondary)] text-sm mb-2">
-            {{ cert.issuer }}
-          </p>
-          <span class="text-[var(--color-primary)] text-xs">{{ cert.year }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
+    <EmptyState
+      v-else
+      icon="ph:funnel"
+      title="Nothing in this category"
+      message="Pick another discipline to see what is there."
+    />
+  </BaseSection>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { Filter } from '~/models/Filter'
 import type { SkillCategory } from '~/models/SkillCategory'
-import type { Certification } from '~/models/Certification'
 import { SkillFilterType } from '~/enums/SkillFilterType'
 
 // Active filter state
@@ -95,10 +75,10 @@ const activeFilter = ref<string>(SkillFilterType.ALL)
 
 // Filter options
 const filters: Filter[] = [
-  { id: SkillFilterType.ALL, name: 'All Skills' },
+  { id: SkillFilterType.ALL, name: 'Everything' },
   { id: SkillFilterType.FRONTEND, name: 'Frontend' },
   { id: SkillFilterType.BACKEND, name: 'Backend' },
-  { id: SkillFilterType.FULLSTACK, name: 'Full Stack' },
+  { id: SkillFilterType.FULLSTACK, name: 'Full stack' },
   { id: SkillFilterType.DEVOPS, name: 'DevOps' },
   { id: SkillFilterType.MOBILE, name: 'Mobile' },
 ]
@@ -107,7 +87,7 @@ const filters: Filter[] = [
 const skillCategories: SkillCategory[] = [
   {
     name: 'Languages',
-    icon: 'heroicons:code-bracket',
+    icon: 'ph:code',
     skills: [
       { name: 'TypeScript', icon: 'skill-icons:typescript', tags: ['frontend', 'backend', 'fullstack'] },
       { name: 'JavaScript', icon: 'skill-icons:javascript', tags: ['frontend', 'backend', 'fullstack'] },
@@ -121,7 +101,7 @@ const skillCategories: SkillCategory[] = [
   },
   {
     name: 'Frontend',
-    icon: 'heroicons:rectangle-stack',
+    icon: 'ph:browser',
     skills: [
       { name: 'React', icon: 'skill-icons:react-light', tags: ['frontend', 'fullstack'] },
       { name: 'Next.js', icon: 'skill-icons:nextjs-light', tags: ['frontend', 'fullstack'] },
@@ -135,7 +115,7 @@ const skillCategories: SkillCategory[] = [
   },
   {
     name: 'Backend',
-    icon: 'heroicons:server',
+    icon: 'ph:hard-drives',
     skills: [
       { name: 'Node.js', icon: 'skill-icons:nodejs-light', tags: ['backend', 'fullstack'] },
       { name: 'NestJS', icon: 'skill-icons:nestjs-light', tags: ['backend', 'fullstack'] },
@@ -145,11 +125,12 @@ const skillCategories: SkillCategory[] = [
       { name: 'Prisma', icon: 'skill-icons:prisma', tags: ['backend', 'fullstack'] },
       { name: 'Mongoose', icon: 'skill-icons:mongodb', tags: ['backend', 'fullstack'] },
       { name: 'Hibernate', icon: 'skill-icons:hibernate-light', tags: ['backend'] },
+      { name: 'FastAPI', icon: 'skill-icons:fastapi', tags: ['backend', 'fullstack'] },
     ],
   },
   {
     name: 'Databases',
-    icon: 'heroicons:circle-stack',
+    icon: 'ph:database',
     skills: [
       { name: 'PostgreSQL', icon: 'skill-icons:postgresql-light', tags: ['backend', 'fullstack'] },
       { name: 'MySQL', icon: 'skill-icons:mysql-light', tags: ['backend', 'fullstack'] },
@@ -159,20 +140,22 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    name: 'Cloud & DevOps',
-    icon: 'heroicons:cloud',
+    name: 'Cloud and ops',
+    icon: 'ph:cloud',
     skills: [
       { name: 'AWS (EC2, S3, RDS)', icon: 'skill-icons:aws-light', tags: ['devops', 'backend', 'fullstack'] },
       { name: 'Firebase', icon: 'devicon:firebase', tags: ['backend', 'fullstack', 'mobile'] },
       { name: 'Docker', icon: 'skill-icons:docker', tags: ['devops'] },
+      { name: 'Kubernetes', icon: 'skill-icons:kubernetes', tags: ['devops'] },
+      { name: 'Google Cloud', icon: 'skill-icons:gcp-light', tags: ['devops', 'backend'] },
       { name: 'Git', icon: 'skill-icons:git', tags: ['devops', 'fullstack'] },
       { name: 'GitHub Actions', icon: 'skill-icons:githubactions-light', tags: ['devops'] },
-      { name: 'CI/CD', icon: 'heroicons:arrow-path', tags: ['devops'] },
+      { name: 'CI and CD', icon: 'ph:arrows-clockwise', tags: ['devops'] },
     ],
   },
   {
-    name: 'Developer Tools',
-    icon: 'heroicons:wrench-screwdriver',
+    name: 'Tooling',
+    icon: 'ph:wrench',
     skills: [
       { name: 'JetBrains IDEs', icon: 'devicon:intellij', tags: ['fullstack', 'backend'] },
       { name: 'VS Code', icon: 'skill-icons:vscode-light', tags: ['fullstack', 'frontend', 'backend'] },
@@ -183,15 +166,16 @@ const skillCategories: SkillCategory[] = [
     ],
   },
   {
-    name: 'Specialized & Other',
-    icon: 'heroicons:device-phone-mobile',
+    name: 'Architecture',
+    icon: 'ph:sparkle',
     skills: [
       { name: 'Flutter', icon: 'skill-icons:flutter-light', tags: ['mobile'] },
       { name: 'GraphQL', icon: 'skill-icons:graphql-light', tags: ['backend', 'fullstack'] },
-      { name: 'Temporal', icon: 'heroicons:clock', tags: ['backend', 'fullstack'] },
-      { name: 'MedusaJS', icon: 'heroicons:shopping-cart', tags: ['backend', 'fullstack'] },
-      { name: 'LangChain', icon: 'heroicons:link', tags: ['backend'] },
-      { name: 'WebSockets', icon: 'heroicons:signal', tags: ['backend', 'fullstack'] },
+      { name: 'Temporal', icon: 'ph:clock-clockwise', tags: ['backend', 'fullstack'] },
+      { name: 'MedusaJS', icon: 'ph:shopping-cart', tags: ['backend', 'fullstack'] },
+      { name: 'LangChain', icon: 'ph:link-simple', tags: ['backend'] },
+      { name: 'WebSockets', icon: 'ph:broadcast', tags: ['backend', 'fullstack'] },
+      { name: 'Event driven architecture', icon: 'ph:tree-structure', tags: ['backend', 'fullstack', 'devops'] },
     ],
   },
 ]
@@ -209,31 +193,4 @@ const filteredCategories = computed((): SkillCategory[] => {
     ),
   })).filter(category => category.skills.length > 0)
 })
-
-const certifications: Certification[] = [
-  {
-    name: 'Computer Science Degree',
-    issuer: 'University of Colombo',
-    year: '2021-2024',
-    icon: 'heroicons:academic-cap',
-  },
-  {
-    name: 'Open Source Projects',
-    issuer: 'GitHub',
-    year: '2023+',
-    icon: 'heroicons:code-bracket',
-  },
-  {
-    name: 'Sysco Presentation',
-    issuer: 'Sysco Global Leadership',
-    year: '2024',
-    icon: 'heroicons:presentation-chart-line',
-  },
-  {
-    name: 'Co-Founder',
-    issuer: 'ZaVolt',
-    year: '2023+',
-    icon: 'heroicons:building-office',
-  },
-]
 </script>

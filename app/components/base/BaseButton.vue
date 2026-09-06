@@ -1,67 +1,27 @@
 <template>
-  <!-- External Link -->
-  <a
-    v-if="href && external"
-    :href="href"
-    target="_blank"
-    rel="noopener noreferrer"
+  <component
+    :is="tag"
+    v-bind="linkAttrs"
     :class="buttonClasses"
-    :aria-label="ariaLabel || (text ? `${text} (opens in new tab)` : undefined)"
-    @click="handleClick"
-  >
-    <Icon
-      v-if="icon"
-      :name="icon"
-      :class="iconClasses"
-      aria-hidden="true"
-    />
-    <span v-if="$slots.default">
-      <slot />
-    </span>
-    <span v-else-if="text">{{ text }}</span>
-  </a>
-
-  <!-- Internal Link -->
-  <NuxtLink
-    v-else-if="href"
-    :to="href"
-    :class="buttonClasses"
-    :aria-label="ariaLabel"
-    @click="handleClick"
-  >
-    <Icon
-      v-if="icon"
-      :name="icon"
-      :class="iconClasses"
-      aria-hidden="true"
-    />
-    <span v-if="$slots.default">
-      <slot />
-    </span>
-    <span v-else-if="text">{{ text }}</span>
-  </NuxtLink>
-
-  <!-- Button -->
-  <button
-    v-else
-    :type="type"
-    :disabled="disabled"
-    :class="buttonClasses"
-    :aria-label="ariaLabel"
+    :aria-label="resolvedAriaLabel"
     :aria-describedby="ariaDescribedBy"
     @click="handleClick"
   >
     <Icon
-      v-if="icon"
+      v-if="icon && !loading"
       :name="icon"
       :class="iconClasses"
       aria-hidden="true"
     />
-    <span v-if="$slots.default">
-      <slot />
-    </span>
+    <Icon
+      v-if="loading"
+      name="ph:circle-notch"
+      :class="[iconClasses, 'animate-spin']"
+      aria-hidden="true"
+    />
+    <span v-if="$slots.default"><slot /></span>
     <span v-else-if="text">{{ text }}</span>
-  </button>
+  </component>
 </template>
 
 <script setup lang="ts">
@@ -70,30 +30,17 @@ import { ButtonSize } from '~/enums/ButtonSize'
 import { ButtonType } from '~/enums/ButtonType'
 
 interface BaseButtonProps {
-  // Element type
   href?: string | null
   external?: boolean
-
-  // Button specific
   type?: ButtonType
   disabled?: boolean
-
-  // Content
+  loading?: boolean
   text?: string | null
   icon?: string | null
-
-  // Design variants
   variant?: ButtonVariant
-
-  // Size variants
   size?: ButtonSize
-
-  // Additional styling
   fullWidth?: boolean
-  glow?: boolean
   circular?: boolean
-
-  // Accessibility
   ariaLabel?: string
   ariaDescribedBy?: string
 }
@@ -103,110 +50,97 @@ const props = withDefaults(defineProps<BaseButtonProps>(), {
   external: false,
   type: ButtonType.BUTTON,
   disabled: false,
+  loading: false,
   text: null,
   icon: null,
   variant: ButtonVariant.PRIMARY,
   size: ButtonSize.DEFAULT,
   fullWidth: false,
-  glow: true,
   circular: false,
   ariaLabel: undefined,
   ariaDescribedBy: undefined,
 })
 
-const emit = defineEmits<{
-  click: [event: Event]
-}>()
+const emit = defineEmits<{ click: [event: Event] }>()
 
-// Handle click events
+const tag = computed(() => {
+  if (!props.href) return 'button'
+  return props.external ? 'a' : resolveComponent('NuxtLink')
+})
+
+const linkAttrs = computed(() => {
+  if (props.external) {
+    return { href: props.href, target: '_blank', rel: 'noopener noreferrer' }
+  }
+  if (props.href) return { to: props.href }
+  return { type: props.type, disabled: props.disabled || props.loading }
+})
+
+const resolvedAriaLabel = computed(() => {
+  if (props.ariaLabel) return props.ariaLabel
+  if (props.external && props.text) return `${props.text} (opens in a new tab)`
+  return undefined
+})
+
 const handleClick = (event: Event): void => {
-  if (props.disabled) {
+  if (props.disabled || props.loading) {
     event.preventDefault()
     return
   }
   emit('click', event)
 }
 
-// Base classes that apply to all buttons
-const baseClasses = computed((): string => {
-  const base = 'inline-flex items-center justify-center font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50'
-  const spacing = props.circular ? '' : 'space-x-2'
-  const shape = 'rounded-full'
-  return [base, spacing, shape].filter(Boolean).join(' ')
-})
-
-// Size-specific classes
 const sizeClasses = computed((): string => {
   if (props.circular) {
     switch (props.size) {
-      case ButtonSize.SMALL:
-        return 'w-10 h-10 text-sm'
-      case ButtonSize.LARGE:
-        return 'w-16 h-16 text-lg'
-      default:
-        return 'w-12 h-12'
+      case ButtonSize.SMALL: return 'size-9'
+      case ButtonSize.LARGE: return 'size-14'
+      default: return 'size-11'
     }
   }
   switch (props.size) {
-    case ButtonSize.SMALL:
-      return 'px-6 py-2 text-sm'
-    case ButtonSize.LARGE:
-      return 'px-10 py-4 text-lg'
-    default:
-      return 'px-8 py-3'
+    // Header and inline actions
+    case ButtonSize.SMALL: return 'px-3 py-2 text-sm'
+    // Hero and section CTAs
+    case ButtonSize.LARGE: return 'px-6 py-3 text-base'
+    default: return 'px-3 py-2 text-base'
   }
 })
 
-// Variant-specific classes
 const variantClasses = computed((): string => {
   switch (props.variant) {
-    case ButtonVariant.PRIMARY:
-      return 'btn-primary text-white'
     case ButtonVariant.SECONDARY:
-      return 'glass-card text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white'
-    case ButtonVariant.GLASS:
-      return 'glass-card text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white'
+      return 'border border-line text-ink hover:border-ink-3 hover:bg-surface-2'
+    case ButtonVariant.TERTIARY:
+      return 'text-ink-2 hover:text-ink'
     default:
-      return 'btn-primary text-white'
+      return 'bg-accent text-accent-ink hover:bg-white'
   }
 })
 
-// Glow effect classes
-const glowClasses = computed((): string => {
-  return props.glow ? 'glow-on-hover' : ''
-})
-
-// Disabled classes
-const disabledClasses = computed((): string => {
-  return props.disabled ? 'opacity-50 cursor-not-allowed' : ''
-})
-
-// Full width classes
-const widthClasses = computed((): string => {
-  return props.fullWidth ? 'w-full' : ''
-})
-
-// Combine all classes
 const buttonClasses = computed((): string => {
+  const isText = props.variant === ButtonVariant.TERTIARY
   return [
-    baseClasses.value,
-    sizeClasses.value,
+    'inline-flex items-center justify-center font-semibold',
+    'transition-all duration-700 ease-out-expo',
+    // Real pressed feedback, not just a colour shift
+    'active:scale-[0.98]',
+    props.circular ? 'gap-0' : 'gap-2',
+    // A text button carries no chrome: no radius, no padding box.
+    isText
+      ? (props.size === ButtonSize.SMALL ? 'text-sm' : 'text-base')
+      : `rounded-full ${sizeClasses.value}`,
     variantClasses.value,
-    glowClasses.value,
-    disabledClasses.value,
-    widthClasses.value,
+    props.disabled || props.loading ? 'pointer-events-none opacity-40' : '',
+    props.fullWidth ? 'w-full' : '',
   ].filter(Boolean).join(' ')
 })
 
-// Icon size based on button size
 const iconClasses = computed((): string => {
   switch (props.size) {
-    case ButtonSize.SMALL:
-      return 'text-sm'
-    case ButtonSize.LARGE:
-      return 'text-xl'
-    default:
-      return 'text-lg'
+    case ButtonSize.SMALL: return 'text-base'
+    case ButtonSize.LARGE: return 'text-xl'
+    default: return 'text-lg'
   }
 })
 </script>

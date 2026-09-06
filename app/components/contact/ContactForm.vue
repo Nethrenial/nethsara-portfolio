@@ -1,309 +1,230 @@
 <template>
-  <div class="glass-card p-8 rounded-2xl">
-    <h3 class="text-2xl font-bold text-[var(--color-text-primary)] mb-8 flex items-center">
-      <Icon
-        name="heroicons:paper-airplane"
-        class="text-2xl mr-3 text-[var(--color-primary)]"
-      />
-      Send Me a <span class="gradient-text ml-2">Message</span>
+  <div class="rounded-2xl bg-surface-2 p-8 lg:p-10">
+    <h3 class="text-xl font-semibold text-ink">
+      Send a message
     </h3>
+    <p class="mt-2 text-base text-ink-2">
+      Goes straight to my inbox. I reply within a day.
+    </p>
 
     <form
-      class="space-y-6"
+      class="mt-8 space-y-6"
       novalidate
       @submit.prevent="submitForm"
     >
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div>
           <label
             for="name"
-            class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
-          >
-            <Icon
-              name="heroicons:user"
-              class="text-sm mr-2 text-[var(--color-primary)]"
-            />
-            Name *
-          </label>
+            class="block text-sm font-medium text-ink"
+          >Name</label>
           <input
             id="name"
             v-model="form.name"
             type="text"
             required
-            :aria-invalid="formErrors.name ? 'true' : 'false'"
+            autocomplete="name"
+            :aria-invalid="!!formErrors.name"
             :aria-describedby="formErrors.name ? 'name-error' : undefined"
-            class="form-input w-full px-4 py-3 rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-all duration-300"
-            :class="{ 'border-red-400 focus:ring-red-400/30': formErrors.name }"
+            :class="[inputClasses, formErrors.name ? errorRing : '']"
             placeholder="Your name"
             @blur="validateField('name')"
+            @input="clearError('name')"
           >
-          <div
+          <p
             v-if="formErrors.name"
             id="name-error"
-            class="text-red-400 text-sm mt-2"
+            class="mt-2 text-sm text-ink"
             role="alert"
           >
             {{ formErrors.name }}
-          </div>
+          </p>
         </div>
+
         <div>
           <label
             for="email"
-            class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
-          >
-            <Icon
-              name="heroicons:envelope"
-              class="text-sm mr-2 text-[var(--color-primary)]"
-            />
-            Email *
-          </label>
+            class="block text-sm font-medium text-ink"
+          >Email</label>
           <input
             id="email"
             v-model="form.email"
             type="email"
             required
-            :aria-invalid="formErrors.email ? 'true' : 'false'"
+            autocomplete="email"
+            :aria-invalid="!!formErrors.email"
             :aria-describedby="formErrors.email ? 'email-error' : undefined"
-            class="form-input w-full px-4 py-3 rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-all duration-300"
-            :class="{ 'border-red-400 focus:ring-red-400/30': formErrors.email }"
-            placeholder="your.email@domain.com"
+            :class="[inputClasses, formErrors.email ? errorRing : '']"
+            placeholder="you@company.com"
             @blur="validateField('email')"
+            @input="clearError('email')"
           >
-          <div
+          <p
             v-if="formErrors.email"
             id="email-error"
-            class="text-red-400 text-sm mt-2"
+            class="mt-2 text-sm text-ink"
             role="alert"
           >
             {{ formErrors.email }}
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label
-            for="subject"
-            class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
-          >
-            <Icon
-              name="heroicons:tag"
-              class="text-sm mr-2 text-[var(--color-primary)]"
-            />
-            Subject
-          </label>
-          <input
-            id="subject"
-            v-model="form.subject"
-            type="text"
-            class="form-input w-full px-4 py-3 rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-all duration-300"
-            placeholder="Project collaboration, inquiry, etc."
-          >
-        </div>
-        <div>
-          <label
-            for="budget"
-            class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
-          >
-            <Icon
-              name="heroicons:currency-dollar"
-              class="text-sm mr-2 text-[var(--color-primary)]"
-            />
-            Budget Range
-          </label>
-          <select
-            id="budget"
-            v-model="form.budget"
-            class="form-input w-full px-4 py-3 rounded-xl text-[var(--color-text-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-all duration-300"
-          >
-            <option value="">
-              Select budget range
-            </option>
-            <option value="$1,000 - $5,000">
-              $1,000 - $5,000
-            </option>
-            <option value="$5,000 - $10,000">
-              $5,000 - $10,000
-            </option>
-            <option value="$10,000 - $25,000">
-              $10,000 - $25,000
-            </option>
-            <option value="$25,000+">
-              $25,000+
-            </option>
-            <option value="Open to discussion">
-              Open to discussion
-            </option>
-          </select>
+          </p>
         </div>
       </div>
 
       <div>
         <label
-          for="message"
-          class="text-[var(--color-text-primary)] font-medium mb-3 flex items-center"
+          for="subject"
+          class="block text-sm font-medium text-ink"
         >
-          <Icon
-            name="heroicons:chat-bubble-left-ellipsis"
-            class="text-sm mr-2 text-[var(--color-primary)]"
-          />
-          Message *
+          Subject
+          <span class="font-normal text-ink-3">optional</span>
         </label>
+        <input
+          id="subject"
+          v-model="form.subject"
+          type="text"
+          :class="inputClasses"
+          placeholder="What this is about"
+        >
+      </div>
+
+      <div>
+        <label
+          for="message"
+          class="block text-sm font-medium text-ink"
+        >Message</label>
         <textarea
           id="message"
           v-model="form.message"
           rows="6"
           required
-          :aria-invalid="formErrors.message ? 'true' : 'false'"
+          :aria-invalid="!!formErrors.message"
           :aria-describedby="formErrors.message ? 'message-error' : undefined"
-          class="form-input w-full px-4 py-3 rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-all duration-300 resize-vertical"
-          :class="{ 'border-red-400 focus:ring-red-400/30': formErrors.message }"
-          placeholder="Tell me about your project, goals, timeline, or any questions you have..."
+          :class="[inputClasses, 'resize-y', formErrors.message ? errorRing : '']"
+          placeholder="What you are working on, and where I might fit."
           @blur="validateField('message')"
+          @input="clearError('message')"
         />
-        <div
+        <p
           v-if="formErrors.message"
           id="message-error"
-          class="text-red-400 text-sm mt-2"
+          class="mt-2 text-sm text-ink"
           role="alert"
         >
           {{ formErrors.message }}
-        </div>
+        </p>
       </div>
 
       <BaseButton
         :type="ButtonType.SUBMIT"
-        :disabled="isSubmitting || !isFormValid"
+        :loading="isSubmitting"
         :variant="ButtonVariant.PRIMARY"
-        :icon="isSubmitting ? 'heroicons:arrow-path' : 'heroicons:paper-airplane'"
-        :text="isSubmitting ? 'Sending...' : 'Send Message'"
-        full-width
         :size="ButtonSize.LARGE"
-        :aria-describedby="formStatus === FormStatus.ERROR ? 'form-error' : undefined"
+        :icon="isSubmitting ? null : 'ph:paper-plane-tilt'"
+        :text="isSubmitting ? 'Sending' : 'Send message'"
+        full-width
       />
     </form>
 
-    <!-- Enhanced Success/Error Messages with Live Regions -->
+    <!-- Status is announced politely and stated plainly, without exclamation -->
     <div
       v-if="formStatus === FormStatus.SUCCESS"
-      class="mt-6 glass-card p-6 rounded-xl border border-green-400/30"
-      role="alert"
+      class="mt-6 flex items-start gap-3 rounded-xl border border-line bg-surface p-5"
+      role="status"
       aria-live="polite"
     >
-      <div class="flex items-center">
-        <div class="w-12 h-12 aspect-square bg-green-400/20 rounded-full flex items-center justify-center mr-4">
-          <Icon
-            name="heroicons:check-circle"
-            class="text-2xl text-green-400"
-          />
-        </div>
-        <div>
-          <h4 class="text-green-400 font-semibold mb-1">
-            Message Sent Successfully!
-          </h4>
-          <p class="text-[var(--color-text-secondary)] text-sm">
-            Thank you for reaching out. I'll get back to you within 24 hours.
-          </p>
-        </div>
+      <Icon
+        name="ph:check-circle"
+        class="mt-0.5 shrink-0 text-xl text-accent"
+        aria-hidden="true"
+      />
+      <div>
+        <p class="text-base font-semibold text-ink">
+          Message sent
+        </p>
+        <p class="mt-1 text-sm text-ink-2">
+          It is in my inbox. You will hear back within a day.
+        </p>
       </div>
     </div>
 
     <div
       v-if="formStatus === FormStatus.ERROR"
       id="form-error"
-      class="mt-6 glass-card p-6 rounded-xl border border-red-400/30"
+      class="mt-6 flex items-start gap-3 rounded-xl border border-line bg-surface p-5"
       role="alert"
       aria-live="assertive"
     >
-      <div class="flex items-center">
-        <div class="w-12 h-12 bg-red-400/20 rounded-full flex items-center justify-center mr-4">
-          <Icon
-            name="heroicons:exclamation-triangle"
-            class="text-2xl text-red-400"
-          />
-        </div>
-        <div>
-          <h4 class="text-red-400 font-semibold mb-1">
-            Message Failed to Send
-          </h4>
-          <p class="text-[var(--color-text-secondary)] text-sm">
-            Sorry, there was an error. Please try again or contact me directly.
-          </p>
-        </div>
+      <Icon
+        name="ph:warning-circle"
+        class="mt-0.5 shrink-0 text-xl text-ink"
+        aria-hidden="true"
+      />
+      <div>
+        <p class="text-base font-semibold text-ink">
+          The message did not send
+        </p>
+        <p class="mt-1 text-sm text-ink-2">
+          Something failed on the way out. Try again, or email
+          <a
+            href="mailto:nethsarasandeepaelvitigala@gmail.com"
+            class="text-accent underline underline-offset-4"
+          >nethsarasandeepaelvitigala@gmail.com</a>
+          directly.
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import type { ContactForm } from '~/models/ContactForm'
 import { FormStatus } from '~/enums/FormStatus'
 import { ButtonType } from '~/enums/ButtonType'
 import { ButtonVariant } from '~/enums/ButtonVariant'
 import { ButtonSize } from '~/enums/ButtonSize'
 
-// Contact form
-const form = ref<ContactForm>({
-  name: '',
-  email: '',
-  subject: '',
-  budget: '',
-  message: '',
-})
+const inputClasses = 'mt-2 w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-ink placeholder:text-ink-3 transition-colors duration-200 ease-out-expo hover:border-ink-3 focus:border-accent focus:outline-none'
+const errorRing = 'border-ink ring-1 ring-ink'
 
-const isSubmitting = ref<boolean>(false)
-const formStatus = ref<string>(FormStatus.IDLE)
-const formErrors = ref<Record<string, string>>({})
+const emptyForm = (): ContactForm => ({ name: '', email: '', subject: '', message: '' })
 
-const isFormValid = computed((): boolean => {
-  return form.value.name.trim() !== ''
-    && form.value.email.trim() !== ''
-    && form.value.message.trim() !== ''
-    && Object.keys(formErrors.value).length === 0
-})
+const form = ref<ContactForm>(emptyForm())
+const isSubmitting = ref(false)
+const formStatus = ref<FormStatus>(FormStatus.IDLE)
+const formErrors = ref<Partial<Record<keyof ContactForm, string>>>({})
 
-const validateField = (field: string): void => {
-  formErrors.value = { ...formErrors.value }
+const clearError = (field: keyof ContactForm): void => {
+  formErrors.value = Object.fromEntries(
+    Object.entries(formErrors.value).filter(([key]) => key !== field),
+  )
+}
 
-  switch (field) {
-    case 'name':
-      if (!form.value.name.trim()) {
-        formErrors.value.name = 'Name is required'
-      }
-      else {
-        delete formErrors.value.name
-      }
-      break
-    case 'email':
-      if (!form.value.email.trim()) {
-        formErrors.value.email = 'Email is required'
-      }
-      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
-        formErrors.value.email = 'Please enter a valid email address'
-      }
-      else {
-        delete formErrors.value.email
-      }
-      break
-    case 'message':
-      if (!form.value.message.trim()) {
-        formErrors.value.message = 'Message is required'
-      }
-      else {
-        delete formErrors.value.message
-      }
-      break
+const validateField = (field: 'name' | 'email' | 'message'): void => {
+  const value = form.value[field].trim()
+
+  if (!value) {
+    const labels = { name: 'name', email: 'email address', message: 'message' }
+    formErrors.value[field] = `Please enter your ${labels[field]}.`
+    return
   }
+
+  if (field === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+    formErrors.value.email = 'That email address does not look right.'
+    return
+  }
+
+  clearError(field)
 }
 
 const submitForm = async (): Promise<void> => {
-  // Validate all fields before submitting
   validateField('name')
   validateField('email')
   validateField('message')
 
-  if (!isFormValid.value) {
+  if (Object.keys(formErrors.value).length > 0) {
+    // Moves focus to the first problem rather than leaving the user to hunt.
+    const firstError = Object.keys(formErrors.value)[0]
+    document.getElementById(firstError!)?.focus()
     return
   }
 
@@ -311,29 +232,14 @@ const submitForm = async (): Promise<void> => {
   formStatus.value = FormStatus.IDLE
 
   try {
-    // Submit form to API
     const response = await $fetch('/api/contact', {
       method: 'POST',
-      body: {
-        name: form.value.name,
-        email: form.value.email,
-        subject: form.value.subject,
-        budget: form.value.budget,
-        message: form.value.message,
-      },
+      body: { ...form.value },
     })
 
     if (response.success) {
       formStatus.value = FormStatus.SUCCESS
-
-      // Reset form
-      form.value = {
-        name: '',
-        email: '',
-        subject: '',
-        budget: '',
-        message: '',
-      }
+      form.value = emptyForm()
       formErrors.value = {}
     }
     else {
@@ -341,7 +247,7 @@ const submitForm = async (): Promise<void> => {
     }
   }
   catch (error) {
-    console.error('Form submission error:', error)
+    console.error('Contact form submission failed:', error)
     formStatus.value = FormStatus.ERROR
   }
   finally {

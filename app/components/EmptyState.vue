@@ -1,15 +1,21 @@
 <template>
-  <div class="text-center py-20">
+  <!-- A composed prompt rather than a blank panel: it says what happened and
+       offers the way out. -->
+  <div class="flex flex-col items-start gap-4 rounded-2xl border border-line border-dashed px-8 py-16">
     <Icon
       :name="icon"
-      :class="iconClasses"
+      class="text-3xl text-ink-3"
+      aria-hidden="true"
     />
-    <h3 :class="titleClasses">
-      {{ title }}
-    </h3>
-    <p :class="messageClasses">
-      {{ message }}
-    </p>
+    <div>
+      <h3 class="text-lg font-semibold text-ink">
+        {{ title }}
+      </h3>
+      <p class="measure mt-2 text-base text-ink-2">
+        {{ message }}
+      </p>
+    </div>
+    <slot name="action" />
   </div>
 </template>
 
@@ -18,25 +24,9 @@ interface EmptyStateProps {
   icon?: string
   title: string
   message: string
-  iconSize?: string
-  iconColor?: string
 }
 
-const props = withDefaults(defineProps<EmptyStateProps>(), {
-  icon: 'heroicons:folder-open',
-  iconSize: 'text-6xl',
-  iconColor: 'text-[var(--color-text-secondary)]',
-})
-
-const iconClasses = computed(() => {
-  return `${props.iconSize} ${props.iconColor} mx-auto mb-4`
-})
-
-const titleClasses = computed(() => {
-  return 'text-xl font-semibold text-[var(--color-text-primary)] mb-2'
-})
-
-const messageClasses = computed(() => {
-  return 'text-[var(--color-text-secondary)]'
+withDefaults(defineProps<EmptyStateProps>(), {
+  icon: 'ph:folder-open',
 })
 </script>

@@ -1,33 +1,44 @@
 <template>
   <div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-      <ProjectsCard
-        v-for="project in featuredProjects"
-        :key="project.id"
-        :project="project"
-        :variant="ProjectVariant.DEFAULT"
-        :max-technologies="3"
-        :show-progress="true"
-      />
+    <!-- Asymmetric: the lead project takes three of five columns and the rest
+         stack beside it, rather than three equal cards in a row. -->
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-start">
+      <div
+        v-reveal
+        class="lg:col-span-3"
+      >
+        <ProjectsCard
+          v-if="lead"
+          :project="lead"
+          feature
+        />
+      </div>
+
+      <div class="grid gap-6 lg:col-span-2">
+        <ProjectsCard
+          v-for="(project, index) in rest"
+          :key="project.id"
+          v-reveal="{ delay: 120 + index * 120 }"
+          :project="project"
+          :max-technologies="3"
+        />
+      </div>
     </div>
 
-    <!-- Enhanced View All Projects Button -->
-    <div class="text-center">
+    <div
+      v-reveal
+      class="mt-16 flex flex-wrap items-center gap-x-8 gap-y-4"
+    >
       <BaseButton
         href="/projects"
-        :variant="ButtonVariant.PRIMARY"
-        icon="heroicons:folder-open"
+        :variant="ButtonVariant.SECONDARY"
         :size="ButtonSize.LARGE"
-        aria-label="Navigate to projects page to view all projects"
-      >
-        <span class="flex items-center">
-          <span>View All Projects</span>
-          <Icon
-            name="heroicons:arrow-right"
-            class="text-xl ml-2 transform group-hover:translate-x-2 transition-transform duration-300"
-          />
-        </span>
-      </BaseButton>
+        icon="ph:arrow-right"
+        text="See every project"
+      />
+      <p class="text-sm text-ink-3">
+        Open source libraries, client platforms and internal tooling.
+      </p>
     </div>
   </div>
 </template>
@@ -36,50 +47,47 @@
 import type { Project } from '~/models/Project'
 import { ButtonVariant } from '~/enums/ButtonVariant'
 import { ButtonSize } from '~/enums/ButtonSize'
-import { ProjectVariant } from '~/enums/ProjectVariant'
+import { ProjectStatus } from '~/enums/ProjectStatus'
 
 const featuredProjects: Project[] = [
   {
     id: 1,
     title: 'Nethren UI',
     slug: 'nethren-ui',
-    category: 'Open Source',
-    description: 'A UI components library for React and Vue. Released several pre-release versions of the VueJS edition. Used as the UI library for 3rd year university project.',
-    icon: 'heroicons:cube',
-    image: 'https://picsum.photos/seed/nethren-ui/600/400',
-    technologies: ['VueJS', 'SCSS', 'TypeScript', 'React'],
+    category: 'Open source',
+    description: 'A component library for Vue and React. The Vue edition shipped several pre-release versions and became the UI layer for the SailingPen build, which is where most of its API decisions came from.',
+    icon: 'ph:stack',
+    technologies: ['Vue', 'TypeScript', 'SCSS', 'React'],
     demo: 'https://nethren-ui-vue-docs.pages.dev',
     github: 'https://github.com/Nethrenial/nethren-ui-vue',
     featured: true,
-    status: 'Active',
+    status: ProjectStatus.ACTIVE,
   },
   {
     id: 2,
-    title: 'BanhMi Web Framework',
+    title: 'BanhMi',
     slug: 'banh-mi-framework',
-    category: 'Open Source',
-    description: 'An experimental web framework for the Bun runtime from scratch. API inspired by ExpressJS but with major differences.',
-    icon: 'heroicons:cog-6-tooth',
-    image: 'https://picsum.photos/seed/banh-mi/600/400',
-    technologies: ['Bun Runtime', 'TypeScript'],
+    category: 'Open source',
+    description: 'A web framework for the Bun runtime, written from scratch. The API borrows from Express and diverges where Bun makes something cheaper.',
+    icon: 'ph:cube',
+    technologies: ['Bun', 'TypeScript'],
     demo: 'https://github.com/banh-mi-org/examples',
     github: 'https://github.com/banh-mi-org/framework',
     featured: true,
-    status: 'Active',
+    status: ProjectStatus.ACTIVE,
   },
   {
     id: 3,
-    title: 'SailingPen - LMS',
+    title: 'SailingPen',
     slug: 'sailingpen-lms',
-    category: 'Web App',
-    description: 'LMS and institute management system for private tuition institute with focus on content protection and improving student engagement.',
-    icon: 'heroicons:academic-cap',
-    image: 'https://picsum.photos/seed/sailingpen-lms/600/400',
-    technologies: ['VueJS', 'SCSS', 'TailwindCSS', 'TypeScript', 'NestJS', 'Prisma'],
-    demo: '#',
-    github: '#',
+    category: 'Client platform',
+    description: 'A learning management and institute admin system for a private tuition provider, built around protecting paid video content.',
+    icon: 'ph:graduation-cap',
+    technologies: ['Vue', 'NestJS', 'Prisma', 'TypeScript'],
     featured: true,
-    status: 'Completed',
+    status: ProjectStatus.COMPLETED,
   },
 ]
+
+const [lead, ...rest] = featuredProjects
 </script>

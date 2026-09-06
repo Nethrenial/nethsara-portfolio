@@ -1,115 +1,90 @@
 <template>
   <section
     id="hero"
-    class="min-h-screen flex items-center justify-center px-8 py-16 relative overflow-hidden"
+    class="relative overflow-hidden border-b border-line"
   >
-    <!-- Animated Background Elements -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div
-        class="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-[var(--color-primary)]/10 to-transparent rounded-full blur-3xl floating"
-      />
-      <div
-        class="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-l from-[var(--color-primary)]/5 to-transparent rounded-full blur-3xl floating-delayed"
-      />
-      <div
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--gradient-glow)] rounded-full blur-3xl opacity-30"
-      />
-    </div>
-
-    <!-- Main Content -->
-    <div class="max-w-4xl mx-auto text-center relative z-10">
-      <!-- Status Badge -->
-      <div class="inline-flex items-center gap-2 mb-8 px-4 py-2 glass-card rounded-full opacity-0 animate-fade-in">
-        <div class="w-2 h-2 bg-green-400 rounded-full pulse-glow" />
-        <span class="text-[var(--color-text-secondary)] text-sm font-medium">Available for new opportunities</span>
-      </div>
-
-      <div class="mb-8">
-        <p class="text-[var(--color-primary)] text-lg mb-4 opacity-0 animate-fade-in animation-delay-200">
-          Hello, I'm
+    <div class="mx-auto grid min-h-dvh max-w-6xl grid-cols-1 items-center gap-16 px-6 pt-32 pb-24 lg:grid-cols-12 lg:gap-8 lg:px-8 lg:pt-40 lg:pb-32">
+      <!-- Copy sits left and slightly above centre; the portrait hangs lower
+           and bleeds right, so the composition is never symmetrical. -->
+      <div class="lg:col-span-7 lg:-mt-16">
+        <p class="flex items-center gap-2.5 text-sm font-medium text-ink-2">
+          <span
+            class="size-1.5 rounded-full bg-accent"
+            aria-hidden="true"
+          />
+          Open to new opportunities
         </p>
+
         <h1
           id="hero-heading"
-          class="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--color-text-primary)] mb-4 opacity-0 animate-fade-in animation-delay-400"
+          class="mt-8 max-w-170 text-6xl font-semibold tracking-display text-display sm:text-7xl lg:text-8xl"
         >
-          Nethsara <span class="gradient-text-animated">Elvitigala</span>
+          Nethsara Elvitigala
         </h1>
-        <h2
-          class="text-2xl md:text-3xl lg:text-4xl font-semibold text-[var(--color-text-secondary)] mb-6 opacity-0 animate-fade-in animation-delay-600"
-        >
-          <span class="text-[var(--color-primary)]">Software Engineer</span>
-        </h2>
-      </div>
 
-      <!-- Enhanced Description -->
-      <div class="max-w-2xl mx-auto mb-12 opacity-0 animate-fade-in animation-delay-800">
-        <p class="text-[var(--color-text-secondary)] text-lg leading-relaxed mb-6">
-          I'm an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions.
-          My skills in modeling, coding, and debugging software come from my extensive experience in various tech stacks
-          and fast moving environments.
+        <p class="mt-6 max-w-170 text-xl font-medium text-ink sm:text-2xl">
+          Senior Software Engineer. Distributed systems and cloud native
+          architecture.
         </p>
 
-        <!-- Key Stats -->
-        <!-- <div class="grid grid-cols-3 gap-6 mt-8">
-          <div class="text-center">
-            <div class="text-2xl md:text-3xl font-bold text-[var(--color-primary)] mb-1">
-              3+
-            </div>
-            <div class="text-sm text-[var(--color-text-secondary)]">
-              Years Experience
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="text-2xl md:text-3xl font-bold text-[var(--color-primary)] mb-1">
-              15+
-            </div>
-            <div class="text-sm text-[var(--color-text-secondary)]">
-              Projects Completed
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="text-2xl md:text-3xl font-bold text-[var(--color-primary)] mb-1">
-              2
-            </div>
-            <div class="text-sm text-[var(--color-text-secondary)]">
-              Open Source
-            </div>
-          </div>
-        </div> -->
+        <p class="measure mt-6 text-lg text-ink-2">
+          I architect and build platforms that hold up under load: microservices,
+          event driven workflows, and the cloud infrastructure underneath them.
+          Currently at HeyMilo AI in New York. Before that I co-founded ZaVolt
+          and grew its engineering team from two people to ten.
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a
+            href="#work"
+            class="rounded-full bg-accent px-6 py-3 text-base font-semibold text-accent-ink transition-all duration-700 ease-out-expo hover:bg-white active:scale-[0.98]"
+            @click.prevent="scrollTo('work')"
+          >
+            See what I have built
+          </a>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group inline-flex items-center gap-2 text-base font-medium text-ink-2 transition-colors duration-200 ease-out-expo hover:text-ink"
+          >
+            Résumé
+            <Icon
+              name="ph:arrow-down"
+              class="text-base transition-transform duration-700 ease-out-expo group-hover:translate-y-0.5"
+              aria-hidden="true"
+            />
+          </a>
+        </div>
       </div>
 
-      <!-- Enhanced CTA Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in animation-delay-1000">
-        <BaseButton
-          href="#projects"
-          :variant="ButtonVariant.PRIMARY"
-          icon="heroicons:eye"
-          text="View My Work"
-          aria-label="Navigate to projects section to view my portfolio"
-        />
-        <BaseButton
-          href="#contact"
-          :variant="ButtonVariant.SECONDARY"
-          icon="heroicons:chat-bubble-left-ellipsis"
-          text="Get In Touch"
-          aria-label="Navigate to contact section to get in touch with me"
-        />
-      </div>
-    </div>
-
-    <!-- Scroll Indicator - positioned relative to section, not content container -->
-    <div
-      class="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 animate-fade-in animation-delay-1200 z-20"
-      role="region"
-      aria-label="Scroll indicator"
-    >
-      <div class="flex flex-col items-center space-y-2">
-        <span class="text-[var(--color-text-secondary)] text-xs">Scroll to explore</span>
-        <div
-          class="w-6 h-10 border-2 border-[var(--color-primary)]/30 rounded-full flex justify-center"
-          aria-hidden="true"
-        >
-          <div class="w-1 h-3 bg-[var(--color-primary)] rounded-full animate-pulse mt-2" />
+      <!-- Portrait, offset and bleeding past the container on large screens -->
+      <div class="lg:col-span-5 lg:mt-24 lg:-mr-16 xl:-mr-24">
+        <div class="relative w-full max-w-sm lg:max-w-none">
+          <NuxtImg
+            src="/images/profile/nethsara.jpg"
+            alt="Nethsara Elvitigala"
+            width="640"
+            height="800"
+            sizes="sm:320px lg:480px"
+            class="aspect-4/5 w-full rounded-3xl object-cover object-top grayscale transition-all duration-700 ease-out-expo hover:grayscale-0"
+            preload
+          />
+          <!-- Facts read as a caption on the image rather than a stat row -->
+          <dl class="absolute bottom-4 left-4 rounded-2xl border border-line bg-surface p-5 shadow-lift lg:-bottom-6 lg:-left-6">
+            <div class="flex items-baseline gap-2">
+              <dt class="sr-only">
+                Engineers led at ZaVolt
+              </dt>
+              <dd class="tabular text-3xl font-semibold text-ink">
+                10
+              </dd>
+              <span class="text-sm text-ink-2">engineers led</span>
+            </div>
+            <div class="mt-1 text-sm text-ink-3">
+              Colombo, Sri Lanka · remote with New York
+            </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -117,47 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { ButtonVariant } from '~/enums/ButtonVariant'
+const scrollTo = (id: string) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 </script>
-
-<style scoped>
-.animate-fade-in {
-  animation: fadeIn 0.8s ease forwards;
-}
-
-.animation-delay-200 {
-  animation-delay: 0.2s;
-}
-
-.animation-delay-400 {
-  animation-delay: 0.4s;
-}
-
-.animation-delay-600 {
-  animation-delay: 0.6s;
-}
-
-.animation-delay-800 {
-  animation-delay: 0.8s;
-}
-
-.animation-delay-1000 {
-  animation-delay: 1.0s;
-}
-
-.animation-delay-1200 {
-  animation-delay: 1.2s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>

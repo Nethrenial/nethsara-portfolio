@@ -1,15 +1,16 @@
 <template>
-  <ul :class="listClasses">
+  <ul class="space-y-3">
     <li
       v-for="(item, index) in items"
       :key="index"
-      :class="itemClasses"
+      class="flex items-start gap-3 text-base text-ink-2"
     >
       <Icon
         :name="item.icon || defaultIcon"
-        :class="iconClasses"
+        class="mt-1 shrink-0 text-base text-ink-3"
+        aria-hidden="true"
       />
-      <span :class="textClasses">{{ item.text }}</span>
+      <span>{{ item.text }}</span>
     </li>
   </ul>
 </template>
@@ -23,33 +24,9 @@ interface FeatureItem {
 interface FeatureListProps {
   items: FeatureItem[]
   defaultIcon?: string
-  iconColor?: string
-  textColor?: string
-  spacing?: string
-  iconSize?: string
 }
 
-const props = withDefaults(defineProps<FeatureListProps>(), {
-  defaultIcon: 'heroicons:check',
-  iconColor: 'text-[var(--color-primary)]',
-  textColor: 'text-[var(--color-text-secondary)]',
-  spacing: 'space-y-3',
-  iconSize: 'text-xl',
-})
-
-const listClasses = computed(() => {
-  return props.spacing
-})
-
-const itemClasses = computed(() => {
-  return 'flex items-start'
-})
-
-const iconClasses = computed(() => {
-  return `${props.iconSize} mr-3 ${props.iconColor} mt-0.5`
-})
-
-const textClasses = computed(() => {
-  return props.textColor
+withDefaults(defineProps<FeatureListProps>(), {
+  defaultIcon: 'ph:check',
 })
 </script>

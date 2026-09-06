@@ -1,56 +1,63 @@
 <template>
   <BaseSection
     id="contact"
-    background="secondary"
+    surface="raised"
   >
     <SectionHeader
-      title="Let's Connect"
-      highlighted-word="Connect"
-      description="Ready to bring your ideas to life? I'm always excited to discuss new projects, creative ideas, or opportunities to be part of your vision."
+      index="05 / Contact"
+      title="Tell me what you are building"
+      description="Open to senior and lead engineering roles, and a limited amount of architecture consulting."
       section-id="contact"
     />
 
-    <!-- Contact Methods -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12 max-w-4xl mx-auto">
-      <ContactCard
-        v-for="contact in contactMethods"
-        :key="contact.title"
-        :contact="contact"
-      />
-    </div>
-
-    <!-- Contact Form -->
-    <div class="max-w-6xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-        <!-- Form -->
+    <div class="grid grid-cols-1 gap-x-16 gap-y-16 lg:grid-cols-12">
+      <div
+        v-reveal
+        class="lg:col-span-7"
+      >
         <ContactForm />
+      </div>
 
-        <!-- Additional Info -->
-        <div class="space-y-8">
-          <div>
-            <h4 class="text-xl font-semibold text-[var(--color-text-primary)] mb-4">
-              Let's Work Together
-            </h4>
-            <p class="text-[var(--color-text-secondary)] mb-6">
-              I'm currently available for freelance projects and full-time opportunities.
-              Whether you need a complete web application, want to improve your existing
-              codebase, or just have questions about technology, I'd love to help.
-            </p>
-
-            <FeatureList
-              :items="availabilityInfo"
-              spacing="space-y-4"
-              text-color="text-[var(--color-text-secondary)]"
+      <div
+        v-reveal="{ delay: 120 }"
+        class="lg:col-span-5"
+      >
+        <div>
+          <h3 class="font-mono text-xs tracking-wide text-ink-3 uppercase">
+            Or reach me directly
+          </h3>
+          <div class="mt-4">
+            <ContactCard
+              v-for="contact in contactMethods"
+              :key="contact.title"
+              :contact="contact"
             />
           </div>
-
-          <div>
-            <h4 class="text-xl font-semibold text-[var(--color-text-primary)] mb-4">
-              What I Can Help With
-            </h4>
-            <FeatureList :items="helpWithItems" />
-          </div>
         </div>
+
+        <div class="mt-12">
+          <h3 class="font-mono text-xs tracking-wide text-ink-3 uppercase">
+            Work I take on
+          </h3>
+          <FeatureList
+            :items="helpWithItems"
+            class="mt-4"
+          />
+        </div>
+
+        <dl class="mt-12 grid grid-cols-2 gap-6">
+          <div
+            v-for="term in terms"
+            :key="term.label"
+          >
+            <dt class="font-mono text-xs tracking-wide text-ink-3 uppercase">
+              {{ term.label }}
+            </dt>
+            <dd class="mt-2 text-base text-ink">
+              {{ term.value }}
+            </dd>
+          </div>
+        </dl>
       </div>
     </div>
   </BaseSection>
@@ -59,54 +66,49 @@
 <script setup lang="ts">
 import type { ContactMethod } from '~/models/ContactMethod'
 
-// Availability info data
-const availabilityInfo = [
-  { text: 'Usually responds within 24 hours', icon: 'heroicons:clock' },
-  { text: 'Available for remote work worldwide', icon: 'heroicons:globe-alt' },
-  { text: 'Free consultation for new projects', icon: 'heroicons:chat-bubble-left-right' },
-]
-
-// Help with items data
 const helpWithItems = [
-  { text: 'Full-stack web application development' },
-  { text: 'API design and development' },
-  { text: 'Code review and optimization' },
-  { text: 'Technical consulting and architecture' },
-  { text: 'Team mentoring and code reviews' },
+  { text: 'System design and architecture reviews' },
+  { text: 'Distributed and event driven backend platforms' },
+  { text: 'Cloud native delivery on AWS and Google Cloud' },
+  { text: 'Leading and mentoring engineering teams' },
+  { text: 'Full stack delivery in TypeScript, Java and Python' },
 ]
 
-// Contact methods data
+// Answers the questions people ask before they write, so they do not have to.
+const terms = [
+  { label: 'Reply time', value: 'Within a day' },
+  { label: 'First call', value: 'Free, 30 minutes' },
+  { label: 'Time zone', value: 'UTC+5:30, flexible' },
+  { label: 'Remote', value: 'Remote across US and APAC teams' },
+]
+
 const contactMethods: ContactMethod[] = [
   {
     title: 'Email',
-    description: 'Drop me a line and I\'ll get back to you within 24 hours.',
-    action: 'nethsara...@gmail.com',
+    action: 'nethsarasandeepaelvitigala@gmail.com',
     href: 'mailto:nethsarasandeepaelvitigala@gmail.com',
-    icon: 'heroicons:envelope',
+    icon: 'ph:envelope-simple',
     external: false,
   },
   {
     title: 'Phone',
-    description: 'Available for calls. Located in Sri Lanka (UTC+5:30).',
     action: '+94 70 361 4315',
     href: 'tel:+94703614315',
-    icon: 'heroicons:phone',
+    icon: 'ph:phone',
     external: false,
   },
   {
     title: 'LinkedIn',
-    description: 'Connect with me professionally and see my latest updates.',
-    action: 'Connect on LinkedIn',
+    action: 'in/nethsara-elvitigala',
     href: 'https://www.linkedin.com/in/nethsara-elvitigala/',
-    icon: 'heroicons:link',
+    icon: 'ph:linkedin-logo',
     external: true,
   },
   {
     title: 'GitHub',
-    description: 'Check out my open-source contributions and projects.',
-    action: 'View on GitHub',
+    action: '@Nethrenial',
     href: 'https://github.com/Nethrenial',
-    icon: 'heroicons:code-bracket',
+    icon: 'ph:github-logo',
     external: true,
   },
 ]

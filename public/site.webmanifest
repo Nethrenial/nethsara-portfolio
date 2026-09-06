@@ -1,5 +1,5 @@
 {
-  "name": "Nethsara Elvitigala - Software Engineer Portfolio",
+  "name": "Nethsara Elvitigala, Software Engineer",
   "short_name": "Nethsara Elvitigala",
   "icons": [
     {
@@ -15,7 +15,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "background_color": "#000000",
   "display": "standalone"
 }

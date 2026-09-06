@@ -1,22 +1,31 @@
 <template>
-  <div class="pt-20">
-    <section class="py-20">
-      <div class="container mx-auto px-6">
-        <div class="max-w-4xl mx-auto">
-          <h1 class="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-8">
-            {{ titlePrefix }} <span class="gradient-text">{{ titleSuffix }}</span>
-          </h1>
+  <div>
+    <section class="border-b border-line pt-32 pb-16 lg:pt-40 lg:pb-20">
+      <div class="mx-auto max-w-3xl px-6 lg:px-8">
+        <NuxtLink
+          to="/"
+          class="inline-flex items-center gap-2 text-sm font-medium text-ink-2 transition-all duration-700 ease-out-expo hover:gap-3 hover:text-ink"
+        >
+          <Icon
+            name="ph:arrow-left"
+            class="text-base"
+            aria-hidden="true"
+          />
+          Back to home
+        </NuxtLink>
 
-          <div class="prose prose-lg prose-invert max-w-none">
-            <p class="text-[var(--color-text-secondary)] text-lg mb-8">
-              Last updated: {{ new Date().toLocaleDateString() }}
-            </p>
+        <h1 class="mt-8 text-4xl font-semibold tracking-display text-ink lg:text-5xl">
+          {{ title }}
+        </h1>
+        <p class="mt-4 text-base text-ink-3">
+          Last updated <time :datetime="updatedIso">{{ updatedLabel }}</time>
+        </p>
+      </div>
+    </section>
 
-            <div class="space-y-8">
-              <slot />
-            </div>
-          </div>
-        </div>
+    <section class="border-b border-line py-16 lg:py-24">
+      <div class="mx-auto max-w-3xl space-y-12 px-6 lg:px-8">
+        <slot />
       </div>
     </section>
   </div>
@@ -24,9 +33,19 @@
 
 <script setup lang="ts">
 interface LegalPageLayoutProps {
-  titlePrefix: string
-  titleSuffix: string
+  title: string
+  /** ISO date the document was last revised. */
+  updated: string
 }
 
-defineProps<LegalPageLayoutProps>()
+const props = defineProps<LegalPageLayoutProps>()
+
+const updatedIso = computed(() => props.updated)
+const updatedLabel = computed(() =>
+  new Date(props.updated).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }),
+)
 </script>

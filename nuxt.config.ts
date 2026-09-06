@@ -11,7 +11,7 @@ export default defineNuxtConfig({
         { rel: 'manifest', href: '/site.webmanifest' },
       ],
       meta: [
-        { name: 'apple-mobile-web-app-title', content: 'Nethsara Elvitigala - Software Engineer Portfolio' },
+        { name: 'apple-mobile-web-app-title', content: 'Nethsara Elvitigala' },
       ],
 
     },
@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   site: {
     url: 'https://nethsara.me',
     name: 'Nethsara Elvitigala',
-    description: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
+    description: 'Senior Software Engineer specializing in distributed systems and cloud native architecture. Builds scalable backend services and modern web applications with TypeScript, Java and Python.',
 
     defaultLocale: 'en',
     indexable: true,
@@ -90,9 +90,14 @@ export default defineNuxtConfig({
   },
 
   fonts: {
+    families: [
+      { name: 'Geist', provider: 'google', weights: [400, 500, 600, 700] },
+      { name: 'Geist Mono', provider: 'google', weights: [400, 500] },
+    ],
     defaults: {
-      weights: ['400 700'],
-      styles: ['normal', 'italic'],
+      weights: [400, 500, 600, 700],
+      // No italics anywhere in the system; emphasis comes from weight and color.
+      styles: ['normal'],
     },
   },
 
@@ -118,8 +123,8 @@ export default defineNuxtConfig({
       '@type': 'Person',
       'name': 'Nethsara Sandeepa Elvitigala',
       'image': '/icon-512x512.png',
-      'description': 'Senior Software Engineer | Distributed Systems & Cloud-Native Architecture | TypeScript • Java • Python',
-      'url': 'nethsara.me',
+      'description': 'Senior Software Engineer specializing in distributed systems and cloud native architecture. Microservices, event driven platforms, and the teams that build them.',
+      'url': 'https://nethsara.me',
       'jobTitle': 'Senior Software Engineer',
       'worksFor': {
         '@type': 'Organization',
@@ -142,6 +147,7 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1.0',
       author: 'Nethsara Elvitigala',
       colorScheme: 'dark',
+      themeColor: '#000000',
 
       // Open Graph
       ogLocale: 'en_US',

@@ -1,19 +1,26 @@
 <template>
-  <section :class="sectionClasses">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center bg-[var(--color-accent)] rounded-xl p-8 border border-[var(--color-border)]">
-        <h2 class="text-2xl font-bold text-[var(--color-text-primary)] mb-4">
-          {{ title }}
-        </h2>
-        <p class="text-[var(--color-text-secondary)] mb-6">
-          {{ description }}
-        </p>
+  <section class="border-b border-line bg-surface">
+    <div class="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
+      <div
+        v-reveal
+        class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between"
+      >
+        <div>
+          <h2 class="max-w-170 text-3xl font-semibold tracking-display text-ink lg:text-4xl">
+            {{ title }}
+          </h2>
+          <p class="measure mt-4 text-lg text-ink-2">
+            {{ description }}
+          </p>
+        </div>
         <BaseButton
           :variant="buttonVariant"
           :href="buttonHref"
           :text="buttonText"
           :size="buttonSize"
-          :aria-label="buttonAriaLabel || `${buttonText}. ${description}`"
+          icon="ph:arrow-right"
+          class="shrink-0"
+          :aria-label="buttonAriaLabel"
         />
       </div>
     </div>
@@ -31,23 +38,12 @@ interface CTACardProps {
   buttonHref: string
   buttonVariant?: ButtonVariant
   buttonSize?: ButtonSize
-  background?: 'secondary' | 'transparent'
   buttonAriaLabel?: string
 }
 
-const props = withDefaults(defineProps<CTACardProps>(), {
+withDefaults(defineProps<CTACardProps>(), {
   buttonVariant: ButtonVariant.PRIMARY,
   buttonSize: ButtonSize.LARGE,
-  background: 'secondary',
-})
-
-const sectionClasses = computed(() => {
-  const classes = ['py-16', 'px-8']
-
-  if (props.background === 'secondary') {
-    classes.push('bg-[var(--color-secondary)]')
-  }
-
-  return classes.join(' ')
+  buttonAriaLabel: undefined,
 })
 </script>

@@ -1,3 +1,5 @@
+import type { ProjectStatus } from '~/enums/ProjectStatus'
+
 export interface Project {
   id: number
   title: string
@@ -5,11 +7,13 @@ export interface Project {
   category: string
   description: string
   icon: string
-  image: string
+  /** Screenshot path. Omit rather than pointing at a placeholder. */
+  image?: string
   technologies: string[]
-  demo: string
-  github: string
-  status: string
+  /** Omit when there is nothing public to link to; the card hides the action. */
+  demo?: string
+  github?: string
+  status: ProjectStatus
   featured?: boolean
   year?: string | number
 }

@@ -1,35 +1,22 @@
 <template>
   <BaseSection
-    id="experience"
-    background="secondary"
+    id="work"
+    surface="raised"
   >
-    <template #background>
-      <div class="absolute top-60 left-20 w-72 h-72 bg-[var(--color-primary)]/4 rounded-full blur-3xl floating" />
-      <div
-        class="absolute bottom-40 right-10 w-80 h-80 bg-[var(--color-primary)]/6 rounded-full blur-3xl floating-delayed"
-      />
-    </template>
-
     <SectionHeader
-      title="Professional Journey"
-      highlighted-word="Journey"
-      section-id="experience"
+      index="01 / Work"
+      title="Where I have worked"
+      description="Senior engineering on distributed platforms, and the consultancy I co-founded and scaled before it."
+      section-id="work"
     />
 
     <div class="relative">
-      <!-- Enhanced Timeline Line -->
-      <div
-        class="absolute left-3 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--color-primary)] via-[var(--color-primary)]/50 to-transparent"
+      <ExperienceCard
+        v-for="(experience, index) in experiences"
+        :key="experience.id"
+        :experience="experience"
+        :index="index"
       />
-
-      <div class="space-y-16 md:space-y-20">
-        <ExperienceCard
-          v-for="(experience, index) in experiences"
-          :key="index"
-          :experience="experience"
-          :index="index"
-        />
-      </div>
     </div>
   </BaseSection>
 </template>
@@ -40,75 +27,73 @@ import type { Experience } from '~/models/Experience'
 const experiences: Experience[] = [
   {
     id: 1,
-    position: 'Software Engineer',
-    company: 'Haulmatic Technologies',
-    location: 'Colombo, Sri Lanka',
-    period: 'July 2024 - Present',
-    description: 'Developing robust, scalable systems for a Supply Chain & Logistics platform with focus on security, reliability and performance.',
+    position: 'Senior Software Engineer',
+    company: 'HeyMilo AI',
+    location: 'Remote, New York',
+    period: 'February 2026 - Present',
+    description: 'Building the automation layer of an AI hiring platform, across Python services and a React front end.',
     achievements: [
-      'Architected and implemented a robust authentication & authorization system from the ground up',
-      'Led end-to-end development of critical features within a microservices architecture',
-      'Enhanced platform security and user access control for multi-tenant logistics platform',
-      'Implemented Temporal.io to orchestrate complex workflows and improve data consistency across the supply chain',
+      'Built a configurable automation system from scratch, letting users define side effects for events across the product without a release',
     ],
-    technologies: ['TypeScript', 'Angular', 'NestJS', 'GraphQL', 'RxJS', 'MongoDB', 'Firebase', 'Temporal'],
+    technologies: ['Python', 'TypeScript', 'React', 'Next.js', 'FastAPI', 'MongoDB', 'Temporal.io', 'Docker', 'Kubernetes'],
   },
   {
     id: 2,
-    position: 'Co-Founder & Lead Software Engineer',
-    company: 'ZaVolt',
-    location: 'Colombo, Sri Lanka',
-    period: 'January 2023 - Present',
-    description: 'Co-founded a software consultancy and scaled operations from a friend group to a 10+ person team, securing and delivering projects across diverse industries.',
+    position: 'Software Engineer',
+    company: 'Haulmatic Technologies',
+    location: 'Remote, Singapore',
+    period: 'July 2024 - February 2026',
+    description: 'Core platform engineering on a supply chain and logistics product serving carriers, shippers and warehouse operators.',
     achievements: [
-      'Secured and delivered projects for diverse client portfolio across e-commerce, CMS, AI and other domains',
-      'Acted as primary technical point of contact for clients, leading requirements gathering and solution architecture',
-      'Directed technical strategy, establishing best practices for code quality, testing, and deployment.',
-      'Achieved high client satisfaction and retention through successful delivery of complex software solutions.',
+      'Architected a multi tenant authentication and authorization system from scratch, enforcing role based access control across the platform',
+      'Engineered the core organization module and the vessel and flight schedule management system that the rest of logistics operations sit on',
+      'Implemented an event driven architecture on Temporal.io to orchestrate long running workflows, keeping critical transactions fault tolerant',
+      'Designed a low code configuration mechanism for system events, so non technical stakeholders could define side effects themselves',
     ],
-    technologies: ['Next.js', 'Nuxt.js', 'React', 'Vue.js', 'NestJS', 'Node.js', 'MedusaJS', 'Python', 'Flutter', 'Firebase', 'Spring Boot'],
+    technologies: ['TypeScript', 'Java', 'Angular', 'NestJS', 'GraphQL', 'Spring Boot', 'RxJS', 'MongoDB', 'Temporal.io', 'Docker', 'Kubernetes'],
   },
   {
     id: 3,
+    position: 'Co-Founder & Lead Software Engineer',
+    company: 'ZaVolt',
+    location: 'Colombo, Sri Lanka',
+    period: 'January 2023 - July 2024',
+    description: 'Co-founded a software consultancy and led its engineering through the growth from a founding pair to a full team.',
+    achievements: [
+      'Scaled the engineering team from the two founders to ten developers, setting the engineering culture, review standards and CI/CD pipelines that came with it',
+      'Led end to end technical delivery across e-commerce, CMS and AI client work as solution architect and technical lead',
+      'Mentored junior engineers and owned the technical roadmap across React, Node.js and Spring Boot',
+      'Ran requirements gathering and turned business goals into technical specifications the team could build against',
+    ],
+    technologies: ['Next.js', 'Nuxt.js', 'NestJS', 'Spring Boot', 'Python', 'MedusaJS', 'Flutter'],
+  },
+  {
+    id: 4,
     position: 'Software Engineer Intern',
     company: 'Sysco LABS Technologies',
     location: 'Colombo, Sri Lanka',
     period: 'November 2023 - June 2024',
-    description: 'Contributed to large-scale wearhouse management system development and prototyped innovative LLM-based solutions.',
+    description: 'Warehouse management at enterprise scale, plus a generative AI prototype that reached global leadership.',
     achievements: [
-      'Prototyped LLM-based test case generation tool, demonstrating a significant reduction in manual QA effort',
-      'Developed features within microfrontend (React) and microservices (Spring Boot) architecture for B2B e-commerce platform',
-      'Enhanced error handling logic for React frontend in warehouse management system',
-      'Containerized Python data analysis tool with Docker and deployed to AWS for Sysco',
-      'Worked with Power BI to create a dashboard to showcase advantages of a new ML-powered solution',
+      'Built and presented a generative AI tool on LangChain and Gemini for intelligent test case generation, streamlining QA for global technical leadership',
+      'Modernized legacy data workflows by refactoring Python analysis scripts into a containerized FastAPI service on AWS EC2',
+      'Made the core warehouse management system more resilient with centralized error handling',
     ],
-    technologies: ['React', 'Java', 'Spring Boot', 'Python', 'LangChain', 'PostgreSQL', 'Gemini', 'TypeScript', 'Docker'],
+    technologies: ['Java', 'Spring Boot', 'Python', 'FastAPI', 'LangChain', 'AWS', 'Docker', 'PostgreSQL'],
   },
   {
-    id: 4,
+    id: 5,
     position: 'Web Developer',
     company: 'PramixIT',
     location: 'Ragama, Sri Lanka',
     period: 'May 2022 - December 2022',
-    description: 'Led migration of matrimony website and developed secure authentication systems with real-time features.',
+    description: 'Front end and backend work across a matrimony platform and a coupon publishing product.',
     achievements: [
-      'Led migration of matrimony website from Vue.js(JS based project) to Nuxt.js (TS based project) to facilitate SEO and better code quality',
-      'Achieved ~30% improvement in Lighthouse scores through thorough performance optimization',
-      'Designed and developed secure authentication system on top existing Laravel backend',
-      'Implemented real-time, WebSocket-based chat feature with WhatsApp-like UI',
+      'Led the full migration of a matrimony platform from Vue.js to Nuxt.js, lifting server side rendering performance and technical SEO',
+      'Engineered a real time chat application on WebSockets, with low latency delivery and secure authentication',
+      'Contributed backend work on a coupon publishing platform in Laravel, focused on API optimization and schema design',
     ],
     technologies: ['Vue.js', 'Nuxt.js', 'Laravel', 'TypeScript', 'WebSockets', 'SCSS'],
-  },
-  {
-    id: 5,
-    position: 'Full Stack Developer',
-    company: 'Freelance/Self-Employed',
-    location: 'Colombo, Sri Lanka',
-    period: 'January 2021 - Present',
-    description: 'Developed various websites/software/scripts for clients across diverse industries.',
-    achievements: [
-    ],
-    technologies: ['HTML', 'CSS/SCSS', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Vue.js', 'Nuxt.js', 'Tailwind CSS', 'Python', 'Laravel', 'MySQL', 'PostgreSQL', 'Docker'],
   },
 ]
 </script>

@@ -1,32 +1,20 @@
 <template>
-  <div class="pt-16 lg:pt-0">
-    <!-- Header with Back Navigation -->
-    <section class="py-12 px-8 bg-[var(--color-secondary)] border-b border-[var(--color-border)]">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex items-center mb-6">
-          <NuxtLink
-            to="/#projects"
-            class="flex items-center text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-300 mr-4"
-            aria-label="Go back to home page projects section"
-          >
-            <Icon
-              name="heroicons:arrow-left"
-              class="text-xl mr-2"
-              aria-hidden="true"
-            />
-            <span>Back to Home</span>
-          </NuxtLink>
-        </div>
+  <div>
+    <section class="border-b border-line pt-32 pb-16 lg:pt-40 lg:pb-20">
+      <div class="mx-auto max-w-6xl px-6 lg:px-8">
+        <p class="font-mono text-xs tracking-widest text-ink-3 uppercase">
+          Projects
+        </p>
+        <h1 class="mt-6 max-w-170 text-5xl font-semibold tracking-display text-ink lg:text-6xl">
+          Everything worth showing
+        </h1>
+        <p class="measure mt-6 text-lg text-ink-2">
+          Open source libraries, client platforms and internal tooling. The
+          client work has no public source, so those cards link nowhere by
+          design.
+        </p>
 
-        <div class="text-center">
-          <h1 class="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4">
-            All <span class="gradient-text">Projects</span>
-          </h1>
-          <p class="text-[var(--color-text-secondary)] text-lg max-w-2xl mx-auto mb-8">
-            A comprehensive showcase of my creative work, from complex web applications to innovative solutions that solve real-world problems.
-          </p>
-
-          <!-- Filter Buttons -->
+        <div class="mt-10">
           <FilterButtonGroup
             :categories="categories"
             :selected-category="selectedCategory"
@@ -36,167 +24,156 @@
       </div>
     </section>
 
-    <!-- Projects Grid -->
-    <section class="py-16 px-8">
-      <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <section class="border-b border-line py-20 lg:py-24">
+      <div class="mx-auto max-w-6xl px-6 lg:px-8">
+        <!-- Variable-height cards in a masonry-style column flow, so a short
+             description does not stretch to match a long one. -->
+        <div
+          v-if="filteredProjects.length"
+          class="gap-6 md:columns-2 lg:columns-3"
+        >
           <ProjectsCard
-            v-for="project in filteredProjects"
+            v-for="(project, index) in filteredProjects"
             :key="project.id"
+            v-reveal="{ delay: (index % 3) * 80 }"
             :project="project"
-            :variant="ProjectVariant.COMPACT"
             :max-technologies="4"
+            class="mb-6 break-inside-avoid"
           />
         </div>
 
-        <!-- Empty State -->
         <EmptyState
-          v-if="filteredProjects.length === 0"
-          icon="heroicons:folder-open"
-          title="No projects found"
-          message="Try selecting a different category."
-        />
+          v-else
+          icon="ph:funnel"
+          :title="`Nothing filed under ${selectedCategory}`"
+          message="That category is empty for now. The other filters have work in them."
+        >
+          <template #action>
+            <BaseButton
+              :variant="ButtonVariant.SECONDARY"
+              text="Show everything"
+              icon="ph:arrow-counter-clockwise"
+              @click="selectedCategory = 'All'"
+            />
+          </template>
+        </EmptyState>
       </div>
     </section>
 
-    <!-- Call to Action -->
     <CTACard
-      title="Have a Project in Mind?"
-      description="I'm always excited to take on new challenges and bring innovative ideas to life."
-      button-text="Let's Work Together"
+      title="Something you want built?"
+      description="Tell me the problem and the constraints. I will tell you honestly whether I am the right person for it."
+      button-text="Start a conversation"
       button-href="/#contact"
-      :button-variant="ButtonVariant.PRIMARY"
-      :button-size="ButtonSize.LARGE"
-      background="secondary"
-      button-aria-label="Navigate to contact section to discuss your project"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import type { Project } from '~/models/Project'
 import { ButtonVariant } from '~/enums/ButtonVariant'
-import { ButtonSize } from '~/enums/ButtonSize'
-import { ProjectVariant } from '~/enums/ProjectVariant'
+import { ProjectStatus } from '~/enums/ProjectStatus'
 
 const selectedCategory = ref<string>('All')
 
-const categories: string[] = ['All', 'Web App', 'Mobile App', 'API', 'Tool', 'Open Source']
+const categories: string[] = ['All', 'Open source', 'Client platform', 'Tooling']
 
 const projects: Project[] = [
   {
     id: 1,
     title: 'Nethren UI',
     slug: 'nethren-ui',
-    category: 'Open Source',
-    description: 'A UI components library for React and Vue. Released several pre-release versions of the VueJS edition. Used as the UI library for 3rd year university project.',
-    icon: 'heroicons:cube',
-    image: 'https://picsum.photos/seed/nethren-ui/600/400',
-    technologies: ['VueJS', 'SCSS', 'TypeScript', 'React'],
+    category: 'Open source',
+    description: 'A component library for Vue and React. The Vue edition shipped several pre-release versions and became the UI layer for the SailingPen build, which is where most of its API decisions came from.',
+    icon: 'ph:stack',
+    technologies: ['Vue', 'TypeScript', 'SCSS', 'React'],
     demo: 'https://nethren-ui-vue-docs.pages.dev',
     github: 'https://github.com/Nethrenial/nethren-ui-vue',
-    status: 'Active',
+    status: ProjectStatus.ACTIVE,
     featured: true,
   },
   {
     id: 2,
-    title: 'BanhMi Web Framework',
+    title: 'BanhMi',
     slug: 'banh-mi-framework',
-    category: 'Open Source',
-    description: 'An experimental web framework for the Bun runtime from scratch. API inspired by ExpressJS but with major differences. Published early version with features for simple full-stack web apps.',
-    icon: 'heroicons:cog-6-tooth',
-    image: 'https://picsum.photos/seed/banh-mi/600/400',
-    technologies: ['Bun Runtime', 'TypeScript'],
+    category: 'Open source',
+    description: 'A web framework for the Bun runtime, written from scratch. The API borrows from Express and diverges where Bun makes something cheaper. The published version handles routing, middleware and static serving.',
+    icon: 'ph:cube',
+    technologies: ['Bun', 'TypeScript'],
     demo: 'https://github.com/banh-mi-org/examples',
     github: 'https://github.com/banh-mi-org/framework',
-    status: 'Active',
+    status: ProjectStatus.ACTIVE,
     featured: true,
   },
   {
     id: 3,
-    title: 'Ecommerce B2B Platform',
-    slug: 'ecommerce-b2b',
-    category: 'Web App',
-    description: 'B2B sales portal and inventory management system with microfrontend and microservices architecture, emulating Sysco shop for wholesale food products.',
-    icon: 'heroicons:shopping-cart',
-    image: 'https://picsum.photos/seed/ecommerce-b2b/600/400',
-    technologies: ['ReactJS', 'Single-SPA', 'Chakra UI', 'TypeScript', 'ExpressJS', 'Java', 'Spring Boot', 'PostgreSQL'],
-    demo: '#',
-    github: '#',
-    status: 'Completed',
+    title: 'AIESEC Opportunities Portal',
+    slug: 'aiesec-portal',
+    category: 'Client platform',
+    description: 'The opportunity listing and admin dashboard for AIESEC in Colombo Central, with Firebase behind it and Algolia handling search.',
+    icon: 'ph:compass',
+    technologies: ['Vue', 'TypeScript', 'SCSS', 'Firebase', 'Algolia'],
+    demo: 'https://opps.uoc.aiesec.lk/',
+    github: 'https://github.com/Nethrenial/aiesec-opportunities',
+    status: ProjectStatus.LIVE,
   },
   {
     id: 4,
-    title: 'SailingPen - LMS',
+    title: 'SailingPen',
     slug: 'sailingpen-lms',
-    category: 'Web App',
-    description: 'LMS and institute management system for private tuition institute with focus on content protection and improving student engagement. Led as project leader.',
-    icon: 'heroicons:academic-cap',
-    image: 'https://picsum.photos/seed/sailingpen-lms/600/400',
-    technologies: ['VueJS', 'SCSS', 'TailwindCSS', 'TypeScript', 'NestJS', 'Prisma', 'PostgreSQL', 'Cloudflare Stream'],
-    demo: '#',
-    github: '#',
-    status: 'Completed',
+    category: 'Client platform',
+    description: 'A learning management and institute admin system for a private tuition provider, built around protecting paid video content. I led the project through my third year at university.',
+    icon: 'ph:graduation-cap',
+    technologies: ['Vue', 'NestJS', 'Prisma', 'PostgreSQL', 'TypeScript', 'Cloudflare Stream'],
+    status: ProjectStatus.COMPLETED,
     featured: true,
   },
   {
     id: 5,
-    title: 'AutoRealm Management System',
-    slug: 'autorealm',
-    category: 'Web App',
-    description: 'Vehicle maintenance center management system with e-commerce website and employee dashboards. Built custom PHP framework from scratch.',
-    icon: 'heroicons:wrench-screwdriver',
-    image: 'https://picsum.photos/seed/autorealm/600/400',
-    technologies: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
-    demo: '#',
-    github: '#',
-    status: 'Completed',
+    title: 'B2B Wholesale Ordering',
+    slug: 'ecommerce-b2b',
+    category: 'Client platform',
+    description: 'A sales portal and inventory system for wholesale food distribution, built as microfrontends over a Spring Boot service estate during my time at Sysco LABS.',
+    icon: 'ph:shopping-cart',
+    technologies: ['React', 'Single-SPA', 'TypeScript', 'Java', 'Spring Boot', 'PostgreSQL'],
+    status: ProjectStatus.COMPLETED,
   },
   {
     id: 6,
-    title: 'AIESEC CC Opportunities Portal',
-    slug: 'aiesec-portal',
-    category: 'Web App',
-    description: 'Official opportunity portal and admin dashboard for AIESEC in Colombo Central with Firebase and Algolia integration.',
-    icon: 'heroicons:briefcase',
-    image: 'https://picsum.photos/seed/aiesec-portal/600/400',
-    technologies: ['VueJS', 'TypeScript', 'SCSS', 'Firebase', 'Algolia'],
-    demo: 'https://opps.uoc.aiesec.lk/',
-    github: 'https://github.com/Nethrenial/aiesec-opportunities',
-    status: 'Live',
+    title: 'AutoRealm',
+    slug: 'autorealm',
+    category: 'Client platform',
+    description: 'A management system for a vehicle service centre, with a storefront and staff dashboards. Built on a PHP framework I wrote from scratch, which taught me why frameworks exist.',
+    icon: 'ph:wrench',
+    technologies: ['PHP', 'MySQL', 'JavaScript', 'CSS'],
+    status: ProjectStatus.ARCHIVED,
   },
-  // TODO: Update this data with your real data - placeholder for additional projects
   {
     id: 7,
-    title: 'LLM Test Case Generator',
+    title: 'Test Case Generator',
     slug: 'llm-test-generator',
-    category: 'Tool',
-    description: 'LLM-based tool for intelligent test case generation presented to Sysco global technical leadership team.',
-    icon: 'heroicons:cpu-chip',
-    image: 'https://picsum.photos/seed/llm-test-generator/600/400',
+    category: 'Tooling',
+    description: 'A prototype that reads a requirement and drafts the test cases for it, built on Gemini and LangChain. Presented to Sysco global leadership in 2024.',
+    icon: 'ph:flask',
     technologies: ['Python', 'LangChain', 'Gemini'],
-    demo: '#',
-    github: '#',
-    status: 'Demo',
+    status: ProjectStatus.DEMO,
   },
 ]
 
-const filteredProjects = computed((): Project[] => {
-  if (selectedCategory.value === 'All') {
-    return projects
-  }
-  return projects.filter(project => project.category === selectedCategory.value)
-})
+const filteredProjects = computed((): Project[] =>
+  selectedCategory.value === 'All'
+    ? projects
+    : projects.filter(project => project.category === selectedCategory.value),
+)
 
-// SEO
 useSeoMeta({
   title: 'Projects',
-  description: 'Explore my portfolio of projects including open source libraries, web applications, and innovative software solutions.',
+  description: 'Open source libraries, client platforms and internal tooling built by Nethsara Elvitigala, including Nethren UI and the BanhMi web framework.',
 })
+
 defineOgImage('PageLayout', {
   section: 'Projects',
-  title: 'All Projects',
-  description: 'Explore my portfolio of projects including open source libraries, web applications, and innovative software solutions.',
+  title: 'Everything worth showing',
+  description: 'Open source libraries, client platforms and internal tooling.',
 })
 </script>

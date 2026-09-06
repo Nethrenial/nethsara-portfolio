@@ -1,140 +1,66 @@
 <template>
-  <div
-    class="relative flex flex-col md:flex-row items-start md:items-center"
-    :class="index % 2 === 0 ? 'md:flex-row-reverse' : ''"
+  <article
+    v-reveal="{ delay: index * 80 }"
+    class="group relative grid grid-cols-1 gap-x-10 gap-y-4 pb-16 last:pb-0 md:grid-cols-[10rem_1fr]"
   >
-    <!-- Enhanced Timeline Dot with Glow -->
-    <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-6 md:w-8 h-6 md:h-8 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] rounded-full border-4 md:border-6 border-[var(--color-surface)] z-10 shadow-lg pulse-glow" />
+    <div class="md:pt-1">
+      <time class="block font-mono text-xs tracking-wide text-ink-2 uppercase">
+        {{ experience.period }}
+      </time>
+      <span
+        v-if="isCurrent"
+        class="mt-2 inline-block rounded-sm bg-surface-3 px-2 py-1 font-mono text-xs text-accent"
+      >
+        Current
+      </span>
+    </div>
 
-    <!-- Enhanced Content Card -->
-    <div
-      class="ml-8 md:ml-0 md:w-[calc(50%-2rem)] glass-card rounded-2xl p-6 md:p-8 card-hover glow-on-hover group relative overflow-hidden"
-      :class="index % 2 === 0 ? 'md:mr-4' : 'md:ml-4'"
-    >
-      <!-- Background Pattern -->
-      <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[var(--color-primary)]/5 to-transparent rounded-full transform translate-x-16 -translate-y-16" />
+    <div class="relative md:border-l md:border-line md:pl-10">
+      <!-- Rail marker, sitting on the rule and aligned to the role title -->
+      <span
+        class="absolute top-2 left-0 hidden size-2 -translate-x-1/2 rounded-full bg-ink-3 transition-colors duration-700 ease-out-expo group-hover:bg-accent md:block"
+        aria-hidden="true"
+      />
 
-      <!-- Company Logo Placeholder -->
-      <div class="absolute top-6 right-6 w-12 h-12 glass-card rounded-lg flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity duration-300">
-        <Icon
-          name="heroicons:briefcase"
-          class="text-2xl text-[var(--color-primary)]"
-        />
-      </div>
+      <h3 class="text-xl font-semibold text-ink lg:text-2xl">
+        {{ experience.position }}
+      </h3>
+      <p class="mt-1.5 text-base text-ink-2">
+        {{ experience.company }} · {{ experience.location }}
+      </p>
 
-      <!-- Desktop Layout -->
-      <div class="hidden md:block relative z-10">
-        <div class="flex items-start justify-between mb-6">
-          <div class="flex-1 pr-16">
-            <h3 class="text-2xl font-bold text-[var(--color-text-primary)] mb-2 group-hover:text-[var(--color-primary)] transition-colors duration-300">
-              {{ experience.position }}
-            </h3>
-            <p class="text-[var(--color-primary)] font-semibold text-lg mb-1">
-              {{ experience.company }}
-            </p>
-            <p class="text-[var(--color-text-secondary)] text-sm flex items-center">
-              <Icon
-                name="heroicons:map-pin"
-                class="w-4 h-4 mr-1"
-              />
-              {{ experience.location }}
-            </p>
-          </div>
-          <div class="flex flex-col items-end">
-            <span class="text-[var(--color-text-secondary)] text-sm glass-card px-4 py-2 rounded-full whitespace-nowrap mb-2">
-              {{ experience.period }}
-            </span>
-            <div class="flex items-center text-xs text-[var(--color-primary)]">
-              <div class="w-2 h-2 bg-[var(--color-primary)] rounded-full mr-2 animate-pulse" />
-              <span>{{ getStatus(experience.period) }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile Layout -->
-      <div class="md:hidden mb-6 relative z-10">
-        <div class="pr-16">
-          <h3 class="text-xl font-bold text-[var(--color-text-primary)] mb-2 group-hover:text-[var(--color-primary)] transition-colors duration-300">
-            {{ experience.position }}
-          </h3>
-          <p class="text-[var(--color-primary)] font-semibold text-base mb-1">
-            {{ experience.company }}
-          </p>
-          <p class="text-[var(--color-text-secondary)] text-sm flex items-center mb-2">
-            <Icon
-              name="heroicons:map-pin"
-              class="text-sm mr-1"
-            />
-            {{ experience.location }}
-          </p>
-          <div class="flex items-center justify-between">
-            <span class="text-[var(--color-text-secondary)] text-xs glass-card px-3 py-1 rounded-full">
-              {{ experience.period }}
-            </span>
-            <div class="flex items-center text-xs text-[var(--color-primary)]">
-              <div class="w-2 h-2 bg-[var(--color-primary)] rounded-full mr-2 animate-pulse" />
-              <span>{{ getStatus(experience.period) }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Description -->
-      <p class="text-[var(--color-text-secondary)] mb-6 leading-relaxed relative z-10">
+      <p class="measure mt-4 text-base text-ink-2">
         {{ experience.description }}
       </p>
 
-      <!-- Enhanced Key Achievements -->
-      <div
-        v-if="experience.achievements.length > 0"
-        class="mb-6 relative z-10"
+      <ul
+        v-if="experience.achievements.length"
+        class="measure mt-6 space-y-3"
       >
-        <h4 class="text-[var(--color-text-primary)] font-semibold mb-4 flex items-center">
-          <Icon
-            name="heroicons:trophy"
-            class="text-xl mr-2 text-[var(--color-primary)]"
-          />
-          Key Achievements
-        </h4>
-        <ul class="space-y-3">
-          <li
-            v-for="achievement in experience.achievements"
-            :key="achievement"
-            class="flex items-start text-[var(--color-text-secondary)] text-sm"
-          >
-            <div class="w-5 h-5 bg-[var(--color-primary)]/20 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
-              <Icon
-                name="heroicons:check"
-                class="text-xs text-[var(--color-primary)]"
-              />
-            </div>
-            <span class="leading-relaxed">{{ achievement }}</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Enhanced Technologies -->
-      <div class="relative z-10">
-        <h4 class="text-[var(--color-text-primary)] font-semibold mb-3 flex items-center">
-          <Icon
-            name="heroicons:cog-6-tooth"
-            class="text-xl mr-2 text-[var(--color-primary)]"
-          />
-          Technologies Used
-        </h4>
-        <div class="flex flex-wrap gap-2">
+        <li
+          v-for="achievement in experience.achievements"
+          :key="achievement"
+          class="relative pl-6 text-base text-ink-2"
+        >
           <span
-            v-for="tech in experience.technologies"
-            :key="tech"
-            class="px-3 py-1.5 glass-card text-[var(--color-text-secondary)] text-xs rounded-full hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 transition-all duration-300 cursor-default"
-          >
-            {{ tech }}
-          </span>
-        </div>
-      </div>
+            class="absolute top-2.5 left-0 size-1 rounded-full bg-ink-3"
+            aria-hidden="true"
+          />
+          {{ achievement }}
+        </li>
+      </ul>
+
+      <ul class="mt-6 flex flex-wrap gap-2">
+        <li
+          v-for="tech in experience.technologies"
+          :key="tech"
+          class="rounded-md border border-line px-2 py-1 font-mono text-xs text-ink-3 transition-colors duration-200 ease-out-expo hover:border-ink-3 hover:text-ink-2"
+        >
+          {{ tech }}
+        </li>
+      </ul>
     </div>
-  </div>
+  </article>
 </template>
 
 <script setup lang="ts">
@@ -145,13 +71,7 @@ interface ExperienceCardProps {
   index: number
 }
 
-defineProps<ExperienceCardProps>()
+const props = defineProps<ExperienceCardProps>()
 
-// Helper function to determine if position is current
-const getStatus = (period: string): string => {
-  if (period.toLowerCase().includes('present')) {
-    return 'Current'
-  }
-  return 'Completed'
-}
+const isCurrent = computed(() => props.experience.period.toLowerCase().includes('present'))
 </script>

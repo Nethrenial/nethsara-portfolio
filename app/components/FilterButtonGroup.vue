@@ -1,20 +1,19 @@
 <template>
   <div
-    class="flex flex-wrap justify-center gap-3"
+    class="inline-flex flex-wrap gap-1 rounded-xl border border-line bg-surface-2 p-1"
     role="group"
-    aria-label="Project category filters"
+    aria-label="Filter projects by category"
   >
     <button
       v-for="category in categories"
       :key="category"
       type="button"
-      class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300"
+      class="rounded-lg px-3 py-2 text-sm font-medium transition-all duration-700 ease-out-expo active:scale-[0.98]"
       :class="selectedCategory === category
-        ? 'bg-[var(--color-primary)] text-white'
-        : 'bg-[var(--color-accent)] text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] border border-[var(--color-border)] hover:border-[var(--color-primary)]'"
+        ? 'bg-accent text-accent-ink'
+        : 'text-ink-2 hover:bg-surface-3 hover:text-ink'"
       :aria-pressed="selectedCategory === category"
-      :aria-label="`Filter projects by ${category} category${selectedCategory === category ? ' (currently selected)' : ''}`"
-      @click="handleCategoryClick(category)"
+      @click="emit('update:selectedCategory', category)"
     >
       {{ category }}
     </button>
@@ -32,8 +31,4 @@ defineProps<FilterButtonGroupProps>()
 const emit = defineEmits<{
   'update:selectedCategory': [category: string]
 }>()
-
-const handleCategoryClick = (category: string) => {
-  emit('update:selectedCategory', category)
-}
 </script>

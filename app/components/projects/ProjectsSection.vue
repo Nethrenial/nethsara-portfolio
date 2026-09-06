@@ -1,16 +1,9 @@
 <template>
-  <BaseSection
-    id="projects"
-    background="secondary"
-  >
-    <template #background>
-      <div class="absolute top-32 right-20 w-96 h-96 bg-[var(--color-primary)]/4 rounded-full blur-3xl floating" />
-      <div class="absolute bottom-20 left-10 w-80 h-80 bg-[var(--color-primary)]/6 rounded-full blur-3xl floating-delayed" />
-    </template>
-
+  <BaseSection id="projects">
     <SectionHeader
-      title="Featured Projects"
-      highlighted-word="Projects"
+      index="02 / Projects"
+      title="Things I built because I wanted them to exist"
+      description="Two open source libraries and the client platform that pushed the first one into shape."
       section-id="projects"
     />
 

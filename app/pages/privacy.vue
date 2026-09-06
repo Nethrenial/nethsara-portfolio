@@ -142,7 +142,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Privacy Policy - Nethsara Elvitigala',
+  title: 'Privacy Policy',
   description: 'Privacy policy for nethsara.me — what data is collected via the contact form and Google Analytics, and how it is used.',
 })
 defineOgImage('PageLayout', {

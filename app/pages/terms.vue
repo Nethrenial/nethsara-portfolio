@@ -79,7 +79,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Terms of Service - Nethsara Elvitigala',
+  title: 'Terms of Service',
   description: 'Terms of service for using this website and services.',
 })
 defineOgImage('PageLayout', {

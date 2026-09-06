@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   // SEO configuration
   site: {
     url: 'https://nethsara.me',
-    name: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
+    name: 'Nethsara Elvitigala',
     description: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
 
     defaultLocale: 'en',
@@ -135,27 +135,20 @@ export default defineNuxtConfig({
 
   seo: {
     mergeWithSiteConfig: true,
+    // Only site-wide constants belong here. Anything per-page (title, description,
+    // og:title/description, og:url) is set by each page via useSeoMeta so it doesn't
+    // get flattened to the same value across every route.
     meta: {
-      charset: 'utf-8',
-      description: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
       viewport: 'width=device-width, initial-scale=1.0',
       author: 'Nethsara Elvitigala',
-      colorScheme: 'ldark',
+      colorScheme: 'dark',
 
       // Open Graph
-      ogUrl: 'https://nethsara.me',
-      ogTitle: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
-      ogDescription: 'Senior Software Engineer specializing in distributed systems & cloud-native architecture. Builds scalable backend and modern frontend apps with TypeScript, Java, Python.',
-      ogType: 'website',
       ogLocale: 'en_US',
-      ogSiteName: 'Nethsara Elvitigala',
 
       // Twitter
       twitterCard: 'summary_large_image',
       twitterCreator: '@NSElvitigala',
-      twitterTitle: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
-      twitterDescription: 'I\'m an enthusiastic and motivated Software Engineer with a passion for developing innovative solutions. Experienced in various tech stacks and fast moving environments.',
-      twitterImageAlt: 'Nethsara Elvitigala | Senior Software Engineer (Full-Stack)',
       twitterSite: '@NSElvitigala',
 
       // Mobile Web App
@@ -163,8 +156,6 @@ export default defineNuxtConfig({
       appleMobileWebAppStatusBarStyle: 'default',
       appleMobileWebAppTitle: 'Nethsara Elvitigala',
       mobileWebAppCapable: 'yes',
-
-      title: 'Nethsara Elvitigala - Software Engineer',
     },
   },
 

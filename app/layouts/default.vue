@@ -15,5 +15,6 @@
 
     <SiteFooter />
     <ScrollToTop />
+    <MotionCursorFollower />
   </div>
 </template>

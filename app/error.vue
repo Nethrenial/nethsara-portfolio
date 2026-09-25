@@ -1,23 +1,55 @@
 <template>
   <NuxtLayout>
-    <section class="flex min-h-dvh items-center border-b border-line">
-      <div class="mx-auto w-full max-w-6xl px-6 py-32 lg:px-8">
-        <p class="font-mono text-xs tracking-widest text-ink-3 uppercase">
-          Error {{ error?.statusCode ?? 500 }}
+    <section class="relative isolate flex min-h-dvh items-center overflow-clip">
+      <div
+        class="dot-grid absolute inset-0 -z-10 opacity-60"
+        aria-hidden="true"
+      />
+      <div
+        class="absolute inset-0 -z-10 hidden md:block"
+        aria-hidden="true"
+      >
+        <MotionSystemDiagram />
+      </div>
+
+      <div class="shell py-24">
+        <p
+          class="flex items-center gap-4 font-mono text-xs tracking-wide text-ink-2"
+          data-intro="fade"
+        >
+          <span class="tabular grid h-8 place-items-center rounded-lg bg-coral px-2 font-medium text-accent-ink">
+            {{ error?.statusCode ?? 500 }}
+          </span>
+          Error
         </p>
-        <h1 class="mt-6 max-w-170 text-5xl font-semibold tracking-display text-display lg:text-7xl">
-          {{ heading }}
+        <h1 class="mt-8 max-w-4xl text-5xl font-semibold tracking-display lg:text-8xl">
+          <MotionSplitText
+            :text="heading"
+            trigger="load"
+            :delay="150"
+            :step="24"
+            gradient
+            hop
+          />
         </h1>
-        <p class="measure mt-6 text-lg text-ink-2">
+        <p
+          class="measure mt-8 text-lg text-ink-2"
+          data-intro
+          :style="{ '--d': '700ms' }"
+        >
           {{ body }}
         </p>
 
-        <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <div
+          class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4"
+          data-intro
+          :style="{ '--d': '850ms' }"
+        >
           <BaseButton
-            :variant="ButtonVariant.PRIMARY"
             :size="ButtonSize.LARGE"
             icon="ph:arrow-left"
             text="Back to home"
+            hue="sage"
             @click="handleClearError"
           />
           <BaseButton

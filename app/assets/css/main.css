@@ -6,7 +6,7 @@
 /* ---------------------------------------------------------------------------
    Design tokens
    Surfaces are flat. Depth comes from layering, grain, tinted shadow and
-   spacing — never from a background gradient. The only gradient in the system
+   spacing, never from a background gradient. The only gradient in the system
    is the hero heading text.
 --------------------------------------------------------------------------- */
 
@@ -27,21 +27,29 @@
   --color-ink-2: #9b9b9b;
   --color-ink-3: #6b6b6b;
 
-  /* The single accent: warm off-white, and the near-black it sits against */
+  /* The single accent: warm off white, and the near black it sits against */
   --color-accent: #f5f1e8;
   --color-accent-ink: #131209;
 
-  /* Motion */
+  /* Signal palette. Five hues, all under 80% saturation, spaced around the
+     wheel rather than drifting purple into blue. They never fill a section
+     background: they live on objects (plates, packets, markers, hovers). */
+  --color-coral: #e88468;
+  --color-saffron: #e8b25c;
+  --color-sage: #8cc7a1;
+  --color-sky: #86aee3;
+  --color-rose: #e495b5;
+
+  /* Motion. One curve for the whole system. */
   --ease-out-expo: cubic-bezier(0.32, 0.72, 0, 1);
 
-  /* Shadows, tinted toward the warm near-black rather than pure black */
+  /* Shadows, tinted toward the warm near black rather than pure black.
+     Every shadow falls straight down: one light source, directly above. */
   --shadow-raise: 0 1px 2px rgb(19 18 9 / 0.4), 0 8px 24px -8px rgb(19 18 9 / 0.6);
   --shadow-lift: 0 2px 4px rgb(19 18 9 / 0.4), 0 24px 48px -16px rgb(19 18 9 / 0.7);
-
 }
 
-/* Z-index scale — nothing in the codebase should use an arbitrary value.
-   Tailwind v4 has no --z-* theme namespace, so these are real utilities. */
+/* Z index scale. Nothing in the codebase uses an arbitrary value. */
 @utility z-raised { z-index: 10; }
 @utility z-sticky { z-index: 20; }
 @utility z-nav { z-index: 30; }
@@ -49,10 +57,22 @@
 @utility z-skip { z-index: 50; }
 
 /* Display sizes carry more presence with tighter tracking */
-@utility tracking-display { letter-spacing: -0.04em; }
+@utility tracking-display { letter-spacing: -0.045em; }
 
 /* Caps paragraph measure at roughly 65 characters */
 @utility measure { max-width: 65ch; }
+
+/* Shared page container: 1280px with auto margins */
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.5rem;
+
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
 
 @layer base {
   html {
@@ -62,12 +82,14 @@
     background-color: var(--color-canvas);
     color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
     font-family: var(--font-sans);
     background-color: var(--color-canvas);
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   h1,
@@ -115,13 +137,13 @@
 
   *:focus-visible {
     outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline-offset: 4px;
+    border-radius: 4px;
   }
 }
 
 @layer components {
-  /* Hero heading gradient — the one permitted gradient in the system */
+  /* Hero heading gradient, the one permitted gradient in the system */
   .text-display {
     background: linear-gradient(90deg, #ffffff 0%, #9b9b9b 100%);
     background-clip: text;
@@ -129,30 +151,43 @@
     color: transparent;
   }
 
-  /* Glass, used sparingly: the nav island and the mobile overlay only.
+  /* Outlined display type, used for decorative bands */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-line);
+  }
+
+  /* Glass: the nav island and the mobile overlay only.
      1px inner border plus an inner highlight to simulate edge refraction. */
   .glass {
-    background: rgb(24 24 24 / 0.72);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background: rgb(24 24 24 / 0.64);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
     border: 1px solid rgb(255 255 255 / 0.08);
     box-shadow:
-      inset 0 1px 0 0 rgb(255 255 255 / 0.06),
+      inset 0 1px 0 0 rgb(255 255 255 / 0.08),
+      inset 0 -1px 0 0 rgb(0 0 0 / 0.4),
       var(--shadow-raise);
   }
 
-  /* Fixed grain overlay — breaks digital flatness without a gradient */
+  /* Fixed grain overlay, breaks digital flatness without a gradient */
   .grain::after {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 25;
     pointer-events: none;
-    opacity: 0.035;
+    opacity: 0.04;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* Spotlight border: illuminates under the cursor. Coordinates are set by
+  /* Blueprint dot grid, a subtle pattern for plates and empty regions */
+  .dot-grid {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect x='11.5' y='11.5' width='1' height='1' fill='%23313131'/%3E%3C/svg%3E");
+    background-size: 24px 24px;
+  }
+
+  /* Spotlight border: illuminates under the cursor. Coordinates come from
      the v-spotlight directive. */
   .spotlight {
     position: relative;
@@ -168,8 +203,8 @@
     opacity: 0;
     transition: opacity 700ms var(--ease-out-expo);
     background: radial-gradient(
-      220px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      rgb(245 241 232 / 0.5),
+      320px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgb(245 241 232 / 0.55),
       transparent 70%
     );
     -webkit-mask:
@@ -181,35 +216,446 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+    z-index: 1;
   }
 
   .spotlight:hover::before {
     opacity: 1;
   }
+
+  /* Roll text: the label slides up and an identical copy follows it in from
+     below. Triggered by any .group ancestor. */
+  .roll {
+    display: inline-flex;
+    overflow: hidden;
+    vertical-align: top;
+  }
+
+  .roll > span {
+    position: relative;
+    display: inline-block;
+    transition: transform 700ms var(--ease-out-expo);
+  }
+
+  .roll > span::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+
+  .group:hover .roll > span,
+  .group:focus-visible .roll > span {
+    transform: translateY(-100%);
+  }
+
+  /* Magnetic pull. The v-magnetic directive writes --mx and --my. */
+  .magnetic {
+    translate: var(--mx, 0) var(--my, 0);
+  }
+
+  .magnetic [data-magnetic-inner] {
+    display: inline-flex;
+    translate: calc(var(--mx, 0) * 0.35) calc(var(--my, 0) * 0.35);
+    transition: translate 700ms var(--ease-out-expo);
+  }
+
+  /* Split text. The mask carries a little room below the baseline so
+     descenders are not clipped while the glyphs are travelling, and opens
+     once they have landed so a hopping letter is not clipped either. */
+  .split-mask {
+    display: inline-block;
+    overflow: clip;
+    vertical-align: top;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+
+  .split.is-done .split-mask {
+    overflow: visible;
+  }
+
+  .split-piece {
+    display: inline-block;
+    transform-origin: 0% 100%;
+  }
+
+  .split-glyph {
+    color: var(--c);
+  }
+
+  /* Playful letters: each one hops and takes a signal hue under the pointer */
+  .hop {
+    display: inline-block;
+    transition:
+      transform 700ms var(--ease-out-expo),
+      color 400ms var(--ease-out-expo);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hop:hover {
+      transform: translateY(-12%) rotate(-4deg);
+      color: var(--hop-color, var(--color-accent));
+      transition-duration: 300ms;
+    }
+  }
+
+  /* Footer wordmark letters */
+  .wordmark-letter {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transition: transform 700ms var(--ease-out-expo);
+  }
+
+  .wordmark-fill {
+    fill: var(--color-accent);
+    transition: fill 400ms var(--ease-out-expo);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .wordmark-letter:hover {
+      transform: translateY(-8%) rotate(-4deg);
+      transition-duration: 300ms;
+    }
+
+    .wordmark-letter:hover .wordmark-fill {
+      fill: var(--hop-color);
+    }
+  }
+
+  /* Hide the native cursor only where the custom one is running */
+  .has-cursor,
+  .has-cursor a,
+  .has-cursor button {
+    cursor: none;
+  }
+
+  .has-cursor input,
+  .has-cursor textarea {
+    cursor: text;
+  }
 }
 
 /* ---------------------------------------------------------------------------
-   Scroll reveal
-   The v-reveal directive stamps data-reveal on the client only, so content is
-   fully visible in the SSR payload and with JavaScript disabled.
+   Motion system
+
+   Everything below is gated on `.js`, stamped on <html> by an inline script
+   before first paint. Without JavaScript, or with reduced motion, every
+   element renders in its final state.
 --------------------------------------------------------------------------- */
 
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(4rem);
-  filter: blur(12px);
-  will-change: opacity, transform, filter;
-  transition:
-    opacity 900ms var(--ease-out-expo),
-    transform 900ms var(--ease-out-expo),
-    filter 900ms var(--ease-out-expo);
-  transition-delay: var(--reveal-delay, 0ms);
+@keyframes rise {
+  from { transform: translateY(110%) rotate(6deg); }
+  to { transform: none; }
 }
 
-[data-reveal="in"] {
-  opacity: 1;
-  transform: none;
-  filter: none;
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(4rem); filter: blur(12px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes wipe-up {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes settle {
+  from { transform: scale(1.35); }
+  to { transform: scale(1); }
+}
+
+@keyframes drop-in {
+  from { opacity: 0; transform: translateY(-2rem) scale(0.96); filter: blur(8px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ping {
+  0% { transform: scale(1); opacity: 0.7; }
+  70%, 100% { transform: scale(3); opacity: 0; }
+}
+
+@keyframes scroll-cue {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(-3deg); }
+}
+
+@keyframes check-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Load choreography: [data-intro] runs once on first paint, offset by --d */
+  .js [data-intro] {
+    animation: fade-up 1200ms var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  .js [data-intro="fade"] { animation-name: fade-in; }
+  .js [data-intro="wipe"] { animation-name: wipe-up; animation-duration: 1600ms; }
+  .js [data-intro="settle"] { animation-name: settle; animation-duration: 2200ms; }
+  .js [data-intro="drop"] { animation-name: drop-in; }
+
+  /* Split text. Characters or words rise out of a mask. */
+  .js .split[data-trigger="load"] .split-piece {
+    animation: rise 1300ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--d, 0ms) + var(--i) * var(--step, 40ms));
+  }
+
+  .js .split[data-trigger="view"] .split-piece {
+    transform: translateY(110%) rotate(6deg);
+    transition: transform 1200ms var(--ease-out-expo);
+    transition-delay: calc(var(--i) * var(--step, 40ms));
+  }
+
+  .js .split[data-trigger="view"].is-in .split-piece {
+    transform: none;
+  }
+
+  /* Scroll reveal. v-reveal stamps data-reveal during SSR and removes it once
+     the element has settled, so the element's own transitions take over. */
+  .js [data-reveal] {
+    transition:
+      opacity 1000ms var(--ease-out-expo),
+      transform 1000ms var(--ease-out-expo),
+      filter 1000ms var(--ease-out-expo),
+      clip-path 1400ms var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .js [data-reveal="up"]:not([data-inview]) {
+    opacity: 0;
+    transform: translateY(4rem);
+    filter: blur(12px);
+  }
+
+  .js [data-reveal="fade"]:not([data-inview]) {
+    opacity: 0;
+  }
+
+  .js [data-reveal="mask"]:not([data-inview]) {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  .js [data-reveal="line"] {
+    transform-origin: left center;
+  }
+
+  .js [data-reveal="line"]:not([data-inview]) {
+    transform: scaleX(0);
+  }
+
+  .js [data-reveal="scale"]:not([data-inview]) {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: blur(8px);
+  }
+
+  /* Page transition between routes */
+  .page-enter-active {
+    transition:
+      opacity 800ms var(--ease-out-expo),
+      transform 800ms var(--ease-out-expo),
+      filter 800ms var(--ease-out-expo);
+  }
+
+  .page-leave-active {
+    transition:
+      opacity 400ms var(--ease-out-expo),
+      transform 400ms var(--ease-out-expo),
+      filter 400ms var(--ease-out-expo);
+  }
+
+  .page-enter-from {
+    opacity: 0;
+    transform: translateY(3rem);
+    filter: blur(12px);
+  }
+
+  .page-leave-to {
+    opacity: 0;
+    transform: translateY(-1.5rem);
+    filter: blur(8px);
+  }
+
+  .animate-ping-slow {
+    animation: ping 2400ms var(--ease-out-expo) infinite;
+  }
+
+  .animate-scroll-cue {
+    animation: scroll-cue 2400ms var(--ease-out-expo) infinite;
+  }
+
+  .animate-float {
+    animation: float 6000ms var(--ease-out-expo) infinite;
+  }
+
+  .animate-sweep {
+    animation: sweep 1200ms var(--ease-out-expo) infinite;
+  }
+
+  .animate-check path {
+    stroke-dasharray: 1;
+    animation: check-draw 900ms var(--ease-out-expo) 200ms both;
+  }
+
+  /* Diagram strokes draw on after the name has landed */
+  .js .diagram-draw {
+    stroke-dasharray: 1;
+    animation: draw 2400ms var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll linked motion
+
+   These map scroll position to progress one to one, so the timing function
+   is the reader's own hand. Browsers without scroll timelines get the
+   finished state, which is the same content, standing still.
+--------------------------------------------------------------------------- */
+
+@keyframes parallax {
+  from { transform: translateY(var(--p-from, -8%)) scale(var(--p-scale, 1)); }
+  to { transform: translateY(var(--p-to, 8%)) scale(var(--p-scale, 1)); }
+}
+
+@keyframes hero-exit {
+  to { opacity: 0; transform: translateY(-12%); filter: blur(8px); }
+}
+
+@keyframes word-lit {
+  from { color: var(--color-line); }
+  to { color: var(--lit, var(--color-ink)); }
+}
+
+@keyframes drift-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-30%); }
+}
+
+@keyframes drift-right {
+  from { transform: translateX(-30%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fill-rail {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes recede {
+  to { transform: scale(0.92) translateY(-2%); filter: brightness(0.45); }
+}
+
+@keyframes band-in {
+  from { transform: translateX(-900px); }
+  to { transform: none; }
+}
+
+@keyframes progress-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-parallax {
+      animation: parallax linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+
+    .scroll-hero-exit {
+      animation: hero-exit linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 90%;
+    }
+
+    .scroll-drift-left,
+    .scroll-drift-right {
+      animation: drift-left linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+
+    .scroll-drift-right {
+      animation-name: drift-right;
+    }
+
+    /* About statement: each word lights up as the paragraph crosses the
+       viewport, one after the next. */
+    .scroll-words {
+      view-timeline-name: --statement;
+    }
+
+    .scroll-words .scroll-word {
+      animation: word-lit linear both;
+      animation-timeline: --statement;
+      animation-range:
+        cover calc(18% + var(--i) * var(--word-step, 3%))
+        cover calc(26% + var(--i) * var(--word-step, 3%));
+    }
+
+    .scroll-rail {
+      view-timeline-name: --rail;
+    }
+
+    .scroll-rail-fill {
+      transform-origin: top;
+      animation: fill-rail linear both;
+      animation-timeline: --rail;
+      animation-range: cover 20% cover 80%;
+    }
+
+    /* Stacked project cards: each card recedes as the next one slides over
+       it, driven by the next card's own timeline. */
+    .scroll-stack-recede {
+      transform-origin: center top;
+      animation: recede linear both;
+      animation-timeline: var(--next-card);
+      animation-range: entry 0% entry 100%;
+    }
+
+    /* Footer wordmark: five bands slide in, one after another, and land
+       exactly as the page runs out. Every letter's slice of a band moves
+       the same distance, so each band travels as one piece. */
+    .scroll-band {
+      animation: band-in linear both;
+      animation-timeline: view();
+      animation-range:
+        entry calc(var(--i) * 8%)
+        entry calc(60% + var(--i) * 8%);
+    }
+
+    .scroll-progress {
+      transform-origin: left;
+      animation: progress-x linear both;
+      animation-timeline: scroll(root);
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -222,10 +668,9 @@
     scroll-behavior: auto !important;
   }
 
-  [data-reveal] {
-    opacity: 1;
-    transform: none;
-    filter: none;
+  .magnetic,
+  .magnetic [data-magnetic-inner] {
+    translate: none;
   }
 }
 

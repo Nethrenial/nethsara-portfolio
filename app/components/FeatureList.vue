@@ -3,14 +3,15 @@
     <li
       v-for="(item, index) in items"
       :key="index"
-      class="flex items-start gap-3 text-base text-ink-2"
+      class="group flex items-start gap-3 text-base text-ink-2 transition-colors duration-500 ease-out-expo hover:text-ink"
     >
       <Icon
         :name="item.icon || defaultIcon"
-        class="mt-1 shrink-0 text-base text-ink-3"
+        class="mt-1 size-4 shrink-0 transition-transform duration-700 ease-out-expo group-hover:scale-125 group-hover:rotate-12"
+        :style="{ color: `var(--color-${signalAt(index)})` }"
         aria-hidden="true"
       />
-      <span>{{ item.text }}</span>
+      <span class="transition-transform duration-700 ease-out-expo group-hover:translate-x-1">{{ item.text }}</span>
     </li>
   </ul>
 </template>

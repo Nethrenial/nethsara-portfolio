@@ -4,8 +4,8 @@
     updated="2026-09-07"
   >
     <section>
-      <h2 class="text-xl font-semibold text-ink">
-        Acceptance of Terms
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
+        Acceptance of terms
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
         By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.
@@ -13,8 +13,8 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
-        Use License
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
+        Use license
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
         Permission is granted to temporarily view the materials on this website for personal, non-commercial transitory viewing only.
@@ -29,7 +29,7 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
         Disclaimer
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
@@ -40,7 +40,7 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
         Limitations
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
@@ -51,7 +51,7 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
         Revisions
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
@@ -61,8 +61,8 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
-        Contact Information
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
+        Contact information
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
         If you have any questions about these Terms of Service, please contact us at

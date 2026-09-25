@@ -1,50 +1,87 @@
 <template>
   <div>
-    <section class="border-b border-line pt-32 pb-16 lg:pt-40 lg:pb-20">
-      <div class="mx-auto max-w-6xl px-6 lg:px-8">
-        <p class="font-mono text-xs tracking-widest text-ink-3 uppercase">
-          Projects
-        </p>
-        <h1 class="mt-6 max-w-170 text-5xl font-semibold tracking-display text-ink lg:text-6xl">
-          Everything worth showing
+    <section class="relative isolate overflow-clip pt-24 pb-16 lg:pb-20">
+      <div
+        class="dot-grid absolute inset-0 -z-10 opacity-50"
+        aria-hidden="true"
+      />
+      <div class="shell pt-16">
+        <div
+          class="flex items-center gap-4"
+          data-intro="fade"
+          :style="{ '--d': '100ms' }"
+        >
+          <span
+            class="tabular grid size-8 place-items-center rounded-lg bg-saffron font-mono text-xs font-medium text-accent-ink"
+            aria-hidden="true"
+          >{{ String(projects.length).padStart(2, '0') }}</span>
+          <p class="font-mono text-xs tracking-wide text-ink-2">
+            Projects
+          </p>
+        </div>
+
+        <h1 class="mt-8 max-w-5xl text-6xl font-semibold tracking-display lg:text-8xl">
+          <MotionSplitText
+            text="Everything worth showing"
+            trigger="load"
+            :delay="200"
+            :step="28"
+            gradient
+            hop
+          />
         </h1>
-        <p class="measure mt-6 text-lg text-ink-2">
+        <p
+          class="measure mt-8 text-lg text-ink-2"
+          data-intro
+          :style="{ '--d': '700ms' }"
+        >
           Open source libraries, client platforms and internal tooling. The
           client work has no public source, so those cards link nowhere by
           design.
         </p>
 
-        <div class="mt-10">
+        <div
+          class="mt-12"
+          data-intro
+          :style="{ '--d': '850ms' }"
+        >
           <FilterButtonGroup
-            :categories="categories"
-            :selected-category="selectedCategory"
-            @update:selected-category="selectedCategory = $event"
+            v-model="selectedCategory"
+            :options="categoryOptions"
+            label="Filter projects by category"
+            hue="saffron"
           />
         </div>
       </div>
     </section>
 
-    <section class="border-b border-line py-20 lg:py-24">
-      <div class="mx-auto max-w-6xl px-6 lg:px-8">
-        <!-- Variable-height cards in a masonry-style column flow, so a short
-             description does not stretch to match a long one. -->
-        <div
+    <section class="pb-24">
+      <div class="shell">
+        <!-- An index rather than a card grid. Rows glide to their new places
+             when the filter changes. -->
+        <TransitionGroup
           v-if="filteredProjects.length"
-          class="gap-6 md:columns-2 lg:columns-3"
+          tag="div"
+          class="relative border-b border-line"
+          move-class="transition-all duration-700 ease-out-expo"
+          enter-active-class="transition-all duration-700 ease-out-expo"
+          enter-from-class="opacity-0 translate-y-8 blur-sm"
+          leave-active-class="absolute inset-x-0 transition-all duration-400 ease-out-expo"
+          leave-to-class="opacity-0"
         >
-          <ProjectsCard
-            v-for="(project, index) in filteredProjects"
+          <ProjectsRow
+            v-for="project in filteredProjects"
             :key="project.id"
-            v-reveal="{ delay: (index % 3) * 80 }"
+            v-reveal="{ variant: 'fade' }"
             :project="project"
-            :max-technologies="4"
-            class="mb-6 break-inside-avoid"
+            :index="projects.indexOf(project)"
+            :hue="signalAt(projects.indexOf(project))"
           />
-        </div>
+        </TransitionGroup>
 
         <EmptyState
           v-else
-          icon="ph:funnel"
+          icon="ph:funnel-duotone"
           :title="`Nothing filed under ${selectedCategory}`"
           message="That category is empty for now. The other filters have work in them."
         >
@@ -72,93 +109,11 @@
 <script setup lang="ts">
 import type { Project } from '~/models/Project'
 import { ButtonVariant } from '~/enums/ButtonVariant'
-import { ProjectStatus } from '~/enums/ProjectStatus'
+import { projects, projectCategories } from '~/data/projects'
 
 const selectedCategory = ref<string>('All')
 
-const categories: string[] = ['All', 'Open source', 'Client platform', 'Tooling']
-
-const projects: Project[] = [
-  {
-    id: 1,
-    title: 'Nethren UI',
-    slug: 'nethren-ui',
-    category: 'Open source',
-    description: 'A component library for Vue and React. The Vue edition shipped several pre-release versions and became the UI layer for the SailingPen build, which is where most of its API decisions came from.',
-    icon: 'ph:stack',
-    technologies: ['Vue', 'TypeScript', 'SCSS', 'React'],
-    demo: 'https://nethren-ui-vue-docs.pages.dev',
-    github: 'https://github.com/Nethrenial/nethren-ui-vue',
-    status: ProjectStatus.ACTIVE,
-    featured: true,
-  },
-  {
-    id: 2,
-    title: 'BanhMi',
-    slug: 'banh-mi-framework',
-    category: 'Open source',
-    description: 'A web framework for the Bun runtime, written from scratch. The API borrows from Express and diverges where Bun makes something cheaper. The published version handles routing, middleware and static serving.',
-    icon: 'ph:cube',
-    technologies: ['Bun', 'TypeScript'],
-    demo: 'https://github.com/banh-mi-org/examples',
-    github: 'https://github.com/banh-mi-org/framework',
-    status: ProjectStatus.ACTIVE,
-    featured: true,
-  },
-  {
-    id: 3,
-    title: 'AIESEC Opportunities Portal',
-    slug: 'aiesec-portal',
-    category: 'Client platform',
-    description: 'The opportunity listing and admin dashboard for AIESEC in Colombo Central, with Firebase behind it and Algolia handling search.',
-    icon: 'ph:compass',
-    technologies: ['Vue', 'TypeScript', 'SCSS', 'Firebase', 'Algolia'],
-    demo: 'https://opps.uoc.aiesec.lk/',
-    github: 'https://github.com/Nethrenial/aiesec-opportunities',
-    status: ProjectStatus.LIVE,
-  },
-  {
-    id: 4,
-    title: 'SailingPen',
-    slug: 'sailingpen-lms',
-    category: 'Client platform',
-    description: 'A learning management and institute admin system for a private tuition provider, built around protecting paid video content. I led the project through my third year at university.',
-    icon: 'ph:graduation-cap',
-    technologies: ['Vue', 'NestJS', 'Prisma', 'PostgreSQL', 'TypeScript', 'Cloudflare Stream'],
-    status: ProjectStatus.COMPLETED,
-    featured: true,
-  },
-  {
-    id: 5,
-    title: 'B2B Wholesale Ordering',
-    slug: 'ecommerce-b2b',
-    category: 'Client platform',
-    description: 'A sales portal and inventory system for wholesale food distribution, built as microfrontends over a Spring Boot service estate during my time at Sysco LABS.',
-    icon: 'ph:shopping-cart',
-    technologies: ['React', 'Single-SPA', 'TypeScript', 'Java', 'Spring Boot', 'PostgreSQL'],
-    status: ProjectStatus.COMPLETED,
-  },
-  {
-    id: 6,
-    title: 'AutoRealm',
-    slug: 'autorealm',
-    category: 'Client platform',
-    description: 'A management system for a vehicle service centre, with a storefront and staff dashboards. Built on a PHP framework I wrote from scratch, which taught me why frameworks exist.',
-    icon: 'ph:wrench',
-    technologies: ['PHP', 'MySQL', 'JavaScript', 'CSS'],
-    status: ProjectStatus.ARCHIVED,
-  },
-  {
-    id: 7,
-    title: 'Test Case Generator',
-    slug: 'llm-test-generator',
-    category: 'Tooling',
-    description: 'A prototype that reads a requirement and drafts the test cases for it, built on Gemini and LangChain. Presented to Sysco global leadership in 2024.',
-    icon: 'ph:flask',
-    technologies: ['Python', 'LangChain', 'Gemini'],
-    status: ProjectStatus.DEMO,
-  },
-]
+const categoryOptions = projectCategories.map(category => ({ id: category, name: category }))
 
 const filteredProjects = computed((): Project[] =>
   selectedCategory.value === 'All'

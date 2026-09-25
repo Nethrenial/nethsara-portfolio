@@ -1,45 +1,68 @@
 <template>
   <header
-    v-reveal
-    class="mb-16 lg:mb-20"
+    class="mb-16 grid grid-cols-1 gap-x-8 gap-y-8 lg:mb-24 lg:grid-cols-12"
+    :style="hueStyle(hue)"
   >
-    <p
-      v-if="index"
-      class="mb-6 font-mono text-xs tracking-widest text-ink-3 uppercase"
-    >
-      {{ index }}
-    </p>
-
-    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-      <h2
-        :id="sectionId ? `${sectionId}-heading` : undefined"
-        class="max-w-170 text-4xl font-semibold tracking-display text-ink lg:text-5xl"
-      >
-        {{ title }}
-      </h2>
-
+    <!-- Ordinal chip, label, and a rule that draws out to the edge -->
+    <div class="flex items-center gap-4 lg:col-span-12">
+      <span
+        v-reveal="{ variant: 'scale' }"
+        class="tabular grid size-8 place-items-center rounded-lg bg-(--hue) font-mono text-xs font-medium text-accent-ink"
+        aria-hidden="true"
+      >{{ index }}</span>
       <p
-        v-if="description"
-        class="measure text-lg text-ink-2 lg:max-w-sm lg:text-right"
+        v-reveal="{ variant: 'fade', delay: 120 }"
+        class="font-mono text-xs tracking-wide text-ink-2"
       >
-        {{ description }}
+        {{ label }}
       </p>
+      <span
+        v-reveal="{ variant: 'line', delay: 200 }"
+        class="h-px flex-1 bg-line"
+        aria-hidden="true"
+      />
     </div>
+
+    <h2
+      :id="sectionId ? `${sectionId}-heading` : undefined"
+      class="max-w-4xl text-5xl font-semibold tracking-display text-ink lg:col-span-8 lg:text-7xl"
+    >
+      <MotionSplitText
+        :text="title"
+        by="word"
+        :step="60"
+      />
+    </h2>
+
+    <p
+      v-if="description"
+      v-reveal="{ delay: 300 }"
+      class="measure text-lg text-ink-2 lg:col-span-4 lg:self-end"
+    >
+      {{ description }}
+    </p>
   </header>
 </template>
 
 <script setup lang="ts">
+import type { Signal } from '~/utils/signal'
+
 interface SectionHeaderProps {
   title: string
   description?: string
-  /** Small ordinal label, e.g. "01 / Work". */
+  /** Two digit ordinal, e.g. "01". */
   index?: string
+  /** Section name shown beside the ordinal. */
+  label?: string
   sectionId?: string
+  hue?: Signal
 }
 
 withDefaults(defineProps<SectionHeaderProps>(), {
   description: undefined,
   index: undefined,
+  label: undefined,
   sectionId: undefined,
+  hue: 'saffron',
 })
 </script>

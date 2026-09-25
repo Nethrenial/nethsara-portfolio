@@ -1,13 +1,12 @@
 <template>
-  <BaseSection
-    id="contact"
-    surface="raised"
-  >
+  <BaseSection id="contact">
     <SectionHeader
-      index="05 / Contact"
+      index="05"
+      label="Contact"
       title="Tell me what you are building"
       description="Open to senior and lead engineering roles, and a limited amount of architecture consulting."
       section-id="contact"
+      hue="rose"
     />
 
     <div class="grid grid-cols-1 gap-x-16 gap-y-16 lg:grid-cols-12">
@@ -18,25 +17,28 @@
         <ContactForm />
       </div>
 
-      <div
-        v-reveal="{ delay: 120 }"
-        class="lg:col-span-5"
-      >
-        <div>
-          <h3 class="font-mono text-xs tracking-wide text-ink-3 uppercase">
-            Or reach me directly
-          </h3>
-          <div class="mt-4">
-            <ContactCard
-              v-for="contact in contactMethods"
-              :key="contact.title"
-              :contact="contact"
-            />
-          </div>
+      <div class="lg:col-span-5">
+        <h3
+          v-reveal="{ variant: 'fade' }"
+          class="font-mono text-xs tracking-wide text-ink-3"
+        >
+          Or reach me directly
+        </h3>
+        <div class="mt-4">
+          <ContactCard
+            v-for="(contact, index) in contactMethods"
+            :key="contact.title"
+            v-reveal="{ delay: 80 + index * 80 }"
+            :contact="contact"
+            :hue="signalAt(index)"
+          />
         </div>
 
-        <div class="mt-12">
-          <h3 class="font-mono text-xs tracking-wide text-ink-3 uppercase">
+        <div
+          v-reveal="{ delay: 120 }"
+          class="mt-16"
+        >
+          <h3 class="font-mono text-xs tracking-wide text-ink-3">
             Work I take on
           </h3>
           <FeatureList
@@ -45,15 +47,24 @@
           />
         </div>
 
-        <dl class="mt-12 grid grid-cols-2 gap-6">
+        <dl
+          v-reveal="{ delay: 160 }"
+          class="mt-16 grid grid-cols-2 gap-4"
+        >
           <div
-            v-for="term in terms"
+            v-for="(term, index) in terms"
             :key="term.label"
+            class="group rounded-2xl bg-surface p-4 transition-colors duration-700 ease-out-expo hover:bg-surface-2"
+            :style="hueStyle(signalAt(index + 1))"
           >
-            <dt class="font-mono text-xs tracking-wide text-ink-3 uppercase">
+            <dt class="flex items-center gap-2 font-mono text-xs tracking-wide text-ink-3">
+              <span
+                class="size-1.5 rounded-full bg-(--hue) transition-transform duration-700 ease-out-expo group-hover:scale-150"
+                aria-hidden="true"
+              />
               {{ term.label }}
             </dt>
-            <dd class="mt-2 text-base text-ink">
+            <dd class="mt-2 text-base font-medium text-ink">
               {{ term.value }}
             </dd>
           </div>

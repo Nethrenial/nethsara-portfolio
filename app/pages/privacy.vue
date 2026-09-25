@@ -15,8 +15,8 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
-        Information Collected via the Contact Form
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
+        Information collected via the contact form
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
         When you submit the contact form, the following information is collected and sent directly to me by email:
@@ -34,7 +34,7 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
         Analytics — Google Analytics 4
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
@@ -65,7 +65,7 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
         Cookies
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
@@ -77,8 +77,8 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
-        Third-Party Services
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
+        Third party services
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
         The only third-party service used is Google Analytics. No data is shared with any advertising networks,
@@ -88,8 +88,8 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
-        Data Retention
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
+        Data retention
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
         Contact form submissions are retained only as long as needed to respond to the inquiry and are stored
@@ -99,8 +99,8 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
-        Your Rights
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
+        Your rights
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
         You may request deletion of any personal data you have submitted via the contact form at any time.
@@ -109,8 +109,8 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
-        Changes to This Policy
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
+        Changes to this policy
       </h2>
       <p class="measure mt-4 text-base text-ink-2">
         This policy may be updated occasionally. The latest version will always be available at
@@ -123,7 +123,7 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold text-ink">
+      <h2 class="text-2xl font-semibold tracking-display text-ink">
         Contact
       </h2>
       <p class="measure mt-4 text-base text-ink-2">

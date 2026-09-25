@@ -1,79 +1,124 @@
 <template>
-  <BaseSection id="toolkit">
-    <SectionHeader
-      index="04 / Toolkit"
-      title="What I reach for"
-      description="Filter by the kind of work. Categories with nothing to show drop out."
-      section-id="toolkit"
-    />
-
-    <!-- Segmented control rather than another row of pills -->
-    <div
-      v-reveal
-      class="mb-16 inline-flex flex-wrap gap-1 rounded-xl border border-line bg-surface-2 p-1"
-      role="group"
-      aria-label="Filter the toolkit by discipline"
-    >
-      <button
-        v-for="filter in filters"
-        :key="filter.id"
-        type="button"
-        class="rounded-lg px-3 py-2 text-sm font-medium transition-all duration-700 ease-out-expo active:scale-[0.98]"
-        :class="activeFilter === filter.id
-          ? 'bg-accent text-accent-ink'
-          : 'text-ink-2 hover:bg-surface-3 hover:text-ink'"
-        :aria-pressed="activeFilter === filter.id"
-        @click="activeFilter = filter.id"
-      >
-        {{ filter.name }}
-      </button>
+  <section
+    id="toolkit"
+    class="relative overflow-clip pt-20 pb-24 lg:pt-24"
+    aria-labelledby="toolkit-heading"
+  >
+    <div class="shell">
+      <SectionHeader
+        index="04"
+        label="Toolkit"
+        title="What I reach for"
+        description="Filter by the kind of work. Categories with nothing to show drop out."
+        section-id="toolkit"
+        hue="sky"
+      />
     </div>
 
-    <!-- Category name on the left, tools inline on the right -->
-    <div v-if="filteredCategories.length">
+    <!-- Two bands of the toolkit itself, drifting against each other as the
+         page scrolls. Decorative: the real list follows. -->
+    <div
+      class="mb-24 space-y-4 select-none"
+      aria-hidden="true"
+    >
       <div
-        v-for="(category, index) in filteredCategories"
-        :key="category.name"
-        v-reveal="{ delay: index * 60 }"
-        class="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-line py-8 md:grid-cols-[12rem_1fr]"
+        v-for="(band, bandIndex) in bands"
+        :key="bandIndex"
+        class="flex w-max gap-8 text-7xl font-semibold tracking-display whitespace-nowrap lg:text-9xl"
+        :class="bandIndex === 0 ? 'scroll-drift-left' : 'scroll-drift-right'"
       >
-        <h3 class="flex items-center gap-2.5 text-base font-semibold text-ink">
-          <Icon
-            :name="category.icon"
-            class="text-xl text-ink-3"
-            aria-hidden="true"
+        <span
+          v-for="(word, wordIndex) in band"
+          :key="wordIndex"
+          class="flex items-center gap-8"
+        >
+          <span :class="wordIndex % 3 === 1 ? 'text-ink' : 'text-outline'">{{ word }}</span>
+          <span
+            class="size-4 rounded-full lg:size-6"
+            :style="{ backgroundColor: `var(--color-${signalAt(wordIndex + bandIndex * 2)})` }"
           />
-          {{ category.name }}
-        </h3>
-        <ul class="flex flex-wrap gap-2">
-          <SkillsCard
-            v-for="skill in category.skills"
-            :key="skill.name"
-            :skill="skill"
-          />
-        </ul>
+        </span>
       </div>
     </div>
 
-    <EmptyState
-      v-else
-      icon="ph:funnel"
-      title="Nothing in this category"
-      message="Pick another discipline to see what is there."
-    />
-  </BaseSection>
+    <div class="shell">
+      <div
+        v-reveal
+        class="mb-16"
+      >
+        <FilterButtonGroup
+          v-model="activeFilter"
+          :options="filters"
+          label="Filter the toolkit by discipline"
+          hue="sky"
+        />
+      </div>
+
+      <!-- Category name on the left, tools inline on the right. Chips move
+           to their new places when the filter changes rather than jumping. -->
+      <TransitionGroup
+        v-if="filteredCategories.length"
+        tag="div"
+        move-class="transition-all duration-700 ease-out-expo"
+        enter-active-class="transition-all duration-700 ease-out-expo"
+        enter-from-class="opacity-0 -translate-y-4"
+        leave-active-class="absolute transition-all duration-500 ease-out-expo"
+        leave-to-class="opacity-0"
+        class="relative"
+      >
+        <div
+          v-for="category in filteredCategories"
+          :key="category.name"
+          v-reveal="{ variant: 'fade' }"
+          class="group/row grid w-full grid-cols-1 items-start gap-x-12 gap-y-4 border-t border-line py-8 md:grid-cols-[14rem_1fr]"
+          :style="hueStyle(category.hue)"
+        >
+          <h3 class="flex items-center gap-4 text-lg font-semibold text-ink">
+            <span class="grid size-8 place-items-center rounded-lg bg-surface-2 text-(--hue) transition-all duration-700 ease-out-expo group-hover/row:bg-(--hue) group-hover/row:text-accent-ink">
+              <Icon
+                :name="category.icon"
+                class="size-4"
+                aria-hidden="true"
+              />
+            </span>
+            {{ category.name }}
+            <span class="tabular font-mono text-xs font-normal text-ink-3">{{ category.skills.length }}</span>
+          </h3>
+          <TransitionGroup
+            tag="ul"
+            class="relative flex flex-wrap gap-2"
+            move-class="transition-all duration-700 ease-out-expo"
+            enter-active-class="transition-all duration-700 ease-out-expo"
+            enter-from-class="opacity-0 scale-75 blur-sm"
+            leave-active-class="absolute transition-all duration-300 ease-out-expo"
+            leave-to-class="opacity-0 scale-75"
+          >
+            <SkillsCard
+              v-for="skill in category.skills"
+              :key="skill.name"
+              :skill="skill"
+            />
+          </TransitionGroup>
+        </div>
+      </TransitionGroup>
+
+      <EmptyState
+        v-else
+        icon="ph:funnel-duotone"
+        title="Nothing in this category"
+        message="Pick another discipline to see what is there."
+      />
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import type { Filter } from '~/models/Filter'
 import type { SkillCategory } from '~/models/SkillCategory'
 import { SkillFilterType } from '~/enums/SkillFilterType'
 
-// Active filter state
 const activeFilter = ref<string>(SkillFilterType.ALL)
 
-// Filter options
 const filters: Filter[] = [
   { id: SkillFilterType.ALL, name: 'Everything' },
   { id: SkillFilterType.FRONTEND, name: 'Frontend' },
@@ -83,7 +128,6 @@ const filters: Filter[] = [
   { id: SkillFilterType.MOBILE, name: 'Mobile' },
 ]
 
-// Skills categories with tags for filtering
 const skillCategories: SkillCategory[] = [
   {
     name: 'Languages',
@@ -167,7 +211,7 @@ const skillCategories: SkillCategory[] = [
   },
   {
     name: 'Architecture',
-    icon: 'ph:sparkle',
+    icon: 'ph:tree-structure',
     skills: [
       { name: 'Flutter', icon: 'skill-icons:flutter-light', tags: ['mobile'] },
       { name: 'GraphQL', icon: 'skill-icons:graphql-light', tags: ['backend', 'fullstack'] },
@@ -180,17 +224,25 @@ const skillCategories: SkillCategory[] = [
   },
 ]
 
-// Computed property for filtered categories
-const filteredCategories = computed((): SkillCategory[] => {
-  if (activeFilter.value === SkillFilterType.ALL) {
-    return skillCategories
-  }
+// Each category keeps its hue whichever filter is active.
+const huedCategories = skillCategories.map((category, index) => ({
+  ...category,
+  hue: signalAt(index),
+}))
 
-  return skillCategories.map(category => ({
-    ...category,
-    skills: category.skills.filter(skill =>
-      skill.tags.includes(activeFilter.value),
-    ),
-  })).filter(category => category.skills.length > 0)
+// The drifting bands reuse the real toolkit, split in two.
+const allSkills = [...new Set(skillCategories.flatMap(category => category.skills.map(skill => skill.name)))]
+  .filter(name => name.length <= 12)
+const bands = [allSkills.slice(0, 12), allSkills.slice(12, 24)]
+
+const filteredCategories = computed(() => {
+  if (activeFilter.value === SkillFilterType.ALL) return huedCategories
+
+  return huedCategories
+    .map(category => ({
+      ...category,
+      skills: category.skills.filter(skill => skill.tags.includes(activeFilter.value)),
+    }))
+    .filter(category => category.skills.length > 0)
 })
 </script>

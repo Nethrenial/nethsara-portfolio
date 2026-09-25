@@ -1,27 +1,119 @@
 <template>
-  <BaseSection
-    id="work"
-    surface="raised"
-  >
+  <BaseSection id="work">
     <SectionHeader
-      index="01 / Work"
+      index="01"
+      label="Work"
       title="Where I have worked"
       description="Senior engineering on distributed platforms, and the consultancy I co-founded and scaled before it."
       section-id="work"
+      hue="coral"
     />
 
-    <div class="relative">
-      <ExperienceCard
-        v-for="(experience, index) in experiences"
-        :key="experience.id"
-        :experience="experience"
-        :index="index"
-      />
+    <div class="grid grid-cols-1 gap-x-8 lg:grid-cols-12">
+      <!-- Sticky colour panel: takes the hue of whichever role is in focus -->
+      <aside
+        class="hidden lg:col-span-5 lg:block"
+        aria-hidden="true"
+      >
+        <div
+          v-reveal="{ variant: 'mask' }"
+          class="sticky top-24"
+        >
+          <div
+            class="relative flex h-[calc(100dvh-8rem)] max-h-176 min-h-120 flex-col justify-between overflow-hidden rounded-3xl p-8 text-accent-ink transition-colors duration-700 ease-out-expo"
+            :style="{ backgroundColor: `var(--color-${activeHue})` }"
+          >
+            <div class="dot-grid absolute inset-0 opacity-30 mix-blend-multiply" />
+
+            <!-- Role title rolls in above the counter -->
+            <div class="relative h-4 overflow-hidden">
+              <p
+                v-for="(experience, index) in experiences"
+                :key="experience.id"
+                class="absolute inset-x-0 top-0 truncate font-mono text-xs font-medium tracking-wide transition-all duration-700 ease-out-expo"
+                :class="rollClass(index)"
+              >
+                {{ experience.position }}
+              </p>
+            </div>
+
+            <!-- Odometer: the units digit is a column that slides -->
+            <div class="relative flex items-end text-9xl leading-none font-semibold tracking-display">
+              <span>0</span>
+              <span class="relative inline-block h-[1em] overflow-hidden">
+                <span
+                  class="flex flex-col transition-transform duration-1000 ease-out-expo"
+                  :style="{ transform: `translateY(-${active}em)` }"
+                >
+                  <span
+                    v-for="(experience, index) in experiences"
+                    :key="experience.id"
+                    class="block h-[1em]"
+                  >{{ index + 1 }}</span>
+                </span>
+              </span>
+              <!-- Total, set with normal tracking and a real gap: the display
+                   tracking above would pull the digits into each other -->
+              <span class="tabular mb-4 ml-4 flex items-baseline gap-2 text-2xl font-medium tracking-normal opacity-60">
+                <span aria-hidden="true">/</span>
+                <span>{{ String(experiences.length).padStart(2, '0') }}</span>
+              </span>
+            </div>
+
+            <div class="relative">
+              <div class="relative h-10 overflow-hidden">
+                <p
+                  v-for="(experience, index) in experiences"
+                  :key="experience.id"
+                  class="absolute inset-x-0 top-0 truncate text-4xl font-semibold tracking-display transition-all duration-700 ease-out-expo"
+                  :class="rollClass(index)"
+                >
+                  {{ experience.company }}
+                </p>
+              </div>
+              <div class="relative mt-2 h-6 overflow-hidden">
+                <p
+                  v-for="(experience, index) in experiences"
+                  :key="experience.id"
+                  class="tabular absolute inset-x-0 top-0 truncate text-base font-medium opacity-70 transition-all duration-700 ease-out-expo"
+                  :class="rollClass(index)"
+                >
+                  {{ experience.location }} · {{ periodParts(experience.period).join(' → ') }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Roles, with a rail that fills as the reader moves through them -->
+      <div class="scroll-rail relative lg:col-span-7 lg:pl-12">
+        <span
+          class="absolute top-0 bottom-0 left-0 hidden w-px bg-line lg:block"
+          aria-hidden="true"
+        >
+          <span
+            class="scroll-rail-fill block size-full transition-colors duration-700 ease-out-expo"
+            :style="{ backgroundColor: `var(--color-${activeHue})` }"
+          />
+        </span>
+
+        <ExperienceCard
+          v-for="(experience, index) in experiences"
+          :key="experience.id"
+          :ref="el => setCardRef(index, el)"
+          :experience="experience"
+          :index="index"
+          :hue="signalAt(index)"
+          :active="active === index"
+        />
+      </div>
     </div>
   </BaseSection>
 </template>
 
 <script setup lang="ts">
+import type { ComponentPublicInstance } from 'vue'
 import type { Experience } from '~/models/Experience'
 
 const experiences: Experience[] = [
@@ -96,4 +188,38 @@ const experiences: Experience[] = [
     technologies: ['Vue.js', 'Nuxt.js', 'Laravel', 'TypeScript', 'WebSockets', 'SCSS'],
   },
 ]
+
+const active = ref(0)
+const activeHue = computed(() => signalAt(active.value))
+
+/** Rolls a stacked label: past ones leave upward, future ones wait below. */
+const rollClass = (index: number): string => {
+  if (index === active.value) return 'translate-y-0 opacity-100'
+  return index < active.value ? '-translate-y-full opacity-0' : 'translate-y-full opacity-0'
+}
+
+// A role is "in focus" when it crosses a band through the middle of the
+// viewport. The observer only fires when that changes.
+const cards: (HTMLElement | null)[] = []
+const setCardRef = (index: number, el: Element | ComponentPublicInstance | null) => {
+  cards[index] = el ? ((el as ComponentPublicInstance).$el ?? el) as HTMLElement : null
+}
+
+let observer: IntersectionObserver | null = null
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue
+        const index = cards.indexOf(entry.target as HTMLElement)
+        if (index >= 0) active.value = index
+      }
+    },
+    { rootMargin: '-45% 0px -45% 0px' },
+  )
+  cards.forEach(card => card && observer?.observe(card))
+})
+
+onUnmounted(() => observer?.disconnect())
 </script>

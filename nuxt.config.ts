@@ -6,7 +6,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   app: {
+    // Routes cross fade with a short blur; the CSS lives in main.css.
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
+      script: [
+        // Stamps `js` on <html> before first paint, so reveal states are only
+        // applied when something will actually play them.
+        { innerHTML: 'document.documentElement.classList.add(\'js\')', tagPosition: 'head' },
+      ],
       link: [
         { rel: 'manifest', href: '/site.webmanifest' },
       ],

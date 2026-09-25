@@ -1,128 +1,122 @@
 <template>
   <article
     v-spotlight
-    class="spotlight group flex flex-col rounded-2xl bg-surface-2 p-8 transition-all duration-700 ease-out-expo hover:-translate-y-1 hover:bg-surface-3 hover:shadow-lift"
-    :class="feature ? 'lg:p-12' : ''"
+    class="spotlight group relative grid grid-cols-1 overflow-hidden rounded-3xl border border-line bg-surface shadow-lift lg:min-h-128 lg:grid-cols-12"
+    :style="hueStyle(hue)"
   >
-    <!-- Screenshot, only when a real one exists -->
-    <NuxtImg
-      v-if="project.image"
-      :src="project.image"
-      :alt="`Screenshot of ${project.title}`"
-      width="800"
-      height="500"
-      class="mb-8 aspect-video w-full rounded-xl object-cover"
-      loading="lazy"
-    />
-
-    <div class="flex items-start justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <Icon
-          :name="project.icon"
-          :class="feature ? 'text-3xl' : 'text-2xl'"
-          class="text-ink-2 transition-colors duration-700 ease-out-expo group-hover:text-accent"
-          aria-hidden="true"
-        />
-        <span class="font-mono text-xs tracking-wide text-ink-3 uppercase">
+    <!-- Copy -->
+    <div class="relative flex flex-col p-8 lg:col-span-7 lg:p-12">
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <span class="tabular font-mono text-xs text-(--hue)">
+          {{ String(index + 1).padStart(2, '0') }}
+        </span>
+        <span class="font-mono text-xs tracking-wide text-ink-2">
           {{ project.category }}
+        </span>
+        <!-- Square status marker rather than another pill -->
+        <span
+          class="rounded-sm px-2 py-0.5 font-mono text-xs font-medium"
+          :class="statusClasses"
+        >
+          {{ project.status }}
         </span>
       </div>
 
-      <!-- Square status marker rather than another pill -->
-      <span
-        class="shrink-0 rounded-sm px-2 py-1 font-mono text-xs"
-        :class="statusClasses"
-      >
-        {{ project.status }}
-      </span>
-    </div>
+      <h3 class="mt-8 text-5xl font-semibold tracking-display text-ink lg:text-6xl">
+        {{ project.title }}
+      </h3>
 
-    <h3
-      class="mt-6 font-semibold tracking-display text-ink"
-      :class="feature ? 'text-3xl lg:text-4xl' : 'text-xl'"
-    >
-      {{ project.title }}
-    </h3>
+      <p class="measure mt-6 text-lg text-ink-2">
+        {{ project.description }}
+      </p>
 
-    <p
-      class="measure mt-3 text-ink-2"
-      :class="feature ? 'text-lg' : 'text-base'"
-    >
-      {{ project.description }}
-    </p>
+      <ul
+        class="mt-8 mb-12 flex flex-wrap gap-2"
+        aria-label="Technologies"
+      >
+        <li
+          v-for="tech in project.technologies"
+          :key="tech"
+          class="rounded-md border border-line px-2 py-1 font-mono text-xs text-ink-3"
+        >
+          {{ tech }}
+        </li>
+      </ul>
 
-    <ul class="mt-6 mb-8 flex flex-wrap gap-2">
-      <li
-        v-for="tech in visibleTechnologies"
-        :key="tech"
-        class="rounded-md border border-line px-2 py-1 font-mono text-xs text-ink-3"
+      <!-- Actions pinned to the bottom so they align across the stack -->
+      <div
+        v-if="links.length"
+        class="mt-auto flex flex-wrap items-center gap-4"
       >
-        {{ tech }}
-      </li>
-      <li
-        v-if="hiddenCount > 0"
-        class="rounded-md px-2 py-1 font-mono text-xs text-ink-3"
+        <BaseButton
+          v-for="(link, linkIndex) in links"
+          :key="link.label"
+          :href="link.href"
+          external
+          :variant="linkIndex === 0 ? ButtonVariant.SECONDARY : ButtonVariant.TERTIARY"
+          :icon="link.icon"
+          :text="link.label"
+          :hue="hue"
+          :aria-label="`${link.label} for ${project.title} (opens in a new tab)`"
+        />
+      </div>
+      <p
+        v-else
+        class="mt-auto flex items-center gap-2 text-sm text-ink-3"
       >
-        +{{ hiddenCount }} more
-      </li>
-    </ul>
-
-    <!-- Actions pinned to the bottom so they align across a row -->
-    <div
-      v-if="links.length"
-      class="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6"
-    >
-      <a
-        v-for="link in links"
-        :key="link.label"
-        :href="link.href"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition-all duration-700 ease-out-expo hover:gap-2.5 hover:text-accent"
-        :aria-label="`${link.label} for ${project.title} (opens in a new tab)`"
-      >
-        {{ link.label }}
         <Icon
-          :name="link.icon"
+          name="ph:lock-simple"
           class="text-base"
           aria-hidden="true"
         />
-      </a>
+        Client work, source not public
+      </p>
     </div>
 
-    <!-- Private work still needs a footer so cards line up -->
-    <p
-      v-else
-      class="mt-auto border-t border-line pt-6 text-sm text-ink-3"
+    <!-- Plate: a flat block of the project's hue with its mark floating on it -->
+    <component
+      :is="plateLink ? 'a' : 'div'"
+      :href="plateLink"
+      :target="plateLink ? '_blank' : undefined"
+      :rel="plateLink ? 'noopener noreferrer' : undefined"
+      :tabindex="plateLink ? -1 : undefined"
+      :data-cursor="plateLink ? 'Live' : undefined"
+      class="relative isolate m-2 grid min-h-64 place-items-center overflow-hidden rounded-2xl bg-(--hue) lg:col-span-5 lg:m-2"
+      aria-hidden="true"
     >
-      Client work, source not public
-    </p>
+      <div class="dot-grid absolute inset-0 opacity-40 mix-blend-multiply" />
+
+      <!-- Concentric rings that open outward on hover -->
+      <span
+        v-for="ring in 3"
+        :key="ring"
+        class="absolute aspect-square rounded-full border border-accent-ink/15 transition-transform duration-1000 ease-out-expo group-hover:scale-125"
+        :style="{ width: `${ring * 30}%`, transitionDelay: `${ring * 60}ms` }"
+      />
+
+      <div class="animate-float relative">
+        <Icon
+          :name="project.icon"
+          class="size-40 text-accent-ink transition-transform duration-1000 ease-out-expo group-hover:scale-110 group-hover:-rotate-6 lg:size-48"
+        />
+      </div>
+    </component>
   </article>
 </template>
 
 <script setup lang="ts">
 import type { Project } from '~/models/Project'
 import { ProjectStatus } from '~/enums/ProjectStatus'
+import { ButtonVariant } from '~/enums/ButtonVariant'
+import type { Signal } from '~/utils/signal'
 
 interface ProjectsCardProps {
   project: Project
-  /** Renders the card at hero scale for the lead slot of an asymmetric grid. */
-  feature?: boolean
-  maxTechnologies?: number
+  index: number
+  hue: Signal
 }
 
-const props = withDefaults(defineProps<ProjectsCardProps>(), {
-  feature: false,
-  maxTechnologies: 4,
-})
-
-const visibleTechnologies = computed(() =>
-  props.project.technologies.slice(0, props.feature ? 6 : props.maxTechnologies),
-)
-
-const hiddenCount = computed(() =>
-  props.project.technologies.length - visibleTechnologies.value.length,
-)
+const props = defineProps<ProjectsCardProps>()
 
 // A '#' href renders a dead link, so only real destinations become actions.
 const isLive = (href?: string): href is string => !!href && href !== '#'
@@ -138,11 +132,13 @@ const links = computed(() => {
   return result
 })
 
+const plateLink = computed(() => (isLive(props.project.demo) ? props.project.demo : undefined))
+
 const statusClasses = computed(() => {
   switch (props.project.status) {
     case ProjectStatus.ACTIVE:
     case ProjectStatus.LIVE:
-      return 'bg-accent/10 text-accent'
+      return 'bg-(--hue) text-accent-ink'
     case ProjectStatus.ARCHIVED:
       return 'bg-surface-3 text-ink-3'
     default:

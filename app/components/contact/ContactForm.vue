@@ -1,6 +1,10 @@
 <template>
-  <div class="rounded-2xl bg-surface-2 p-8 lg:p-10">
-    <h3 class="text-xl font-semibold text-ink">
+  <div
+    v-spotlight
+    class="spotlight rounded-3xl border border-line bg-surface p-8 lg:p-12"
+    :style="hueStyle('rose')"
+  >
+    <h3 class="text-3xl font-semibold tracking-display text-ink">
       Send a message
     </h3>
     <p class="mt-2 text-base text-ink-2">
@@ -8,171 +12,175 @@
     </p>
 
     <form
-      class="mt-8 space-y-6"
+      class="mt-12 space-y-8"
       novalidate
       @submit.prevent="submitForm"
     >
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div>
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div
+          v-for="field in inlineFields"
+          :key="field.id"
+        >
           <label
-            for="name"
-            class="block text-sm font-medium text-ink"
-          >Name</label>
-          <input
-            id="name"
-            v-model="form.name"
-            type="text"
-            required
-            autocomplete="name"
-            :aria-invalid="!!formErrors.name"
-            :aria-describedby="formErrors.name ? 'name-error' : undefined"
-            :class="[inputClasses, formErrors.name ? errorRing : '']"
-            placeholder="Your name"
-            @blur="validateField('name')"
-            @input="clearError('name')"
-          >
-          <p
-            v-if="formErrors.name"
-            id="name-error"
-            class="mt-2 text-sm text-ink"
-            role="alert"
-          >
-            {{ formErrors.name }}
-          </p>
-        </div>
-
-        <div>
-          <label
-            for="email"
-            class="block text-sm font-medium text-ink"
-          >Email</label>
-          <input
-            id="email"
-            v-model="form.email"
-            type="email"
-            required
-            autocomplete="email"
-            :aria-invalid="!!formErrors.email"
-            :aria-describedby="formErrors.email ? 'email-error' : undefined"
-            :class="[inputClasses, formErrors.email ? errorRing : '']"
-            placeholder="you@company.com"
-            @blur="validateField('email')"
-            @input="clearError('email')"
-          >
-          <p
-            v-if="formErrors.email"
-            id="email-error"
-            class="mt-2 text-sm text-ink"
-            role="alert"
-          >
-            {{ formErrors.email }}
-          </p>
+            :for="field.id"
+            class="block font-mono text-xs tracking-wide text-ink-2"
+          >{{ field.label }}</label>
+          <div class="relative">
+            <input
+              :id="field.id"
+              v-model="form[field.id]"
+              :type="field.type"
+              required
+              :autocomplete="field.autocomplete"
+              :aria-invalid="!!formErrors[field.id]"
+              :aria-describedby="formErrors[field.id] ? `${field.id}-error` : undefined"
+              :class="[inputClasses, formErrors[field.id] ? 'border-coral' : '']"
+              :placeholder="field.placeholder"
+              @blur="validateField(field.id)"
+              @input="clearError(field.id)"
+            >
+            <span
+              class="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-(--hue) transition-transform duration-700 ease-out-expo peer-focus:scale-x-100"
+              aria-hidden="true"
+            />
+          </div>
+          <ContactFieldError
+            :id="`${field.id}-error`"
+            :message="formErrors[field.id]"
+          />
         </div>
       </div>
 
       <div>
         <label
           for="subject"
-          class="block text-sm font-medium text-ink"
+          class="block font-mono text-xs tracking-wide text-ink-2"
         >
           Subject
-          <span class="font-normal text-ink-3">optional</span>
+          <span class="text-ink-3">optional</span>
         </label>
-        <input
-          id="subject"
-          v-model="form.subject"
-          type="text"
-          :class="inputClasses"
-          placeholder="What this is about"
-        >
+        <div class="relative">
+          <input
+            id="subject"
+            v-model="form.subject"
+            type="text"
+            :class="inputClasses"
+            placeholder="What this is about"
+          >
+          <span
+            class="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-(--hue) transition-transform duration-700 ease-out-expo peer-focus:scale-x-100"
+            aria-hidden="true"
+          />
+        </div>
       </div>
 
       <div>
         <label
           for="message"
-          class="block text-sm font-medium text-ink"
+          class="block font-mono text-xs tracking-wide text-ink-2"
         >Message</label>
-        <textarea
-          id="message"
-          v-model="form.message"
-          rows="6"
-          required
-          :aria-invalid="!!formErrors.message"
-          :aria-describedby="formErrors.message ? 'message-error' : undefined"
-          :class="[inputClasses, 'resize-y', formErrors.message ? errorRing : '']"
-          placeholder="What you are working on, and where I might fit."
-          @blur="validateField('message')"
-          @input="clearError('message')"
-        />
-        <p
-          v-if="formErrors.message"
+        <div class="relative">
+          <textarea
+            id="message"
+            v-model="form.message"
+            rows="5"
+            required
+            :aria-invalid="!!formErrors.message"
+            :aria-describedby="formErrors.message ? 'message-error' : undefined"
+            :class="[inputClasses, 'resize-y', formErrors.message ? 'border-coral' : '']"
+            placeholder="What you are working on, and where I might fit."
+            @blur="validateField('message')"
+            @input="clearError('message')"
+          />
+          <span
+            class="pointer-events-none absolute inset-x-0 bottom-2 h-0.5 origin-left scale-x-0 bg-(--hue) transition-transform duration-700 ease-out-expo peer-focus:scale-x-100"
+            aria-hidden="true"
+          />
+        </div>
+        <ContactFieldError
           id="message-error"
-          class="mt-2 text-sm text-ink"
-          role="alert"
-        >
-          {{ formErrors.message }}
-        </p>
+          :message="formErrors.message"
+        />
       </div>
 
       <BaseButton
         :type="ButtonType.SUBMIT"
         :loading="isSubmitting"
-        :variant="ButtonVariant.PRIMARY"
         :size="ButtonSize.LARGE"
         :icon="isSubmitting ? null : 'ph:paper-plane-tilt'"
         :text="isSubmitting ? 'Sending' : 'Send message'"
-        full-width
+        hue="rose"
       />
     </form>
 
     <!-- Status is announced politely and stated plainly, without exclamation -->
-    <div
-      v-if="formStatus === FormStatus.SUCCESS"
-      class="mt-6 flex items-start gap-3 rounded-xl border border-line bg-surface p-5"
-      role="status"
-      aria-live="polite"
+    <Transition
+      enter-active-class="transition-all duration-700 ease-out-expo"
+      enter-from-class="opacity-0 translate-y-4 blur-sm"
+      leave-active-class="transition-all duration-300 ease-out-expo"
+      leave-to-class="opacity-0"
+      mode="out-in"
     >
-      <Icon
-        name="ph:check-circle"
-        class="mt-0.5 shrink-0 text-xl text-accent"
-        aria-hidden="true"
-      />
-      <div>
-        <p class="text-base font-semibold text-ink">
-          Message sent
-        </p>
-        <p class="mt-1 text-sm text-ink-2">
-          It is in my inbox. You will hear back within a day.
-        </p>
+      <div
+        v-if="formStatus === FormStatus.SUCCESS"
+        key="success"
+        class="mt-8 flex items-start gap-4 rounded-2xl bg-sage p-4 text-accent-ink"
+        role="status"
+        aria-live="polite"
+      >
+        <svg
+          class="animate-check mt-0.5 size-6 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M4 12.5 9.5 18 20 6"
+            pathLength="1"
+          />
+        </svg>
+        <div>
+          <p class="text-base font-semibold">
+            Message sent
+          </p>
+          <p class="mt-1 text-sm">
+            It is in my inbox. You will hear back within a day.
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div
-      v-if="formStatus === FormStatus.ERROR"
-      id="form-error"
-      class="mt-6 flex items-start gap-3 rounded-xl border border-line bg-surface p-5"
-      role="alert"
-      aria-live="assertive"
-    >
-      <Icon
-        name="ph:warning-circle"
-        class="mt-0.5 shrink-0 text-xl text-ink"
-        aria-hidden="true"
-      />
-      <div>
-        <p class="text-base font-semibold text-ink">
-          The message did not send
-        </p>
-        <p class="mt-1 text-sm text-ink-2">
-          Something failed on the way out. Try again, or email
-          <a
-            href="mailto:nethsarasandeepaelvitigala@gmail.com"
-            class="text-accent underline underline-offset-4"
-          >nethsarasandeepaelvitigala@gmail.com</a>
-          directly.
-        </p>
+      <div
+        v-else-if="formStatus === FormStatus.ERROR"
+        id="form-error"
+        key="error"
+        class="mt-8 flex items-start gap-4 rounded-2xl border border-coral p-4"
+        role="alert"
+        aria-live="assertive"
+      >
+        <Icon
+          name="ph:warning-circle"
+          class="mt-0.5 size-6 shrink-0 text-coral"
+          aria-hidden="true"
+        />
+        <div>
+          <p class="text-base font-semibold text-ink">
+            The message did not send
+          </p>
+          <p class="mt-1 text-sm text-ink-2">
+            Something failed on the way out. Try again, or email
+            <a
+              href="mailto:nethsarasandeepaelvitigala@gmail.com"
+              class="text-coral underline underline-offset-4 transition-colors duration-200 ease-out-expo hover:text-ink"
+            >nethsarasandeepaelvitigala@gmail.com</a>
+            directly.
+          </p>
+        </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
@@ -180,11 +188,16 @@
 import type { ContactForm } from '~/models/ContactForm'
 import { FormStatus } from '~/enums/FormStatus'
 import { ButtonType } from '~/enums/ButtonType'
-import { ButtonVariant } from '~/enums/ButtonVariant'
 import { ButtonSize } from '~/enums/ButtonSize'
 
-const inputClasses = 'mt-2 w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-ink placeholder:text-ink-3 transition-colors duration-200 ease-out-expo hover:border-ink-3 focus:border-accent focus:outline-none'
-const errorRing = 'border-ink ring-1 ring-ink'
+type RequiredField = 'name' | 'email' | 'message'
+
+const inlineFields: { id: 'name' | 'email', label: string, type: string, autocomplete: string, placeholder: string }[] = [
+  { id: 'name', label: 'Name', type: 'text', autocomplete: 'name', placeholder: 'Your name' },
+  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', placeholder: 'you@company.com' },
+]
+
+const inputClasses = 'peer mt-2 w-full border-b border-line bg-transparent py-3 text-lg text-ink placeholder:text-ink-3 transition-colors duration-500 ease-out-expo hover:border-ink-3 focus:outline-none'
 
 const emptyForm = (): ContactForm => ({ name: '', email: '', subject: '', message: '' })
 
@@ -199,7 +212,7 @@ const clearError = (field: keyof ContactForm): void => {
   )
 }
 
-const validateField = (field: 'name' | 'email' | 'message'): void => {
+const validateField = (field: RequiredField): void => {
   const value = form.value[field].trim()
 
   if (!value) {

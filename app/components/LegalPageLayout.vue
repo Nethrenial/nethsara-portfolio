@@ -1,31 +1,58 @@
 <template>
   <div>
-    <section class="border-b border-line pt-32 pb-16 lg:pt-40 lg:pb-20">
-      <div class="mx-auto max-w-3xl px-6 lg:px-8">
-        <NuxtLink
-          to="/"
-          class="inline-flex items-center gap-2 text-sm font-medium text-ink-2 transition-all duration-700 ease-out-expo hover:gap-3 hover:text-ink"
-        >
-          <Icon
-            name="ph:arrow-left"
-            class="text-base"
-            aria-hidden="true"
-          />
-          Back to home
-        </NuxtLink>
+    <section class="relative isolate overflow-clip pt-24 pb-16">
+      <div
+        class="dot-grid absolute inset-0 -z-10 opacity-50"
+        aria-hidden="true"
+      />
+      <div class="shell pt-16">
+        <div class="max-w-3xl">
+          <NuxtLink
+            to="/"
+            class="group inline-flex items-center gap-2 text-sm font-medium text-ink-2 transition-colors duration-500 ease-out-expo hover:text-ink"
+            data-intro="fade"
+          >
+            <Icon
+              name="ph:arrow-left"
+              class="size-4 transition-transform duration-700 ease-out-expo group-hover:-translate-x-1"
+              aria-hidden="true"
+            />
+            <MotionRollText text="Back to home" />
+          </NuxtLink>
 
-        <h1 class="mt-8 text-4xl font-semibold tracking-display text-ink lg:text-5xl">
-          {{ title }}
-        </h1>
-        <p class="mt-4 text-base text-ink-3">
-          Last updated <time :datetime="updatedIso">{{ updatedLabel }}</time>
-        </p>
+          <h1 class="mt-8 text-5xl font-semibold tracking-display lg:text-7xl">
+            <MotionSplitText
+              :text="title"
+              trigger="load"
+              :delay="150"
+              :step="28"
+              gradient
+            />
+          </h1>
+          <p
+            class="mt-6 flex items-center gap-2 text-base text-ink-3"
+            data-intro
+            :style="{ '--d': '600ms' }"
+          >
+            <span
+              class="size-1.5 rounded-full bg-sage"
+              aria-hidden="true"
+            />
+            Last updated <time :datetime="updated">{{ updatedLabel }}</time>
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="border-b border-line py-16 lg:py-24">
-      <div class="mx-auto max-w-3xl space-y-12 px-6 lg:px-8">
-        <slot />
+    <section class="pb-24">
+      <div class="shell">
+        <div
+          class="max-w-3xl space-y-12 border-t border-line pt-16"
+          data-intro
+          :style="{ '--d': '750ms' }"
+        >
+          <slot />
+        </div>
       </div>
     </section>
   </div>
@@ -40,7 +67,6 @@ interface LegalPageLayoutProps {
 
 const props = defineProps<LegalPageLayoutProps>()
 
-const updatedIso = computed(() => props.updated)
 const updatedLabel = computed(() =>
   new Date(props.updated).toLocaleDateString('en-GB', {
     day: 'numeric',

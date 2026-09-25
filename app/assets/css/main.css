@@ -300,6 +300,21 @@
     }
   }
 
+  /* A hairline rule that draws across the top of its element as it
+     reveals. A pseudo element rather than a child, so containers with a
+     strict content model, such as a <div> inside a <dl>, stay valid. */
+  .reveal-rule::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: var(--color-line);
+    transform-origin: left center;
+    transition: transform 1000ms var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
   /* Footer wordmark letters */
   .wordmark-letter {
     transform-box: fill-box;
@@ -464,6 +479,10 @@
   }
 
   .js [data-reveal="line"]:not([data-inview]) {
+    transform: scaleX(0);
+  }
+
+  .js .reveal-rule[data-reveal]:not([data-inview])::before {
     transform: scaleX(0);
   }
 

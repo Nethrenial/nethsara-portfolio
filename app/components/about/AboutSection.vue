@@ -70,30 +70,26 @@
         </div>
       </div>
 
+      <!-- Each group holds only its <dt> and <dd>, as a description list
+           requires; the rule above it is drawn by .reveal-rule::before. -->
       <dl class="lg:col-span-4 lg:col-start-9">
         <div
           v-for="(fact, index) in facts"
           :key="fact.label"
-          class="group relative py-4"
+          v-reveal="{ variant: 'fade', delay: index * 90 }"
+          class="reveal-rule group relative py-4"
         >
-          <span
-            v-reveal="{ variant: 'line', delay: index * 90 }"
-            class="absolute inset-x-0 top-0 h-px bg-line"
-            aria-hidden="true"
-          />
-          <div v-reveal="{ variant: 'fade', delay: 120 + index * 90 }">
-            <dt class="flex items-center gap-2 font-mono text-xs tracking-wide text-ink-3">
-              <span
-                class="size-1.5 rounded-full transition-transform duration-700 ease-out-expo group-hover:scale-150"
-                :style="{ backgroundColor: `var(--color-${signalAt(index)})` }"
-                aria-hidden="true"
-              />
-              {{ fact.label }}
-            </dt>
-            <dd class="mt-2 text-base text-ink transition-transform duration-700 ease-out-expo group-hover:translate-x-1">
-              {{ fact.value }}
-            </dd>
-          </div>
+          <dt class="flex items-center gap-2 font-mono text-xs tracking-wide text-ink-3">
+            <span
+              class="size-1.5 rounded-full transition-transform duration-700 ease-out-expo group-hover:scale-150"
+              :style="{ backgroundColor: `var(--color-${signalAt(index)})` }"
+              aria-hidden="true"
+            />
+            {{ fact.label }}
+          </dt>
+          <dd class="mt-2 text-base text-ink transition-transform duration-700 ease-out-expo group-hover:translate-x-1">
+            {{ fact.value }}
+          </dd>
         </div>
       </dl>
     </div>
